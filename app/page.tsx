@@ -20,6 +20,7 @@ import { ProfileSelector, ViewMode } from "@/components/ProfileSelector";
 import { MethylationSupport } from "@/components/profiles/MethylationSupport";
 import { DrugMetabolismTendencies } from "@/components/profiles/DrugMetabolismTendencies";
 import { NutritionMetabolismContext } from "@/components/profiles/NutritionMetabolismContext";
+import { SleepRecoveryContext } from "@/components/profiles/SleepRecoveryContext";
 import { FirstVisitDisclaimer } from "@/components/FirstVisitDisclaimer";
 
 export default function GrokGenome() {
@@ -29,7 +30,7 @@ export default function GrokGenome() {
   const [simulatedOverrides, setSimulatedOverrides] = useState<Record<string, string>>({});
   const [showSupport, setShowSupport] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('raw');
-  const [profileFilter, setProfileFilter] = useState<'all' | 'methylation' | 'drug' | 'nutrition'>('all');
+  const [profileFilter, setProfileFilter] = useState<'all' | 'methylation' | 'drug' | 'nutrition' | 'sleep'>('all');
 
   const handleFile = async (file: File) => {
     const lower = file.name.toLowerCase();
@@ -126,6 +127,14 @@ export default function GrokGenome() {
     if (!result) return;
     generatePDFReport(result);
     toast.success("Professional PDF report downloaded");
+  };
+
+  const handleExportFullReport = () => {
+    if (!result) return;
+    // The PDF generator (enhanced in Phase 3) already pulls synthesized profiles + Limitations + disclaimers.
+    // This prominent button makes the "full clinical-style" export explicit.
+    generatePDFReport(result);
+    toast.success("Full report (profiles + limitations + approach) downloaded");
   };
 
   const downloadFile = (content: string, filename: string, mime: string) => {
@@ -287,8 +296,11 @@ export default function GrokGenome() {
                 <div className="text-white/60 mt-1 font-mono text-sm">{result.fileName} • {result.format} • {result.matchedVariants} variants</div>
               </div>
               <div className="flex gap-3">
-                <button onClick={handleExportPDF} className="flex items-center justify-center gap-2 h-12 px-8 rounded-2xl bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-[#0a0f1a] font-semibold transition shadow-lg shadow-emerald-950">
-                  <Download className="w-4 h-4" /> Export Professional PDF
+                <button onClick={handleExportFullReport} className="flex items-center justify-center gap-2 h-12 px-8 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-[#0a0f1a] font-semibold transition shadow-lg shadow-emerald-950">
+                  <Download className="w-4 h-4" /> Export Full Report
+                </button>
+                <button onClick={handleExportPDF} className="flex items-center justify-center gap-2 h-12 px-6 rounded-2xl border border-white/15 hover:bg-white/5 text-sm font-medium transition">
+                  PDF (standard)
                 </button>
                 <button onClick={resetAll} className="h-12 px-6 rounded-2xl border border-white/15 hover:bg-white/5 font-medium">Start Over</button>
               </div>
@@ -370,19 +382,19 @@ export default function GrokGenome() {
               </div>
             ) : (
               <div className="space-y-8">
-                {/* Sub-selector for profiles */}
-                <div className="flex flex-wrap gap-2 text-xs">
-                  {(['all', 'methylation', 'drug', 'nutrition'] as const).map((f) => (
+                {/* Sub-selector for profiles — improved mobile responsiveness */}
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 text-xs sm:text-sm">
+                  {(['all', 'methylation', 'drug', 'nutrition', 'sleep'] as const).map((f) => (
                     <button
                       key={f}
                       onClick={() => setProfileFilter(f)}
-                      className={`px-3 py-1 rounded-full border transition ${profileFilter === f ? 'bg-emerald-500 text-black border-emerald-500' : 'border-white/15 hover:bg-white/5'}`}
+                      className={`px-3 py-1 rounded-full border transition whitespace-nowrap ${profileFilter === f ? 'bg-emerald-500 text-black border-emerald-500' : 'border-white/15 hover:bg-white/5'}`}
                     >
                       {f === 'all' ? 'All Profiles' : f.charAt(0).toUpperCase() + f.slice(1)}
                     </button>
                   ))}
                 </div>
- 
+
                 {(profileFilter === 'all' || profileFilter === 'methylation') && (
                   <MethylationSupport insights={result.insights} />
                 )}
@@ -391,6 +403,9 @@ export default function GrokGenome() {
                 )}
                 {(profileFilter === 'all' || profileFilter === 'nutrition') && (
                   <NutritionMetabolismContext insights={result.insights} />
+                )}
+                {(profileFilter === 'all' || profileFilter === 'sleep') && (
+                  <SleepRecoveryContext insights={result.insights} />
                 )}
 
                 {/* Prominent Trust links after profiles */}
@@ -402,7 +417,7 @@ export default function GrokGenome() {
                 </div>
               </div>
             )}
- 
+
             <div className="mt-6 text-[11px] text-center text-white/40 max-w-lg mx-auto">All processing + simulations happen locally in your browser. Nothing is uploaded.</div>
           </div>
         )}
@@ -424,11 +439,11 @@ export default function GrokGenome() {
               </div>
             ))}
           </div>
- 
+
           <OurApproach />
         </div>
       )}
- 
+
       <div className="border-t border-white/10 bg-black/40 py-9 mt-8 site-footer">
         <div className="max-w-5xl mx-auto px-6 text-xs text-white/50">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-y-4">
