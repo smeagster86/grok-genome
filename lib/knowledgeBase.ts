@@ -217,6 +217,32 @@ export const KNOWLEDGE_BASE: SNPInfo[] = [
     evidenceLevel: "moderate",
     references: ["OPRM1 A118G studies"],
     clinicalActionability: "low"
+  },
+
+  // ==================== ALCOHOL METABOLISM (actionable) ====================
+  { 
+    rsid: "rs1229984", gene: "ADH1B", trait: "Alcohol Metabolism Speed", category: "nutrition",
+    genotypes: { 
+      "AA": { effect: "neutral", description: "Fast metabolizer of alcohol. May experience less flushing but still at risk for alcohol-related harm.", impact: "", confidence: "high" }, 
+      "AG": { effect: "neutral", description: "Intermediate.", impact: "", confidence: "high" }, 
+      "GG": { effect: "protective", description: "Slower alcohol metabolism. Often associated with flushing and aversion to heavy drinking.", impact: "Protective against heavy drinking in many populations", confidence: "high" } 
+    },
+    source: "Alcohol metabolism GWAS / literature",
+    evidenceLevel: "high",
+    references: ["ADH1B alcohol studies"],
+    clinicalActionability: "low"
+  },
+  { 
+    rsid: "rs671", gene: "ALDH2", trait: "Alcohol Flush Reaction (East Asian Variant)", category: "nutrition",
+    genotypes: { 
+      "AA": { effect: "neutral", description: "Normal ALDH2 function.", impact: "", confidence: "high" }, 
+      "AG": { effect: "protective", description: "ALDH2*2 heterozygote. Strong flushing reaction, nausea with alcohol.", impact: "Strong aversion to alcohol", confidence: "high" }, 
+      "GG": { effect: "protective", description: "ALDH2*2 homozygote. Severe reaction to alcohol.", impact: "Very strong protection against alcohol use", confidence: "high" } 
+    },
+    source: "ALDH2 East Asian variant literature",
+    evidenceLevel: "high",
+    references: ["ALDH2 rs671 studies"],
+    clinicalActionability: "low"
   }
 ];
 
@@ -232,4 +258,4 @@ export const CATEGORY_LABELS: Record<string, { label: string; icon: string; colo
 export const CATEGORY_ORDER = ['disease_risk', 'carrier', 'pharmacogenomics', 'nutrition', 'fitness', 'wellness'] as const;
 
 // Version for reproducibility in exports
-export const KNOWLEDGE_BASE_VERSION = "2026.05-expanded-v1";
+export const KNOWLEDGE_BASE_VERSION = "2026.05-expanded-v2";
