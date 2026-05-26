@@ -15,6 +15,8 @@ export async function generatePDFReport(result: AnalysisResult) {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   let y = 20;
+  const bottomMargin = 25;
+  const pageHeight = doc.internal.pageSize.getHeight();
 
   const richData = prepareRichPDFData(result);
 
@@ -61,6 +63,9 @@ export async function generatePDFReport(result: AnalysisResult) {
   Object.entries(result.categories).forEach(([cat, insights]) => {
     if (!insights || insights.length === 0) return;
 
+    // Check before new category block
+    if (y > 240) { doc.addPage(); y = 25; }
+
     // Category header
     doc.setFillColor(16, 185, 129);
     doc.rect(18, y, pageWidth - 36, 6, 'F');
@@ -73,6 +78,7 @@ export async function generatePDFReport(result: AnalysisResult) {
     doc.setFontSize(9);
 
     insights.slice(0, 5).forEach((insight: MatchedInsight) => {
+      if (y > 250) { doc.addPage(); y = 25; }
       const { snp, genotype, interpretation } = insight;
       const line = `${snp.gene} (${snp.rsid})  ${genotype} — ${interpretation.effect.replace('_', ' ')}  [${snp.evidenceLevel || '—'}]`;
       doc.text(line, 22, y);
@@ -86,41 +92,31 @@ export async function generatePDFReport(result: AnalysisResult) {
       doc.setTextColor(15, 23, 42);
       doc.setFontSize(9);
       y += 6;
-
-      if (y > 250) {
-        doc.addPage();
-        y = 25;
-      }
     });
 
     y += 6;
-    if (y > 250) {
-      doc.addPage();
-      y = 25;
-    }
   });
 
-  // Synthesized Profiles section (Phase 3: full context with Limitations)
+  // Synthesized Profiles section (Phase 3/4: full context with Limitations)
+  if (y > 230) { doc.addPage(); y = 25; }
   y += 4;
-  if (y > 240) { doc.addPage(); y = 25; }
   doc.setFontSize(13);
   doc.setTextColor(15, 23, 42);
   doc.text("Synthesized Profiles (with Limitations)", 18, y);
   y += 8;
 
-  // Simple text block from the helper (includes 5Qs summaries + limitations)
   const profileText = richData.synthesizedProfiles || "See Markdown/JSON exports for full synthesized profile details and Limitations panels.";
   doc.setFontSize(9);
   doc.setTextColor(71, 85, 105);
   const profileLines = doc.splitTextToSize(profileText.replace(/\*\*/g, '').replace(/###/g, '•'), pageWidth - 36);
   profileLines.forEach((line: string) => {
-    if (y > 260) { doc.addPage(); y = 25; }
+    if (y > 255) { doc.addPage(); y = 25; }
     doc.text(line, 18, y);
     y += 5;
   });
 
   y += 8;
-  if (y > 250) { doc.addPage(); y = 25; }
+  if (y > 240) { doc.addPage(); y = 25; }
 
   // References & Notes section (condensed)
   doc.setFontSize(10);
@@ -134,7 +130,7 @@ export async function generatePDFReport(result: AnalysisResult) {
   doc.text(splitRef, 18, y);
 
   // Footer disclaimer
-  y = doc.internal.pageSize.getHeight() - 25;
+  y = pageHeight - bottomMargin;
   doc.setFontSize(7);
   doc.setTextColor(100, 116, 139);
   const splitDisclaimer = doc.splitTextToSize(DISCLAIMER + "  •  Full Trust & Responsibility guidance: https://grok-genome.vercel.app/for-clinicians", pageWidth - 36);
