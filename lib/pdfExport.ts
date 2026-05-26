@@ -1,70 +1,123 @@
 import jsPDF from 'jspdf';
-import { AnalysisResult } from './types';
+import { AnalysisResult, MatchedInsight } from './types';
+import { prepareRichPDFData } from './exportUtils';
 
-// Beautiful PDF report generator
+/**
+ * Professional PDF report generator for Grok Genome.
+ * Produces a clean, clinical-style document suitable for personal records,
+ * discussion with healthcare providers, or research notes.
+ * All generation is client-side.
+ */
+
+const DISCLAIMER = "This report is for educational and research purposes only. It does not constitute medical advice. Genetic associations are probabilistic and context-dependent. Always consult a qualified healthcare professional or genetic counselor. All analysis performed locally in your browser.";
 
 export async function generatePDFReport(result: AnalysisResult) {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
-  let y = 22;
+  let y = 20;
+
+  const richData = prepareRichPDFData(result);
 
   // Header
-  doc.setFillColor(10, 15, 26);
-  doc.rect(0, 0, pageWidth, 38, 'F');
-  doc.setTextColor(16, 185, 129);
-  doc.setFontSize(22);
-  doc.text("GROK GENOME", 18, 17);
-  doc.setFontSize(11);
+  doc.setFillColor(15, 23, 42); // slate-900
+  doc.rect(0, 0, pageWidth, 32, 'F');
+  doc.setTextColor(16, 185, 129); // emerald-500
+  doc.setFontSize(20);
+  doc.text("GROK GENOME", 18, 14);
+  doc.setFontSize(10);
   doc.setTextColor(148, 163, 184);
-  doc.text("Private DNA Insights Report", 18, 25);
+  doc.text("Private DNA Insights Report — Professional Edition", 18, 21);
 
   doc.setTextColor(255, 255, 255);
-  doc.setFontSize(10);
-  doc.text(new Date(result.generatedAt).toLocaleDateString(), pageWidth - 18, 17, { align: 'right' });
-  doc.text(result.fileName, pageWidth - 18, 25, { align: 'right' });
+  doc.setFontSize(9);
+  doc.text(richData.generatedAtFormatted, pageWidth - 18, 14, { align: 'right' });
+  doc.text(result.fileName, pageWidth - 18, 21, { align: 'right' });
 
-  y = 48;
-  doc.setTextColor(241, 245, 249);
-  doc.setFontSize(15);
-  doc.text("Summary", 18, y);
-  y += 9;
+  y = 42;
 
+  // Meta line
+  doc.setTextColor(100, 116, 139);
+  doc.setFontSize(9);
+  doc.text(`Knowledge Base: ${result.knowledgeBaseVersion}  •  ${result.matchedVariants} high-value variants matched from ${result.totalVariantsParsed.toLocaleString()} total`, 18, y);
+  y += 10;
+
+  // Summary box
+  doc.setDrawColor(226, 232, 240);
+  doc.setFillColor(248, 250, 252);
+  doc.roundedRect(18, y, pageWidth - 36, 28, 3, 3, 'FD');
+  doc.setTextColor(15, 23, 42);
   doc.setFontSize(11);
-  doc.text(`${result.matchedVariants} high-value variants analyzed from ${result.totalVariantsParsed.toLocaleString()} total variants in your file.`, 18, y);
-  y += 7;
-  doc.text(`Detected format: ${result.format}`, 18, y);
+  doc.text("Summary", 24, y + 8);
+  doc.setFontSize(9);
+  doc.text(`High actionability: ${richData.summary.highActionabilityCount}   •   Increased risk/affected: ${richData.summary.increasedRiskCount}   •   Carrier findings: ${richData.summary.carrierFindings}`, 24, y + 17);
+  y += 36;
 
-  y += 14;
   // Categories
+  doc.setTextColor(15, 23, 42);
   doc.setFontSize(13);
   doc.text("Key Findings by Category", 18, y);
   y += 8;
 
   Object.entries(result.categories).forEach(([cat, insights]) => {
-    if (insights.length === 0) return;
-    doc.setFontSize(11);
-    doc.setTextColor(16, 185, 129);
-    doc.text(cat.replace('_', ' ').toUpperCase(), 18, y);
-    y += 6;
-    doc.setTextColor(226, 232, 240);
-    insights.slice(0, 3).forEach((i) => {
-      doc.text(`• ${i.snp.gene} (${i.snp.rsid}): ${i.genotype} — ${i.interpretation.effect.replace('_', ' ')}`, 22, y);
-      y += 5.5;
+    if (!insights || insights.length === 0) return;
+
+    // Category header
+    doc.setFillColor(16, 185, 129);
+    doc.rect(18, y, pageWidth - 36, 6, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(10);
+    doc.text(cat.replace('_', ' ').toUpperCase(), 20, y + 4.5);
+    y += 10;
+
+    doc.setTextColor(15, 23, 42);
+    doc.setFontSize(9);
+
+    insights.slice(0, 5).forEach((insight: MatchedInsight) => {
+      const { snp, genotype, interpretation } = insight;
+      const line = `${snp.gene} (${snp.rsid})  ${genotype} — ${interpretation.effect.replace('_', ' ')}  [${snp.evidenceLevel || '—'}]`;
+      doc.text(line, 22, y);
+      y += 5;
+
+      // Wrap description
+      const desc = interpretation.description.substring(0, 140) + (interpretation.description.length > 140 ? '...' : '');
+      doc.setTextColor(71, 85, 105);
+      doc.setFontSize(8);
+      doc.text(desc, 26, y);
+      doc.setTextColor(15, 23, 42);
+      doc.setFontSize(9);
+      y += 6;
+
+      if (y > 250) {
+        doc.addPage();
+        y = 25;
+      }
     });
-    y += 4;
+
+    y += 6;
     if (y > 250) {
       doc.addPage();
-      y = 30;
+      y = 25;
     }
   });
 
-  // Disclaimer
-  y += 10;
-  doc.setFontSize(9);
-  doc.setTextColor(148, 163, 184);
-  const disclaimer = "This report is for educational purposes only and does not constitute medical advice. Genetic associations are probabilistic. Always consult a licensed healthcare professional or genetic counselor. All analysis performed locally in your browser.";
-  const split = doc.splitTextToSize(disclaimer, pageWidth - 36);
-  doc.text(split, 18, y);
+  // References & Notes section (condensed)
+  y += 6;
+  doc.setFontSize(10);
+  doc.setTextColor(15, 23, 42);
+  doc.text("Selected References & Limitations", 18, y);
+  y += 6;
+  doc.setFontSize(8);
+  doc.setTextColor(71, 85, 105);
+  const refText = "See detailed JSON/CSV exports for full references per variant. All interpretations are probabilistic. Many findings have ancestry-specific frequencies and require clinical correlation.";
+  const splitRef = doc.splitTextToSize(refText, pageWidth - 36);
+  doc.text(splitRef, 18, y);
 
-  doc.save(`GrokGenome_Report_${result.fileName.replace(/\.[^/.]+$/, '')}.pdf`);
+  // Footer disclaimer
+  y = doc.internal.pageSize.getHeight() - 25;
+  doc.setFontSize(7);
+  doc.setTextColor(100, 116, 139);
+  const splitDisclaimer = doc.splitTextToSize(DISCLAIMER, pageWidth - 36);
+  doc.text(splitDisclaimer, 18, y);
+
+  doc.save(`GrokGenome_Report_${result.fileName.replace(/\.[^/.]+$/, '')}_${new Date().toISOString().slice(0,10)}.pdf`);
 }
