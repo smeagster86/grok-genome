@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Upload, Shield, Download, Dna, RefreshCw, Heart, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
+import Link from "next/link";
 
 import { DNAHelix } from "@/components/DNAHelix";
 import { CategoryCard } from "@/components/CategoryCard";
@@ -219,8 +220,8 @@ export default function GrokGenome() {
           </div>
 
           <div className="flex items-center gap-3 text-sm">
-            <a href="/#our-approach" className="px-3 py-1 rounded hover:bg-white/5 border border-white/10 transition">Our Approach</a>
-            <a href="/for-clinicians" className="px-3 py-1 rounded hover:bg-white/5 border border-white/10 transition">For Clinicians</a>
+            <Link href="/#our-approach" className="px-3 py-1 rounded hover:bg-white/5 border border-white/10 transition">Our Approach</Link>
+            <Link href="/for-clinicians" className="px-3 py-1 rounded hover:bg-white/5 border border-white/10 transition">For Clinicians</Link>
             {result && (
               <button onClick={resetAll} className="flex items-center gap-2 text-sm px-4 py-1.5 rounded-full hover:bg-white/5 border border-white/10 transition">
                 <RefreshCw className="w-3.5 h-3.5" /> New Analysis
@@ -425,9 +426,9 @@ export default function GrokGenome() {
                 {/* Prominent Trust links after profiles */}
                 <div className="pt-2 text-xs text-white/60 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-white/10">
                   <span className="uppercase tracking-[2px] text-emerald-400/70 mr-1">Trust &amp; Responsibility</span>
-                  <a href="/#our-approach" className="hover:text-emerald-400 hover:underline">Our Approach to Responsible Interpretation</a>
+                  <Link href="/#our-approach" className="hover:text-emerald-400 hover:underline">Our Approach to Responsible Interpretation</Link>
                   <span className="text-white/30">·</span>
-                  <a href="/for-clinicians" className="hover:text-emerald-400 hover:underline">For Clinicians — patient data guidance</a>
+                  <Link href="/for-clinicians" className="hover:text-emerald-400 hover:underline">For Clinicians — patient data guidance</Link>
                 </div>
               </div>
             )}
@@ -463,7 +464,7 @@ export default function GrokGenome() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-y-4">
             <div>Built for personal genomic exploration. <span className="text-white/40">100% client-side.</span></div>
             <div className="flex items-center gap-4">
-              <a href="/for-clinicians" className="hover:text-white/70 transition">Trust &amp; Responsibility</a>
+              <Link href="/for-clinicians" className="hover:text-white/70 transition">Trust &amp; Responsibility</Link>
               <span className="text-white/20">·</span>
               <button onClick={() => setShowSupport(true)} className="hover:text-white/70 transition">Support this project</button>
               <span className="text-white/20">·</span>
