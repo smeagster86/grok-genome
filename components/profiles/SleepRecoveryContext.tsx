@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { EvidenceBadge } from "../EvidenceBadge";
+import Link from "next/link";
 import { MatchedInsight } from "@/lib/types";
 
 interface SleepRecoveryContextProps {
@@ -131,9 +132,9 @@ export function SleepRecoveryContext({ insights }: SleepRecoveryContextProps) {
           <li>No common SNP profile replaces a clinical sleep evaluation when symptoms are present.</li>
         </ul>
         <div className="mt-3 pt-3 border-t border-white/10 text-[11px]">
-          <a href="/#our-approach" className="text-emerald-400 hover:underline">Our Approach</a>
+          <Link href="/#our-approach" className="text-emerald-400 hover:underline">Our Approach</Link>
           <span className="mx-1.5 text-white/30">·</span>
-          <a href="/for-clinicians" className="text-emerald-400 hover:underline">For Clinicians guidance</a>
+          <Link href="/for-clinicians" className="text-emerald-400 hover:underline">For Clinicians guidance</Link>
         </div>
       </div>
 
