@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { EvidenceBadge } from "../EvidenceBadge";
+import Link from "next/link";
 import { MatchedInsight } from "@/lib/types";
 
 interface DrugMetabolismTendenciesProps {
@@ -81,7 +82,7 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         <div>
           <div className="text-xs uppercase tracking-widest text-white/50 mb-1">4. Meaningful effect on lifestyle or metabolism?</div>
           <p className="text-sm text-white/80">
-            These variants can influence how certain medications are processed. They do not generally affect "metabolism" in the broader wellness sense (energy, weight, etc.). Effects are highly drug-specific and are almost always modified by age, liver and kidney function, concomitant medications, and adherence.
+            These variants can influence how certain medications are processed. They do not generally affect &quot;metabolism&quot; in the broader wellness sense (energy, weight, etc.). Effects are highly drug-specific and are almost always modified by age, liver and kidney function, concomitant medications, and adherence.
           </p>
         </div>
 
@@ -131,9 +132,9 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
           <li>Genotype alone does not determine the best drug or dose — therapeutic drug monitoring and clinical judgment remain essential.</li>
         </ul>
         <div className="mt-3 pt-3 border-t border-white/10 text-[11px]">
-          <a href="/#our-approach" className="text-emerald-400 hover:underline">Our Approach</a>
+          <Link href="/#our-approach" className="text-emerald-400 hover:underline">Our Approach</Link>
           <span className="mx-1.5 text-white/30">·</span>
-          <a href="/for-clinicians" className="text-emerald-400 hover:underline">For Clinicians guidance</a>
+          <Link href="/for-clinicians" className="text-emerald-400 hover:underline">For Clinicians guidance</Link>
         </div>
       </div>
 
