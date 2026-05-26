@@ -106,6 +106,11 @@ export function MethylationSupport({ insights }: MethylationSupportProps) {
           <li>Real-world methylation status is strongly influenced by diet, lifestyle, medications, and many other genes.</li>
           <li>This profile is for educational and informational purposes only. It is not medical advice or a diagnostic tool.</li>
         </ul>
+        <div className="mt-3 pt-3 border-t border-white/10 text-[11px]">
+          <a href="/#our-approach" className="text-emerald-400 hover:underline">Our Approach</a>
+          <span className="mx-1.5 text-white/30">·</span>
+          <a href="/for-clinicians" className="text-emerald-400 hover:underline">For Clinicians guidance</a>
+        </div>
       </div>
 
       <div className="mt-4 text-[10px] text-white/40">One data point among many. Always interpret alongside clinical information and professional guidance.</div>
