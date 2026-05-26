@@ -20,6 +20,7 @@ import { ProfileSelector, ViewMode } from "@/components/ProfileSelector";
 import { MethylationSupport } from "@/components/profiles/MethylationSupport";
 import { DrugMetabolismTendencies } from "@/components/profiles/DrugMetabolismTendencies";
 import { NutritionMetabolismContext } from "@/components/profiles/NutritionMetabolismContext";
+import { FirstVisitDisclaimer } from "@/components/FirstVisitDisclaimer";
 
 export default function GrokGenome() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -184,6 +185,8 @@ export default function GrokGenome() {
 
   return (
     <div className="min-h-screen bg-[#0a0f1a] text-slate-100">
+      <FirstVisitDisclaimer />
+
       <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#0a0f1a]/95 backdrop-blur-lg">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -194,7 +197,9 @@ export default function GrokGenome() {
             <div className="text-[10px] px-2 py-px rounded bg-emerald-400/10 text-emerald-400 font-medium tracking-widest">PRIVATE</div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 text-sm">
+            <a href="/#our-approach" className="px-3 py-1 rounded hover:bg-white/5 border border-white/10 transition">Our Approach</a>
+            <a href="/for-clinicians" className="px-3 py-1 rounded hover:bg-white/5 border border-white/10 transition">For Clinicians</a>
             {result && (
               <button onClick={resetAll} className="flex items-center gap-2 text-sm px-4 py-1.5 rounded-full hover:bg-white/5 border border-white/10 transition">
                 <RefreshCw className="w-3.5 h-3.5" /> New Analysis
@@ -377,7 +382,7 @@ export default function GrokGenome() {
                     </button>
                   ))}
                 </div>
-
+ 
                 {(profileFilter === 'all' || profileFilter === 'methylation') && (
                   <MethylationSupport insights={result.insights} />
                 )}
@@ -387,9 +392,17 @@ export default function GrokGenome() {
                 {(profileFilter === 'all' || profileFilter === 'nutrition') && (
                   <NutritionMetabolismContext insights={result.insights} />
                 )}
+
+                {/* Prominent Trust links after profiles */}
+                <div className="pt-2 text-xs text-white/60 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-white/10">
+                  <span className="uppercase tracking-[2px] text-emerald-400/70 mr-1">Trust &amp; Responsibility</span>
+                  <a href="/#our-approach" className="hover:text-emerald-400 hover:underline">Our Approach to Responsible Interpretation</a>
+                  <span className="text-white/30">·</span>
+                  <a href="/for-clinicians" className="hover:text-emerald-400 hover:underline">For Clinicians — patient data guidance</a>
+                </div>
               </div>
             )}
-
+ 
             <div className="mt-6 text-[11px] text-center text-white/40 max-w-lg mx-auto">All processing + simulations happen locally in your browser. Nothing is uploaded.</div>
           </div>
         )}
@@ -411,18 +424,20 @@ export default function GrokGenome() {
               </div>
             ))}
           </div>
-
+ 
           <OurApproach />
         </div>
       )}
-
+ 
       <div className="border-t border-white/10 bg-black/40 py-9 mt-8 site-footer">
         <div className="max-w-5xl mx-auto px-6 text-xs text-white/50">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-y-4">
             <div>Built for personal genomic exploration. <span className="text-white/40">100% client-side.</span></div>
             <div className="flex items-center gap-4">
+              <a href="/for-clinicians" className="hover:text-white/70 transition">Trust &amp; Responsibility</a>
+              <span className="text-white/20">·</span>
               <button onClick={() => setShowSupport(true)} className="hover:text-white/70 transition">Support this project</button>
-              <span className="text-white/20">•</span>
+              <span className="text-white/20">·</span>
               <a href="https://github.com/smeagster86/grok-genome" target="_blank" rel="noreferrer" className="hover:text-white/70 transition">View on GitHub</a>
             </div>
           </div>
