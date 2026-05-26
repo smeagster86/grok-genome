@@ -100,15 +100,36 @@ export async function generatePDFReport(result: AnalysisResult) {
     }
   });
 
+  // Synthesized Profiles section (Phase 3: full context with Limitations)
+  y += 4;
+  if (y > 240) { doc.addPage(); y = 25; }
+  doc.setFontSize(13);
+  doc.setTextColor(15, 23, 42);
+  doc.text("Synthesized Profiles (with Limitations)", 18, y);
+  y += 8;
+
+  // Simple text block from the helper (includes 5Qs summaries + limitations)
+  const profileText = richData.synthesizedProfiles || "See Markdown/JSON exports for full synthesized profile details and Limitations panels.";
+  doc.setFontSize(9);
+  doc.setTextColor(71, 85, 105);
+  const profileLines = doc.splitTextToSize(profileText.replace(/\*\*/g, '').replace(/###/g, '•'), pageWidth - 36);
+  profileLines.forEach((line: string) => {
+    if (y > 260) { doc.addPage(); y = 25; }
+    doc.text(line, 18, y);
+    y += 5;
+  });
+
+  y += 8;
+  if (y > 250) { doc.addPage(); y = 25; }
+
   // References & Notes section (condensed)
-  y += 6;
   doc.setFontSize(10);
   doc.setTextColor(15, 23, 42);
   doc.text("Selected References & Limitations", 18, y);
   y += 6;
   doc.setFontSize(8);
   doc.setTextColor(71, 85, 105);
-  const refText = "See detailed JSON/CSV exports for full references per variant. All interpretations are probabilistic. Many findings have ancestry-specific frequencies and require clinical correlation.";
+  const refText = "See detailed JSON/CSV exports for full references per variant. All interpretations are probabilistic. Many findings have ancestry-specific frequencies and require clinical correlation. Consumer data is exploratory; validated clinical testing is required for medical decisions.";
   const splitRef = doc.splitTextToSize(refText, pageWidth - 36);
   doc.text(splitRef, 18, y);
 
@@ -116,7 +137,7 @@ export async function generatePDFReport(result: AnalysisResult) {
   y = doc.internal.pageSize.getHeight() - 25;
   doc.setFontSize(7);
   doc.setTextColor(100, 116, 139);
-  const splitDisclaimer = doc.splitTextToSize(DISCLAIMER, pageWidth - 36);
+  const splitDisclaimer = doc.splitTextToSize(DISCLAIMER + "  •  Full Trust & Responsibility guidance: https://grok-genome.vercel.app/for-clinicians", pageWidth - 36);
   doc.text(splitDisclaimer, 18, y);
 
   doc.save(`GrokGenome_Report_${result.fileName.replace(/\.[^/.]+$/, '')}_${new Date().toISOString().slice(0,10)}.pdf`);
