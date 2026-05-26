@@ -221,7 +221,7 @@ export const KNOWLEDGE_BASE: SNPInfo[] = [
     rsid: "rs1815739", gene: "ACTN3", trait: "Muscle Fiber Type & Athletic Tendency", category: "fitness",
     genotypes: { 
       "CC": { effect: "neutral", description: "RR. Tendency toward fast-twitch fibers — power, sprint, strength sports.", impact: "Power profile", confidence: "moderate" }, 
-      "CT": { effect: "neutral", description: "RX. Balanced.", impact: "", confidence: "moderate" }, 
+      "CT": { effect: "neutral", description: "Balanced.", impact: "", confidence: "moderate" }, 
       "TT": { effect: "neutral", description: "XX. Higher proportion of slow-twitch fibers. Endurance orientation.", impact: "Endurance lean", confidence: "moderate" } 
     },
     source: "Athletic performance GWAS",
@@ -292,7 +292,44 @@ export const KNOWLEDGE_BASE: SNPInfo[] = [
     source: "Circadian genetics literature",
     evidenceLevel: "moderate",
     references: ["CLOCK polymorphism studies"],
-    clinicalActionability: "low"
+    clinicalActionability: "low",
+    evidenceStrength: "Moderate GWAS",
+    effectSize: "Small Effect",
+    ancestryNote: "European-biased",
+    clinicalStatus: "Exploratory"
+  },
+  // New for Phase 4 sleep profile support
+  { 
+    rsid: "rs934945", gene: "PER2", trait: "Circadian Chronotype (Eveningness Tendency)", category: "wellness",
+    genotypes: { 
+      "AA": { effect: "neutral", description: "Common allele. Typical chronotype distribution in studied populations.", impact: "", confidence: "moderate" }, 
+      "AG": { effect: "neutral", description: "Intermediate.", impact: "", confidence: "moderate" }, 
+      "GG": { effect: "increased_risk", description: "Associated with a tendency toward evening chronotype (later sleep timing preference) in some population studies.", impact: "Modest shift in timing preference", confidence: "moderate" } 
+    },
+    source: "Chronotype GWAS / PER2 literature",
+    evidenceLevel: "moderate",
+    references: ["PER2 chronotype association studies"],
+    clinicalActionability: "low",
+    evidenceStrength: "Moderate GWAS",
+    effectSize: "Small Effect",
+    ancestryNote: "Primarily European-ancestry cohorts",
+    clinicalStatus: "Exploratory"
+  },
+  { 
+    rsid: "rs10830963", gene: "MTNR1B", trait: "Melatonin Receptor & Sleep/Metabolic Signals", category: "wellness",
+    genotypes: { 
+      "CC": { effect: "neutral", description: "Common allele. Typical melatonin receptor signaling in studied groups.", impact: "", confidence: "moderate" }, 
+      "CG": { effect: "neutral", description: "Intermediate.", impact: "", confidence: "moderate" }, 
+      "GG": { effect: "increased_risk", description: "Associated with altered melatonin signaling and modest differences in sleep timing or glucose response in some GWAS.", impact: "Small-to-modest metabolic/sleep signal", confidence: "moderate" } 
+    },
+    source: "MTNR1B GWAS (multiple traits)",
+    evidenceLevel: "moderate",
+    references: ["MTNR1B rs10830963 studies", "Magic Consortium / chronotype meta-analyses"],
+    clinicalActionability: "low",
+    evidenceStrength: "Moderate GWAS",
+    effectSize: "Small Effect",
+    ancestryNote: "European-biased discovery",
+    clinicalStatus: "Exploratory"
   }
 ];
 
@@ -300,12 +337,12 @@ export const KNOWLEDGE_BASE: SNPInfo[] = [
 export const CATEGORY_LABELS: Record<string, { label: string; icon: string; color: string }> = {
   disease_risk: { label: "Disease Predispositions", icon: "Heart", color: "#ef4444" },
   carrier: { label: "Carrier Status", icon: "Users", color: "#f59e0b" },
-  pharmacogenomics: { label: "Drug Response", icon: "Zap", color: "#3b82f6" },
-  nutrition: { label: "Nutrition & Metabolism", icon: "Heart", color: "#10b981" },
-  fitness: { label: "Fitness & Performance", icon: "Activity", color: "#8b5cf6" },
-  wellness: { label: "Wellness & Behavior", icon: "BookOpen", color: "#06b6d4" },
+  pharmacogenomics: { label: "Drug Metabolism", icon: "Pill", color: "#8b5cf6" },
+  nutrition: { label: "Nutrition & Metabolism", icon: "Apple", color: "#10b981" },
+  fitness: { label: "Fitness & Performance", icon: "Dumbbell", color: "#3b82f6" },
+  wellness: { label: "Wellness & Other", icon: "Sparkles", color: "#14b8a6" }
 };
-export const CATEGORY_ORDER = ['disease_risk', 'carrier', 'pharmacogenomics', 'nutrition', 'fitness', 'wellness'] as const;
 
-// Version for reproducibility in exports
-export const KNOWLEDGE_BASE_VERSION = "2026.05-expanded-v3";
+export const CATEGORY_ORDER: Category[] = ['disease_risk', 'carrier', 'pharmacogenomics', 'nutrition', 'fitness', 'wellness'];
+
+export const KNOWLEDGE_BASE_VERSION = "2026.05-sleep-expanded-v4";
