@@ -11,6 +11,7 @@ import { SNPTable } from "@/components/SNPTable";
 import { parseRawDNA, createAnalysisFromDemo, DEMO_DATASETS } from "@/lib/parsers";
 import { AnalysisResult, Category } from "@/lib/types";
 import { generatePDFReport } from "@/lib/pdfExport";
+import { toJSON, toCSV, toMarkdown } from "@/lib/exportUtils";
 import { CATEGORY_ORDER, CATEGORY_LABELS } from "@/lib/knowledgeBase";
 import { SupportModal } from "@/components/SupportModal";
 
@@ -89,7 +90,7 @@ export default function GrokGenome() {
   const handleSimulate = (insight: any, newGenotype: string) => {
     const key = insight.snp.rsid;
     setSimulatedOverrides(prev => ({ ...prev, [key]: newGenotype }));
-    toast.info(`Simulated ${newGenotype} for ${insight.snp.gene} (educational only).`, { duration: 4200 });
+    toast.info(`Simulated ${newGenotype} for ${insight.snp.gene} (educational only).`, { duration: 4202 });
   };
 
   const displayResult = result ? {
@@ -109,7 +110,41 @@ export default function GrokGenome() {
   const handleExportPDF = () => {
     if (!result) return;
     generatePDFReport(result);
-    toast.success("Beautiful PDF report downloaded");
+    toast.success("Professional PDF report downloaded");
+  };
+
+  // New professional multi-format exports (A3)
+  const downloadFile = (content: string, filename: string, mime: string) => {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportJSON = () => {
+    if (!result) return;
+    const json = toJSON(result);
+    downloadFile(json, `GrokGenome_${result.fileName.replace(/\.[^/.]+$/, '')}.json`, 'application/json');
+    toast.success("Structured JSON exported — ready for other tools");
+  };
+
+  const handleExportCSV = () => {
+    if (!result) return;
+    const csv = toCSV(result);
+    downloadFile(csv, `GrokGenome_${result.fileName.replace(/\.[^/.]+$/, '')}.csv`, 'text/csv');
+    toast.success("CSV exported for Excel / R / Python");
+  };
+
+  const handleExportMarkdown = () => {
+    if (!result) return;
+    const md = toMarkdown(result);
+    downloadFile(md, `GrokGenome_${result.fileName.replace(/\.[^/.]+$/, '')}.md`, 'text/markdown');
+    toast.success("Markdown report exported");
   };
 
   const overallScore = result 
@@ -257,10 +292,19 @@ export default function GrokGenome() {
               </div>
               <div className="flex gap-3">
                 <button onClick={handleExportPDF} className="flex items-center justify-center gap-2 h-12 px-8 rounded-2xl bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-[#0a0f1a] font-semibold transition shadow-lg shadow-emerald-950">
-                  <Download className="w-4 h-4" /> Export Beautiful PDF
+                  <Download className="w-4 h-4" /> Export Professional PDF
                 </button>
                 <button onClick={resetAll} className="h-12 px-6 rounded-2xl border border-white/15 hover:bg-white/5 font-medium">Start Over</button>
               </div>
+            </div>
+
+            {/* Professional Export Bar - Power feature for analysts */}
+            <div className="mb-6 flex flex-wrap items-center gap-2 text-sm">
+              <span className="text-white/50 mr-1">Export for further analysis:</span>
+              <button onClick={handleExportJSON} className="px-3 py-1 rounded-full border border-white/15 hover:bg-white/5 text-xs font-medium">JSON (structured)</button>
+              <button onClick={handleExportCSV} className="px-3 py-1 rounded-full border border-white/15 hover:bg-white/5 text-xs font-medium">CSV / Excel</button>
+              <button onClick={handleExportMarkdown} className="px-3 py-1 rounded-full border border-white/15 hover:bg-white/5 text-xs font-medium">Markdown</button>
+              <span className="text-[10px] text-white/40 ml-2">(ideal for R, Python, research tools, or other platforms)</span>
             </div>
 
             {/* Premium Wellness Gauge */}
@@ -369,7 +413,7 @@ export default function GrokGenome() {
             {[
               { title: "Private by Design", desc: "Your raw DNA file is read using the browser File API. Nothing is uploaded, logged, or sent anywhere — ever." },
               { title: "Broad Format Support", desc: "Works with 23andMe, MyHeritage, AncestryDNA, FamilyTreeDNA, and VCF files (including inside .zip)." },
-              { title: "Interactive & Honest", desc: "Explore categories, read explanations, simulate different genotypes, and export a clean personal PDF report." },
+              { title: "Interactive & Honest", desc: "Explore categories, read explanations, simulate different genotypes, and export clean personal or analysis-ready reports." },
             ].map((item, idx) => (
               <div key={idx} className="glass rounded-3xl p-7 border border-white/10 text-left">
                 <div className="font-semibold text-xl mb-3 tracking-tight">{item.title}</div>
@@ -387,17 +431,16 @@ export default function GrokGenome() {
             <div>
               Built for personal genomic exploration. <span className="text-white/40">100% client-side.</span>
             </div>
-            <div className="flex gap-x-5 text-white/60">
-              <a href="https://github.com/smeagster86/grok-genome" target="_blank" rel="noopener">GitHub</a>
-              <a href="#" onClick={() => setShowSupport(true)} className="cursor-pointer">Support the project</a>
-              <span className="text-white/30">•</span>
-              <span>Educational use only</span>
+            <div className="flex items-center gap-4">
+              <button onClick={() => setShowSupport(true)} className="hover:text-white/70 transition">Support this project</button>
+              <span className="text-white/20">•</span>
+              <a href="https://github.com/smeagster86/grok-genome" target="_blank" rel="noreferrer" className="hover:text-white/70 transition">View on GitHub</a>
             </div>
           </div>
         </div>
       </div>
 
-      <SupportModal isOpen={showSupport} onClose={() => setShowSupport(false)} />
+      <SupportModal open={showSupport} onClose={() => setShowSupport(false)} />
     </div>
   );
 }
