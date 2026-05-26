@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0a0f1a;
+  --foreground: #f1f5f9;
+  --card: #111827;
+  --card-border: #1f2937;
+  --accent: #10b981;
+  --accent-dark: #059669;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+  --muted: #64748b;
+}
+
+body {
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}
+
+/* Beautiful genomics theme */
+.glass {
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.dna-helix {
+  filter: drop-shadow(0 10px 30px rgba(16, 185, 129, 0.15));
+}
+
+.snp-row {
+  transition: all 0.2s cubic-bezier(0.23, 1.0, 0.32, 1);
+}
+
+.snp-row:hover {
+  background-color: rgba(16, 185, 129, 0.06);
+  transform: translateX(2px);
+}
+
+.category-card {
+  transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), 
+              box-shadow 0.2s ease,
+              border-color 0.2s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  border-color: #10b981;
+}
+
+.category-card.active {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.insight-bar {
+  transition: width 1s cubic-bezier(0.23, 1.0, 0.32, 1);
+}
+
+.metric-value {
+  font-variant-numeric: tabular-nums;
+}
+
+/* DNA Animation */
+.dna-base {
+  animation: dna-twist 3.5s ease-in-out infinite;
+}
+
+@keyframes dna-twist {
+  0%, 100% { transform: rotateY(0deg) translateZ(0); }
+  50% { transform: rotateY(8deg) translateZ(4px); }
+}
+
+.upload-zone {
+  transition: all 0.3s cubic-bezier(0.23, 1.0, 0.32, 1);
+}
+
+.upload-zone.dragover {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.05);
+  transform: scale(1.01);
+}
+
+.report-section {
+  page-break-inside: avoid;
+}
+
+/* Custom scrollbar for genomics */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #059669;
+}
