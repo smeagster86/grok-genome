@@ -66,6 +66,30 @@ export const KNOWLEDGE_BASE: SNPInfo[] = [
     references: ["CPIC SLCO1B1 Guideline"],
     clinicalActionability: "high"
   },
+  { 
+    rsid: "rs1799853", gene: "CYP2C9", trait: "Warfarin & NSAID Metabolism (CYP2C9*2)", category: "pharmacogenomics",
+    genotypes: { 
+      "CC": { effect: "neutral", description: "Normal CYP2C9 activity.", impact: "", confidence: "high" }, 
+      "CT": { effect: "responder", description: "Reduced function (*1/*2). Often requires lower warfarin dose or alternative NSAID.", impact: "Dose adjustment often needed", confidence: "high" }, 
+      "TT": { effect: "responder", description: "Poor function (*2/*2). Significantly increased risk of bleeding with standard warfarin doses.", impact: "High actionability", confidence: "high" } 
+    },
+    source: "CPIC",
+    evidenceLevel: "high",
+    references: ["CPIC CYP2C9-Warfarin Guideline"],
+    clinicalActionability: "high"
+  },
+  { 
+    rsid: "rs4148323", gene: "UGT1A1", trait: "Irinotecan Toxicity Risk (Gilbert Syndrome)", category: "pharmacogenomics",
+    genotypes: { 
+      "CC": { effect: "neutral", description: "Normal UGT1A1 activity.", impact: "", confidence: "high" }, 
+      "CT": { effect: "increased_risk", description: "Reduced activity (*1/*28). Increased risk of severe neutropenia with irinotecan.", impact: "Consider dose reduction", confidence: "high" }, 
+      "TT": { effect: "increased_risk", description: "Poor activity (*28/*28). High risk of severe diarrhea and neutropenia.", impact: "High actionability", confidence: "high" } 
+    },
+    source: "CPIC / FDA",
+    evidenceLevel: "high",
+    references: ["CPIC UGT1A1-Irinotecan Guideline"],
+    clinicalActionability: "high"
+  },
 
   // ==================== CARRIER STATUS (actionable for family planning) ====================
   { 
@@ -141,6 +165,18 @@ export const KNOWLEDGE_BASE: SNPInfo[] = [
     source: "MTHFR literature",
     evidenceLevel: "moderate",
     references: ["PharmGKB"],
+    clinicalActionability: "low"
+  },
+  { 
+    rsid: "rs2228570", gene: "VDR", trait: "Vitamin D Receptor Activity", category: "nutrition",
+    genotypes: { 
+      "CC": { effect: "neutral", description: "Standard VDR activity.", impact: "", confidence: "high" }, 
+      "CT": { effect: "neutral", description: "Intermediate.", impact: "", confidence: "high" }, 
+      "TT": { effect: "increased_risk", description: "Reduced receptor activity. May have higher vitamin D requirements in some studies.", impact: "Consider vitamin D status monitoring", confidence: "moderate" } 
+    },
+    source: "Vitamin D genetics literature",
+    evidenceLevel: "moderate",
+    references: ["VDR polymorphism studies"],
     clinicalActionability: "low"
   },
 
@@ -243,6 +279,20 @@ export const KNOWLEDGE_BASE: SNPInfo[] = [
     evidenceLevel: "high",
     references: ["ALDH2 rs671 studies"],
     clinicalActionability: "low"
+  },
+
+  // ==================== SLEEP & CIRCADIAN (emerging but useful) ====================
+  { 
+    rsid: "rs1801260", gene: "CLOCK", trait: "Circadian Rhythm & Sleep Timing", category: "wellness",
+    genotypes: { 
+      "CC": { effect: "neutral", description: "Standard CLOCK activity.", impact: "", confidence: "moderate" }, 
+      "CT": { effect: "neutral", description: "Intermediate.", impact: "", confidence: "moderate" }, 
+      "TT": { effect: "increased_risk", description: "May be associated with delayed sleep phase or altered circadian preference in some studies.", impact: "Monitor sleep hygiene", confidence: "moderate" } 
+    },
+    source: "Circadian genetics literature",
+    evidenceLevel: "moderate",
+    references: ["CLOCK polymorphism studies"],
+    clinicalActionability: "low"
   }
 ];
 
@@ -258,4 +308,4 @@ export const CATEGORY_LABELS: Record<string, { label: string; icon: string; colo
 export const CATEGORY_ORDER = ['disease_risk', 'carrier', 'pharmacogenomics', 'nutrition', 'fitness', 'wellness'] as const;
 
 // Version for reproducibility in exports
-export const KNOWLEDGE_BASE_VERSION = "2026.05-expanded-v2";
+export const KNOWLEDGE_BASE_VERSION = "2026.05-expanded-v3";
