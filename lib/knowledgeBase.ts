@@ -146,8 +146,6 @@ export const KNOWLEDGE_BASE: SNPInfo[] = [
 
   // ==================== ADDITIONAL HIGH-VALUE PGx & RISK ====================
   { 
-    rsid: "rs4149056", gene: "SLCO1B1", trait: "Statin Myopathy Risk (already noted above)", category: "pharmacogenomics", /* duplicate avoided in real data */ genotypes: { "CC": { effect: "neutral", description: "Normal function.", impact: "", confidence: "high" } }, source: "CPIC", evidenceLevel: "high", references: ["CPIC"], clinicalActionability: "high" },
-  { 
     rsid: "rs10455872", gene: "LPA", trait: "Lipoprotein(a) Cardiovascular Risk", category: "disease_risk",
     genotypes: { 
       "AA": { effect: "increased_risk", description: "Elevated Lp(a). Important independent cardiovascular risk marker.", impact: "High", confidence: "high" }, 
@@ -208,8 +206,6 @@ export const KNOWLEDGE_BASE: SNPInfo[] = [
     clinicalActionability: "low",
     notes: "Popular in wellness circles; effect sizes are modest and context-dependent."
   },
-
-  // ==================== MORE PGx & COAGULATION ====================
   { 
     rsid: "rs1799971", gene: "OPRM1", trait: "Opioid & Reward Sensitivity", category: "pharmacogenomics",
     genotypes: { 
@@ -221,11 +217,7 @@ export const KNOWLEDGE_BASE: SNPInfo[] = [
     evidenceLevel: "moderate",
     references: ["OPRM1 A118G studies"],
     clinicalActionability: "low"
-  },
-
-  // ==================== ADDITIONAL CARRIER / IRON / THROMBOSIS ====================
-  { 
-    rsid: "rs1801131", gene: "MTHFR", trait: "MTHFR A1298C (see above)", category: "nutrition", genotypes: { "AA": { effect: "neutral", description: "Normal.", impact: "", confidence: "high" } }, source: "MTHFR", evidenceLevel: "moderate", references: ["MTHFR"], clinicalActionability: "low" }
+  }
 ];
 
 // Keep existing labels and order
