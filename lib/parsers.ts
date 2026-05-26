@@ -1,5 +1,5 @@
 import { ParsedGenotype, AnalysisResult, MatchedInsight } from './types';
-import { KNOWLEDGE_BASE } from './knowledgeBase';
+import { KNOWLEDGE_BASE, KNOWLEDGE_BASE_VERSION } from './knowledgeBase';
 
 export function detectFormat(text: string): '23andMe' | 'MyHeritage' | 'AncestryDNA' | 'FamilyTreeDNA' | 'VCF' | 'Unknown' {
   const upper = text.slice(0, 8000).toUpperCase();
@@ -145,7 +145,8 @@ export function parseRawDNA(text: string, fileName: string): AnalysisResult {
     matchedVariants: insights.length,
     insights,
     categories,
-    generatedAt: new Date().toISOString()
+    generatedAt: new Date().toISOString(),
+    knowledgeBaseVersion: KNOWLEDGE_BASE_VERSION
   };
 }
 
@@ -193,6 +194,7 @@ export function createAnalysisFromDemo(demoKey: '23andMe' | 'MyHeritage'): Analy
     matchedVariants: insights.length,
     insights,
     categories,
-    generatedAt: new Date().toISOString()
+    generatedAt: new Date().toISOString(),
+    knowledgeBaseVersion: KNOWLEDGE_BASE_VERSION
   };
 }
