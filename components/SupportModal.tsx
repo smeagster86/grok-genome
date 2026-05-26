@@ -60,12 +60,25 @@ export function SupportModal({ isOpen, onClose }: Props) {
 
           {/* Crypto */}
           <div className="border border-white/10 rounded-2xl p-5 text-sm">
-            <div className="font-medium mb-3">Crypto (ETH / SOL / BTC)</div>
-            <div className="space-y-2 text-xs">
-              <div>ETH: <span className="font-mono text-white/70">0xYourWalletHere</span> <button onClick={() => copy('0xYourWalletHere', 'ETH')} className="text-emerald-400 underline">copy</button></div>
-              <div>SOL: <span className="font-mono text-white/70">YourSolAddressHere</span> <button onClick={() => copy('YourSolAddressHere', 'SOL')} className="text-emerald-400 underline">copy</button></div>
+            <div className="font-medium mb-3">Crypto Donations</div>
+            <div className="space-y-3 text-xs">
+              <div>
+                <div className="text-white/60 mb-0.5">Bitcoin (BTC)</div>
+                <div className="font-mono text-emerald-400 break-all">bc1qrgqt2m3t02lc8m735wjnvxpuwsmfxvhs87j4ls</div>
+                <button onClick={() => copy('bc1qrgqt2m3t02lc8m735wjnvxpuwsmfxvhs87j4ls', 'Bitcoin address')} className="mt-1 text-emerald-400 underline flex items-center gap-1">
+                  <Copy size={13} /> Copy BTC address
+                </button>
+              </div>
+
+              <div>
+                <div className="text-white/60 mb-0.5">Ethereum (ETH) + ERC-20 tokens</div>
+                <div className="font-mono text-emerald-400 break-all">0xb3C751B577d1131c2395fE53a34C8a7466ce68BF</div>
+                <button onClick={() => copy('0xb3C751B577d1131c2395fE53a34C8a7466ce68BF', 'Ethereum address')} className="mt-1 text-emerald-400 underline flex items-center gap-1">
+                  <Copy size={13} /> Copy ETH address
+                </button>
+              </div>
             </div>
-            <div className="text-[10px] text-white/50 mt-2">Update these addresses in the code when ready.</div>
+            <div className="text-[10px] text-white/50 mt-3 leading-snug">Double-check the address before sending. Only use the correct network.</div>
           </div>
 
           {/* Future Stripe / Premium */}
