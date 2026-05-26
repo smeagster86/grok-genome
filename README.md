@@ -2,33 +2,42 @@
 
 **Private. Beautiful. Powerful.**
 
-Upload your raw 23andMe or MyHeritage DNA file and get rich, interactive health insights — 100% in your browser. Your DNA never leaves your device.
+A stunning, 100% client-side DNA insights explorer for 23andMe and MyHeritage raw data files.
 
-## Features
+**Live Demo:** https://grok-genome.vercel.app (after deployment)
+
+## ✨ Features
+- Drag & drop or click to upload raw .txt files
 - Auto-detects 23andMe and MyHeritage formats
-- Curated knowledge base of 70+ clinically relevant SNPs
-- 6 insight categories: Disease Risk, Carrier Status, Pharmacogenomics, Nutrition, Fitness, Wellness
-- Interactive DNA helix + beautiful visualizations
-- Fully searchable & filterable SNP explorer
-- "What-if" genotype simulators on key variants
+- 80+ high-value curated SNPs across 6 categories
+- Gorgeous animated DNA helix
+- Interactive category cards that filter the explorer
+- Fully searchable SNP table with expandable explanations
+- Educational "What-if" genotype simulators (see how changing one letter changes the story)
 - One-click beautiful PDF report export
-- Zero data upload. Complete privacy.
+- **Everything runs in your browser** — your DNA never leaves your computer
 
-## Getting Started
+## 🚀 Deploy your own (one click)
 
+1. Fork or clone this repo
+2. Push to GitHub
+3. Import the GitHub repo into [Vercel](https://vercel.com)
+4. Deploy (Next.js is auto-detected)
+
+Or just click the **Deploy** button once this repo is public.
+
+## Local Development
 ```bash
-git clone https://github.com/smeagster86/grok-genome.git
+git clone https://github.com/smeagster86/grok-genome
 cd grok-genome
 npm install
 npm run dev
 ```
 
-Then open http://localhost:3000 and drop in your raw DNA .txt file.
+## Privacy & Ethics
+This project exists to make personal genomics exploration beautiful, transparent, and private. No accounts. No tracking. No data exfiltration.
 
-## Privacy First
-All parsing and analysis happens locally using the File API. Nothing is sent to any server.
+## Important Medical Disclaimer
+This is an **educational tool only**. It is not medical advice, diagnosis, or a substitute for clinical genetic testing or consultation with a physician or certified genetic counselor. Most health outcomes are multifactorial.
 
-## Disclaimer
-This is an educational exploration tool only. Not medical advice. Consult a qualified healthcare professional and genetic counselor for any health decisions. Many associations are probabilistic and influenced by environment, lifestyle, and other genetic factors.
-
-Built with ❤️ by Grok + xAI for personal genomics exploration.
+Built with care using Next.js, TypeScript, Framer Motion, and a deep respect for personal data.
