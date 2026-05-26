@@ -103,3 +103,83 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #059669;
 }
+
+/* Premium Format Badges */
+.format-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 12px;
+  font-weight: 500;
+  color: #cbd5e1;
+  transition: all 0.2s ease;
+}
+
+.format-badge:hover {
+  background: rgba(16,185,129,0.08);
+  border-color: #10b981;
+  color: #f1f5f9;
+}
+
+/* Animated Circular Wellness Gauge */
+.wellness-gauge {
+  position: relative;
+  width: 168px;
+  height: 168px;
+}
+
+.wellness-gauge svg {
+  transform: rotate(-90deg);
+}
+
+.wellness-gauge .gauge-bg {
+  stroke: #1f2937;
+}
+
+.wellness-gauge .gauge-progress {
+  stroke: #10b981;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.23, 1.0, 0.32, 1);
+}
+
+.wellness-tier {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Impact Pills */
+.impact-pill {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 9999px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.impact-risk { background: rgba(239,68,68,0.15); color: #f87171; }
+.impact-protect { background: rgba(16,185,129,0.15); color: #34d399; }
+.impact-neutral { background: rgba(245,158,11,0.15); color: #fbbf24; }
+
+/* Result entrance */
+.result-section {
+  animation: resultFade 0.6s cubic-bezier(0.23, 1.0, 0.32, 1) both;
+}
+
+@keyframes resultFade {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Professional Footer */
+.site-footer a {
+  transition: color 0.2s ease;
+}
+.site-footer a:hover {
+  color: #34d399;
+}
