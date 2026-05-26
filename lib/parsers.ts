@@ -12,7 +12,6 @@ export function detectFormat(text: string): '23andMe' | 'MyHeritage' | 'Ancestry
   return 'Unknown';
 }
 
-// Generic TSV/CSV parser (used by 23andMe, MyHeritage, FTDNA)
 function parseGenericTSV(text: string): Map<string, ParsedGenotype> {
   const map = new Map<string, ParsedGenotype>();
   const lines = text.split(/\r?\n/);
@@ -45,7 +44,6 @@ function parseGenericTSV(text: string): Map<string, ParsedGenotype> {
   return map;
 }
 
-// AncestryDNA specific: allele1 + allele2 columns
 function parseAncestryDNA(text: string): Map<string, ParsedGenotype> {
   const map = new Map<string, ParsedGenotype>();
   const lines = text.split(/\r?\n/);
@@ -70,7 +68,6 @@ function parseAncestryDNA(text: string): Map<string, ParsedGenotype> {
   return map;
 }
 
-// Basic VCF parser (only extracts rsIDs we care about)
 function parseVCF(text: string): Map<string, ParsedGenotype> {
   const map = new Map<string, ParsedGenotype>();
   const lines = text.split(/\r?\n/);
@@ -92,7 +89,6 @@ function parseVCF(text: string): Map<string, ParsedGenotype> {
     const format = parts[8];
     const sample = parts[9];
 
-    // Find GT index
     const fmtParts = format.split(':');
     const gtIndex = fmtParts.indexOf('GT');
     if (gtIndex === -1) continue;
@@ -153,8 +149,26 @@ export function parseRawDNA(text: string, fileName: string): AnalysisResult {
   };
 }
 
-// Demo datasets stay the same (abbreviated for brevity)
-export const DEMO_DATASETS = { /* ... */ } as const;
+export const DEMO_DATASETS = {
+  '23andMe': {
+    name: '23andMe Demo',
+    format: '23andMe' as const,
+    genotypes: {
+      'rs429358': 'CT', 'rs7412': 'CC', 'rs4988235': 'GG', 'rs762551': 'AC',
+      'rs1815739': 'CT', 'rs9939609': 'AT', 'rs1801133': 'AG', 'rs9923231': 'AG',
+      'rs4244285': 'GG', 'rs7903146': 'CT', 'rs10455872': 'AA', 'rs4680': 'AG',
+    }
+  },
+  'MyHeritage': {
+    name: 'MyHeritage Demo',
+    format: 'MyHeritage' as const,
+    genotypes: {
+      'rs429358': 'CC', 'rs7412': 'CT', 'rs4988235': 'AA', 'rs762551': 'CC',
+      'rs1815739': 'CC', 'rs9939609': 'AA', 'rs1801133': 'GG', 'rs9923231': 'AA',
+      'rs4244285': 'AG', 'rs7903146': 'TT', 'rs10455872': 'GG', 'rs4680': 'AA',
+    }
+  }
+} as const;
 
 export function createAnalysisFromDemo(demoKey: '23andMe' | 'MyHeritage'): AnalysisResult {
   const demo = DEMO_DATASETS[demoKey];
