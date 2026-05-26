@@ -14,6 +14,7 @@ export function NutritionMetabolismContext({ insights }: NutritionMetabolismCont
   const lct = insights.find(i => i.snp.rsid === "rs4988235");
   const fto = insights.find(i => i.snp.rsid === "rs9939609");
   const tcf7l2 = insights.find(i => i.snp.rsid === "rs7903146");
+  const caffeine = insights.find(i => i.snp.rsid === "rs762551");
   const adh1b = insights.find(i => i.snp.rsid === "rs1229984");
   const aldh2 = insights.find(i => i.snp.rsid === "rs671");
   const vdr = insights.find(i => i.snp.rsid === "rs2228570");
