@@ -346,8 +346,8 @@ export default function GrokGenome() {
               <div className="md:col-span-7 glass rounded-3xl p-7 border border-white/10">
                 <div className="uppercase tracking-widest text-xs text-white/50 mb-4">QUICK OVERVIEW</div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-                  {CATEGORY_ORDER.map(cat => {
-                    const count = result.categories[cat].length;
+                  {CATEGORY_ORDER.map((cat: Category) => {
+                    const count = (result.categories as Record<Category, MatchedInsight[]>)[cat].length;
                     if (count === 0) return null;
                     return (
                       <div key={cat} className="rounded-2xl bg-black/30 p-4">
