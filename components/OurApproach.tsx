@@ -21,6 +21,9 @@ export function OurApproach() {
             <p className="text-white/70">
               All core interpretation runs locally in your browser. No data is uploaded by default. You control any optional exports or sharing. Full offline capability is supported.
             </p>
+            <p className="mt-2 text-sm text-white/60">
+              Technical details: The curated knowledge base (~80 high-value variants with evidence annotations) and all synthesis logic are shipped as a static bundle. Matching, effect lookup, and the five-question profile generation run entirely in synchronous browser JavaScript. There are no runtime network requests for genomic data, no server-side logging, and no third-party analytics. Once the page is cached, the tool works completely offline.
+            </p>
           </div>
 
           <div>
@@ -69,6 +72,10 @@ export function OurApproach() {
           <div>Optional encrypted exports (you decide)</div>
         </div>
         <div className="mt-4 text-xs text-white/50">Full transparency: see exactly what runs where</div>
+      </div>
+
+      <div className="mt-8 text-center text-sm">
+        <a href="/for-clinicians" className="text-emerald-400 hover:underline">For Clinicians → guidance for healthcare professionals reviewing patient data</a>
       </div>
     </div>
   );
