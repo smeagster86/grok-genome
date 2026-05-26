@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { MatchedInsight } from "@/lib/types";
-import { Search, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Copy } from "lucide-react";
+import { toast } from "sonner";
 
 interface Props {
   insights: MatchedInsight[];
@@ -27,7 +28,6 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
     filtered = filtered.filter(i => i.snp.category === activeCategory);
   }
 
-  // Sort
   filtered = [...filtered].sort((a, b) => {
     if (sortKey === 'effect') {
       const order: any = { increased_risk: 0, non_responder: 1, affected: 2, carrier: 3, neutral: 4, protective: 5 };
@@ -37,6 +37,11 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
   });
 
   const toggleExpand = (rsid: string) => setExpanded(expanded === rsid ? null : rsid);
+
+  const copyRsid = (rsid: string) => {
+    navigator.clipboard.writeText(rsid);
+    toast.success(`Copied ${rsid}`);
+  };
 
   if (filtered.length === 0) {
     return <div className="text-center py-10 text-sm text-white/60">No variants match your search.</div>;
@@ -66,9 +71,10 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
         {filtered.map((insight) => {
           const { snp, genotype, interpretation } = insight;
           const isOpen = expanded === snp.rsid;
+
           const effectColor =
-            interpretation.effect.includes('risk') || interpretation.effect === 'non_responder' ? 'text-red-400' :
-            interpretation.effect === 'protective' || interpretation.effect === 'decreased_risk' ? 'text-emerald-400' : 'text-amber-400';
+            interpretation.effect.includes('risk') || interpretation.effect === 'non_responder' || interpretation.effect === 'affected' ? 'impact-risk' :
+            interpretation.effect === 'protective' || interpretation.effect === 'decreased_risk' ? 'impact-protect' : 'impact-neutral';
 
           return (
             <div key={snp.rsid} className="snp-row bg-[#111827] border border-white/10 rounded-2xl overflow-hidden">
@@ -78,7 +84,16 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
               >
                 <div className="flex items-center gap-4">
                   <div>
-                    <div className="font-mono text-xs tracking-widest text-emerald-400/90">{snp.rsid}</div>
+                    <div className="font-mono text-xs tracking-widest text-emerald-400/90 flex items-center gap-1.5">
+                      {snp.rsid}
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); copyRsid(snp.rsid); }} 
+                        className="text-white/40 hover:text-emerald-400 transition p-0.5"
+                        title="Copy rsID"
+                      >
+                        <Copy size={13} />
+                      </button>
+                    </div>
                     <div className="font-semibold tracking-tight text-lg -mt-0.5">{snp.gene}</div>
                   </div>
                   <div className="text-sm text-white/70 max-w-[260px] leading-snug">{snp.trait}</div>
@@ -87,7 +102,7 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
                 <div className="flex items-center gap-4 text-right">
                   <div>
                     <div className="font-mono text-xl font-semibold tabular-nums tracking-[-1.5px]">{genotype}</div>
-                    <div className={`text-xs uppercase font-medium ${effectColor}`}>{interpretation.effect.replace('_', ' ')}</div>
+                    <div className={`impact-pill inline-block ${effectColor}`}>{interpretation.effect.replace('_', ' ')}</div>
                   </div>
                   <div className="text-white/40">{isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}</div>
                 </div>
@@ -124,7 +139,7 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
           );
         })}
       </div>
-      <div className="text-[11px] text-center text-white/40 mt-4">Click any row for full explanation and educational genotype simulator</div>
+      <div className="text-[11px] text-center text-white/40 mt-4">Click any row for full explanation and educational genotype simulator. Click the copy icon to copy rsID.</div>
     </div>
   );
 }
