@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { EvidenceBadge } from "../EvidenceBadge";
 import { MatchedInsight } from "@/lib/types";
 
@@ -8,14 +9,12 @@ interface DrugMetabolismTendenciesProps {
 }
 
 export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesProps) {
+  const [showDetails, setShowDetails] = useState(false);
+
   const cyp2c19 = insights.find(i => i.snp.rsid === "rs4244285");
   const vkorc1 = insights.find(i => i.snp.rsid === "rs9923231");
   const cyp2c9 = insights.find(i => i.snp.rsid === "rs1799853");
   const ugt1a1 = insights.find(i => i.snp.rsid === "rs4148323");
-
-  // Conservative synthesis - only based on available data
-  const hasCyp2c19Risk = cyp2c19?.genotype === "AA";
-  const hasVkorc1Sensitivity = vkorc1?.genotype === "AA";
 
   return (
     <div className="glass rounded-3xl border border-white/10 p-7">
@@ -33,6 +32,15 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         />
       </div>
 
+      <div className="mb-4 flex items-center justify-between">
+        <button
+          onClick={() => setShowDetails(!showDetails)}
+          className="text-xs px-3 py-1 rounded-full border border-white/15 hover:bg-white/5 transition"
+        >
+          {showDetails ? "Simple view" : "Show detailed SNPs"}
+        </button>
+      </div>
+
       <div className="mb-6 rounded-2xl bg-black/30 p-5">
         <div className="text-sm text-white/70 mb-2">Your profile summary</div>
         <p className="text-base leading-relaxed">
@@ -40,7 +48,6 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         </p>
       </div>
 
-      {/* The Five Core Questions */}
       <div className="space-y-5">
         <div>
           <div className="text-xs uppercase tracking-widest text-white/50 mb-1">1. What might this mean?</div>
@@ -78,7 +85,17 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         </div>
       </div>
 
-      {/* Limitations Panel */}
+      {showDetails && (
+        <div className="mt-6 rounded-xl bg-[#0a0f1a] border border-white/10 p-4 text-xs">
+          <div className="font-medium text-white/70 mb-2">Relevant SNPs in your data</div>
+          <div className="text-white/60">
+            CYP2C19 rs4244285: {cyp2c19?.genotype || "—"} &nbsp;|&nbsp; VKORC1 rs9923231: {vkorc1?.genotype || "—"}
+            {cyp2c9 && ` &nbsp;|&nbsp; CYP2C9 rs1799853: ${cyp2c9.genotype}`}
+            {ugt1a1 && ` &nbsp;|&nbsp; UGT1A1 rs4148323: ${ugt1a1.genotype}`}
+          </div>
+        </div>
+      )}
+
       <div className="mt-6 rounded-xl bg-[#0a0f1a] border border-white/10 p-4">
         <div className="text-xs font-medium text-white/60 mb-2">Limitations &amp; Context</div>
         <ul className="text-xs text-white/60 space-y-1 list-disc pl-4">
