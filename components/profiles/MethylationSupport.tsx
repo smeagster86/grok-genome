@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { EvidenceBadge } from "../EvidenceBadge";
 import { MatchedInsight } from "@/lib/types";
 
@@ -8,10 +9,11 @@ interface MethylationSupportProps {
 }
 
 export function MethylationSupport({ insights }: MethylationSupportProps) {
+  const [showDetails, setShowDetails] = useState(false);
+
   const mthfr677 = insights.find(i => i.snp.rsid === "rs1801133");
   const mthfr1298 = insights.find(i => i.snp.rsid === "rs1801131");
 
-  // Very conservative synthesis - only what the data supports
   const has677Risk = mthfr677?.genotype === "GG" || mthfr677?.genotype === "AG";
   const has1298Risk = mthfr1298?.genotype === "CC" || mthfr1298?.genotype === "AC";
 
@@ -33,7 +35,15 @@ export function MethylationSupport({ insights }: MethylationSupportProps) {
         />
       </div>
 
-      {/* Summary - Progressive Disclosure */}
+      <div className="mb-4 flex items-center justify-between">
+        <button
+          onClick={() => setShowDetails(!showDetails)}
+          className="text-xs px-3 py-1 rounded-full border border-white/15 hover:bg-white/5 transition"
+        >
+          {showDetails ? "Simple view" : "Show detailed SNPs"}
+        </button>
+      </div>
+
       <div className="mb-6 rounded-2xl bg-black/30 p-5">
         <div className="text-sm text-white/70 mb-2">Your profile summary</div>
         <p className="text-base leading-relaxed">
@@ -44,7 +54,6 @@ export function MethylationSupport({ insights }: MethylationSupportProps) {
         </p>
       </div>
 
-      {/* The Five Core Questions - Strict Structure */}
       <div className="space-y-5">
         <div>
           <div className="text-xs uppercase tracking-widest text-white/50 mb-1">1. What might this mean?</div>
@@ -82,7 +91,13 @@ export function MethylationSupport({ insights }: MethylationSupportProps) {
         </div>
       </div>
 
-      {/* Limitations Panel */}
+      {showDetails && (
+        <div className="mt-6 rounded-xl bg-[#0a0f1a] border border-white/10 p-4 text-xs">
+          <div className="font-medium text-white/70 mb-2">Relevant SNPs in your data</div>
+          <div className="text-white/60">MTHFR rs1801133 (C677T): {mthfr677?.genotype || "—"} &nbsp;|&nbsp; rs1801131 (A1298C): {mthfr1298?.genotype || "—"}</div>
+        </div>
+      )}
+
       <div className="mt-6 rounded-xl bg-[#0a0f1a] border border-white/10 p-4">
         <div className="text-xs font-medium text-white/60 mb-2">Limitations &amp; Context</div>
         <ul className="text-xs text-white/60 space-y-1 list-disc pl-4">
