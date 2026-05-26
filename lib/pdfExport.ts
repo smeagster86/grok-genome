@@ -21,9 +21,9 @@ export async function generatePDFReport(result: AnalysisResult) {
   const richData = prepareRichPDFData(result);
 
   // Header
-  doc.setFillColor(15, 23, 42); // slate-900
+  doc.setFillColor(15, 23, 42);
   doc.rect(0, 0, pageWidth, 32, 'F');
-  doc.setTextColor(16, 185, 129); // emerald-500
+  doc.setTextColor(16, 185, 129);
   doc.setFontSize(20);
   doc.text("GROK GENOME", 18, 14);
   doc.setFontSize(10);
@@ -54,6 +54,19 @@ export async function generatePDFReport(result: AnalysisResult) {
   doc.text(`High actionability: ${richData.summary.highActionabilityCount}   •   Increased risk/affected: ${richData.summary.increasedRiskCount}   •   Carrier findings: ${richData.summary.carrierFindings}`, 24, y + 17);
   y += 36;
 
+  // NEW: Report Overview (top of full report)
+  if (y > 240) { doc.addPage(); y = 25; }
+  doc.setTextColor(15, 23, 42);
+  doc.setFontSize(12);
+  doc.text("Report Overview", 18, y);
+  y += 7;
+  doc.setFontSize(9);
+  doc.setTextColor(71, 85, 105);
+  const overview = "This report includes synthesized profiles for: Methylation Support, Drug Metabolism Tendencies, Nutrition & Metabolism Context, and Sleep & Recovery Context (where relevant variants were detected in your data). All interpretations are probabilistic with generally small-to-modest effect sizes. Consumer genotyping has coverage and ancestry limitations. These results are one data point among many and should be discussed with a qualified clinician when clinically relevant. Blood tests and clinical evaluation remain the primary tools for health decisions.";
+  const overviewLines = doc.splitTextToSize(overview, pageWidth - 36);
+  doc.text(overviewLines, 18, y);
+  y += overviewLines.length * 5 + 8;
+
   // Categories
   doc.setTextColor(15, 23, 42);
   doc.setFontSize(13);
@@ -63,10 +76,8 @@ export async function generatePDFReport(result: AnalysisResult) {
   Object.entries(result.categories).forEach(([cat, insights]) => {
     if (!insights || insights.length === 0) return;
 
-    // Check before new category block
     if (y > 240) { doc.addPage(); y = 25; }
 
-    // Category header
     doc.setFillColor(16, 185, 129);
     doc.rect(18, y, pageWidth - 36, 6, 'F');
     doc.setTextColor(255, 255, 255);
@@ -84,7 +95,6 @@ export async function generatePDFReport(result: AnalysisResult) {
       doc.text(line, 22, y);
       y += 5;
 
-      // Wrap description
       const desc = interpretation.description.substring(0, 140) + (interpretation.description.length > 140 ? '...' : '');
       doc.setTextColor(71, 85, 105);
       doc.setFontSize(8);
@@ -97,7 +107,7 @@ export async function generatePDFReport(result: AnalysisResult) {
     y += 6;
   });
 
-  // Synthesized Profiles section (Phase 3/4: full context with Limitations)
+  // Synthesized Profiles section (richer content from Phase 4)
   if (y > 230) { doc.addPage(); y = 25; }
   y += 4;
   doc.setFontSize(13);
@@ -118,7 +128,7 @@ export async function generatePDFReport(result: AnalysisResult) {
   y += 8;
   if (y > 240) { doc.addPage(); y = 25; }
 
-  // References & Notes section (condensed)
+  // References & Notes section
   doc.setFontSize(10);
   doc.setTextColor(15, 23, 42);
   doc.text("Selected References & Limitations", 18, y);
