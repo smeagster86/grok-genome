@@ -29,6 +29,8 @@ export default function GrokGenome() {
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   const [simulatedOverrides, setSimulatedOverrides] = useState<Record<string, string>>({});
   const [showSupport, setShowSupport] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackText, setFeedbackText] = useState("");
   const [viewMode, setViewMode] = useState<ViewMode>('raw');
   const [profileFilter, setProfileFilter] = useState<'all' | 'methylation' | 'drug' | 'nutrition' | 'sleep'>('all');
 
@@ -131,8 +133,6 @@ export default function GrokGenome() {
 
   const handleExportFullReport = () => {
     if (!result) return;
-    // The PDF generator (enhanced in Phase 3) already pulls synthesized profiles + Limitations + disclaimers.
-    // This prominent button makes the "full clinical-style" export explicit.
     generatePDFReport(result);
     toast.success("Full report (profiles + limitations + approach) downloaded");
   };
@@ -168,6 +168,18 @@ export default function GrokGenome() {
     const md = toMarkdown(result);
     downloadFile(md, `GrokGenome_${result.fileName.replace(/\.[^/.]+$/, '')}.md`, 'text/markdown');
     toast.success("Markdown report exported");
+  };
+
+  const submitFeedback = () => {
+    if (!feedbackText.trim()) return;
+    try {
+      const existing = JSON.parse(localStorage.getItem('grok-genome-feedback') || '[]');
+      existing.push({ ts: new Date().toISOString(), text: feedbackText.trim() });
+      localStorage.setItem('grok-genome-feedback', JSON.stringify(existing.slice(-20))); // keep last 20
+    } catch {}
+    toast.success("Thank you — feedback saved locally (not sent). You can copy it from browser storage if you wish to share later.");
+    setFeedbackText("");
+    setShowFeedback(false);
   };
 
   const overallScore = result 
@@ -382,13 +394,15 @@ export default function GrokGenome() {
               </div>
             ) : (
               <div className="space-y-8">
-                {/* Sub-selector for profiles — improved mobile responsiveness */}
-                <div className="flex flex-wrap gap-1.5 sm:gap-2 text-xs sm:text-sm">
+                {/* Sub-selector for profiles — final mobile + a11y improvements (wrap, focus, touch targets) */}
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 text-xs sm:text-sm" role="tablist" aria-label="Synthesized profile filter">
                   {(['all', 'methylation', 'drug', 'nutrition', 'sleep'] as const).map((f) => (
                     <button
                       key={f}
+                      role="tab"
+                      aria-selected={profileFilter === f}
                       onClick={() => setProfileFilter(f)}
-                      className={`px-3 py-1 rounded-full border transition whitespace-nowrap ${profileFilter === f ? 'bg-emerald-500 text-black border-emerald-500' : 'border-white/15 hover:bg-white/5'}`}
+                      className={`min-h-[36px] px-3 py-1 rounded-full border transition whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${profileFilter === f ? 'bg-emerald-500 text-black border-emerald-500' : 'border-white/15 hover:bg-white/5'}`}
                     >
                       {f === 'all' ? 'All Profiles' : f.charAt(0).toUpperCase() + f.slice(1)}
                     </button>
@@ -453,6 +467,8 @@ export default function GrokGenome() {
               <span className="text-white/20">·</span>
               <button onClick={() => setShowSupport(true)} className="hover:text-white/70 transition">Support this project</button>
               <span className="text-white/20">·</span>
+              <button onClick={() => setShowFeedback(true)} className="hover:text-white/70 transition underline decoration-dotted">Share feedback (local only)</button>
+              <span className="text-white/20">·</span>
               <a href="https://github.com/smeagster86/grok-genome" target="_blank" rel="noreferrer" className="hover:text-white/70 transition">View on GitHub</a>
             </div>
           </div>
@@ -460,6 +476,29 @@ export default function GrokGenome() {
       </div>
 
       <SupportModal isOpen={showSupport} onClose={() => setShowSupport(false)} />
+
+      {/* Local-only feedback modal (no upload) */}
+      <AnimatePresence>
+        {showFeedback && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 p-4" onClick={() => setShowFeedback(false)}>
+            <div className="glass w-full max-w-md rounded-2xl border border-white/10 p-6" onClick={e => e.stopPropagation()}>
+              <div className="font-semibold text-lg mb-2">Share feedback (saved locally)</div>
+              <p className="text-sm text-white/70 mb-4">Suggestions for new variants, wording improvements, or other ideas. Nothing is transmitted.</p>
+              <textarea
+                className="w-full h-32 rounded-xl bg-black/30 border border-white/10 p-3 text-sm placeholder:text-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                placeholder="e.g. Add rsXXXXXX for X or improve the wording on Y profile"
+                value={feedbackText}
+                onChange={e => setFeedbackText(e.target.value)}
+              />
+              <div className="mt-4 flex justify-end gap-3">
+                <button onClick={() => { setShowFeedback(false); setFeedbackText(''); }} className="px-4 py-2 text-sm rounded-full border border-white/15 hover:bg-white/5">Cancel</button>
+                <button onClick={submitFeedback} disabled={!feedbackText.trim()} className="px-4 py-2 text-sm rounded-full bg-emerald-500 text-black font-medium disabled:opacity-50">Save locally</button>
+              </div>
+              <div className="mt-3 text-[10px] text-white/40">You can view saved items in browser DevTools → Application → Local Storage (key: grok-genome-feedback).</div>
+            </div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
