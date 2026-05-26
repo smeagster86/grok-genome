@@ -104,6 +104,11 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
           <li>Many important pharmacogenetic variants are rare or poorly tagged on standard consumer chips.</li>
           <li>This profile covers only a small subset of pharmacogenes and medications. It is not a substitute for clinical pharmacogenetic testing or professional medical advice.</li>
         </ul>
+        <div className="mt-3 pt-3 border-t border-white/10 text-[11px]">
+          <a href="/#our-approach" className="text-emerald-400 hover:underline">Our Approach</a>
+          <span className="mx-1.5 text-white/30">·</span>
+          <a href="/for-clinicians" className="text-emerald-400 hover:underline">For Clinicians guidance</a>
+        </div>
       </div>
 
       <div className="mt-4 text-[10px] text-white/40">Context-dependent findings. Always consult your prescriber before making any medication changes.</div>
