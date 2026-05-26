@@ -10,7 +10,7 @@ import { DNAHelix } from "@/components/DNAHelix";
 import { CategoryCard } from "@/components/CategoryCard";
 import { SNPTable } from "@/components/SNPTable";
 import { parseRawDNA, createAnalysisFromDemo, DEMO_DATASETS } from "@/lib/parsers";
-import { AnalysisResult, Category } from "@/lib/types";
+import { AnalysisResult, Category, MatchedInsight } from "@/lib/types";
 import { generatePDFReport } from "@/lib/pdfExport";
 import { toJSON, toCSV, toMarkdown } from "@/lib/exportUtils";
 import { CATEGORY_ORDER, CATEGORY_LABELS } from "@/lib/knowledgeBase";
