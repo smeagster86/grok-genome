@@ -1,52 +1,59 @@
 "use client";
 
 interface EvidenceBadgeProps {
-  level?: 'high' | 'moderate' | 'preliminary' | 'research';
+  level?: string;      // e.g. 'Strong GWAS' or 'HIGH'
+  effect?: string;     // e.g. 'Modest Effect'
+  ancestry?: string;   // e.g. 'European-biased'
+  status?: string;     // e.g. 'Exploratory'
   className?: string;
   showTooltip?: boolean;
 }
 
-const evidenceConfig = {
+const evidenceConfig: Record<string, { color: string; description: string }> = {
   high: {
-    label: 'HIGH',
     color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-    description: 'Strong GWAS: Multiple independent studies with consistent direction.',
+    description: 'Strong, replicated evidence from multiple independent studies.',
   },
   moderate: {
-    label: 'MODERATE',
     color: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-    description: 'Moderate evidence: Good support from multiple studies, effect sizes often modest.',
+    description: 'Good support from studies; effect sizes often modest.',
   },
   preliminary: {
-    label: 'PRELIMINARY',
     color: 'bg-slate-500/10 text-slate-400 border-slate-500/30',
-    description: 'Preliminary: Limited or emerging data. Interpret with caution.',
+    description: 'Limited or emerging data. Interpret with caution.',
   },
   research: {
-    label: 'RESEARCH',
     color: 'bg-violet-500/10 text-violet-400 border-violet-500/30',
-    description: 'Research-grade: Primarily for scientific interest; not yet clinically actionable.',
+    description: 'Primarily for scientific interest.',
   },
 };
 
-export function EvidenceBadge({ level, className = '', showTooltip = true }: EvidenceBadgeProps) {
-  if (!level) return null;
+export function EvidenceBadge({ 
+  level, 
+  effect, 
+  ancestry, 
+  status, 
+  className = '', 
+  showTooltip = true 
+}: EvidenceBadgeProps) {
+  const parts = [level, effect, ancestry, status].filter(Boolean);
+  if (parts.length === 0) return null;
 
-  const config = evidenceConfig[level];
+  const text = parts.join(' • ');
 
-  const badge = (
-    <span
+  const lowerLevel = (level || '').toLowerCase();
+  const config = evidenceConfig[lowerLevel] || evidenceConfig['moderate'];
+
+  return (
+    <span 
       className={`inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full border ${config.color} ${className}`}
-      title={showTooltip ? config.description : undefined}
+      title={showTooltip ? `${text}. ${config.description}` : undefined}
     >
-      {config.label}
+      {text}
     </span>
   );
-
-  return badge;
 }
 
-// Standalone legend for use in UI
 interface EvidenceLegendProps {
   className?: string;
 }
@@ -54,16 +61,12 @@ interface EvidenceLegendProps {
 export function EvidenceLegend({ className = '' }: EvidenceLegendProps) {
   return (
     <div className={`text-xs text-white/60 space-y-2 ${className}`}>
-      <div className="font-medium text-white/80 mb-1.5">Evidence Levels</div>
+      <div className="font-medium text-white/80 mb-1.5">Evidence Badge Guide</div>
       <div className="grid gap-y-1.5">
-        {Object.entries(evidenceConfig).map(([key, value]) => (
-          <div key={key} className="flex items-start gap-2">
-            <span className={`inline-block text-[10px] font-medium px-2 py-0.5 rounded-full border mt-px ${value.color}`}>
-              {value.label}
-            </span>
-            <span className="leading-snug">{value.description}</span>
-          </div>
-        ))}
+        <div><strong>Strong GWAS / HIGH</strong> — Multiple independent studies with consistent direction.</div>
+        <div><strong>Modest Effect</strong> — Typical for common variants; small contribution to overall trait.</div>
+        <div><strong>European-biased</strong> — Most data from European-ancestry cohorts; lower confidence in other populations.</div>
+        <div><strong>Exploratory / Preliminary</strong> — Not used in standard medical guidelines. For research/education only.</div>
       </div>
       <div className="pt-1 text-[10px] text-white/50">All interpretations are probabilistic and should be discussed with a qualified healthcare professional when relevant.</div>
     </div>
