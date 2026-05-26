@@ -8,18 +8,14 @@ interface MethylationSupportProps {
 }
 
 export function MethylationSupport({ insights }: MethylationSupportProps) {
-  // Find relevant SNPs from the user's results
   const mthfr677 = insights.find(i => i.snp.rsid === "rs1801133");
   const mthfr1298 = insights.find(i => i.snp.rsid === "rs1801131");
 
-  // Simple synthesis logic (client-side)
-  const hasReducedEfficiency =
-    (mthfr677?.genotype === "GG" || mthfr677?.genotype === "AG") ||
-    (mthfr1298?.genotype === "CC" || mthfr1298?.genotype === "AC");
+  // Very conservative synthesis - only what the data supports
+  const has677Risk = mthfr677?.genotype === "GG" || mthfr677?.genotype === "AG";
+  const has1298Risk = mthfr1298?.genotype === "CC" || mthfr1298?.genotype === "AC";
 
-  const combinedGenotype = [mthfr677?.genotype, mthfr1298?.genotype]
-    .filter(Boolean)
-    .join(" / ") || "No data";
+  const combined = [mthfr677?.genotype, mthfr1298?.genotype].filter(Boolean).join(" / ") || "No relevant data";
 
   return (
     <div className="glass rounded-3xl border border-white/10 p-7">
@@ -27,54 +23,61 @@ export function MethylationSupport({ insights }: MethylationSupportProps) {
         <div>
           <div className="uppercase tracking-[2px] text-xs text-emerald-400 mb-1">SYNTHESIZED PROFILE</div>
           <h3 className="text-2xl font-semibold tracking-tight">Methylation Support</h3>
-          <p className="text-sm text-white/60 mt-1">Folate metabolism efficiency indicators</p>
+          <p className="text-sm text-white/60 mt-1">Folate-related pathway indicators</p>
         </div>
         <EvidenceBadge
-          level="Moderate evidence"
-          effect="Variable impact"
-          ancestry="Population-specific"
-          status="Exploratory context"
+          level="Moderate Evidence"
+          effect="Small-to-Modest Effects"
+          ancestry="European-biased"
+          status="Exploratory"
         />
       </div>
 
-      {/* Simple Summary - Progressive Disclosure Level 1 */}
+      {/* Summary - Progressive Disclosure */}
       <div className="mb-6 rounded-2xl bg-black/30 p-5">
         <div className="text-sm text-white/70 mb-2">Your profile summary</div>
         <p className="text-base leading-relaxed">
-          {hasReducedEfficiency
-            ? "Evidence suggests a tendency toward reduced MTHFR efficiency. This is associated with lower folate processing capacity in studied populations."
-            : "Your combination is consistent with typical MTHFR efficiency in the reference populations."
+          {has677Risk || has1298Risk
+            ? "Evidence suggests a possible tendency toward modestly lower activity in the folate pathway in studied populations, particularly when both variants are present. Actual biological impact varies significantly between individuals."
+            : "Your genotype combination at these two positions is consistent with typical activity in the reference populations studied."
           }
         </p>
       </div>
 
-      {/* Core Answers - The 5 Questions */}
+      {/* The Five Core Questions - Strict Structure */}
       <div className="space-y-5">
         <div>
-          <div className="text-xs uppercase tracking-widest text-white/50 mb-1">What this might mean</div>
+          <div className="text-xs uppercase tracking-widest text-white/50 mb-1">1. What might this mean?</div>
           <p className="text-sm text-white/80">
-            MTHFR helps convert folate into its active form. Reduced activity (especially the GG or CC genotypes) is associated with higher homocysteine levels in many studies, though effect sizes vary widely by individual and diet.
+            Certain common variants in the MTHFR gene are associated with differences in how the body processes folate in laboratory and population studies. The GG genotype at rs1801133 and the CC genotype at rs1801131 are each linked to modestly lower enzyme activity in some research, though real-world effects depend heavily on diet and other factors.
           </p>
         </div>
 
         <div>
-          <div className="text-xs uppercase tracking-widest text-white/50 mb-1">Strength of evidence</div>
+          <div className="text-xs uppercase tracking-widest text-white/50 mb-1">2. How strong is the evidence?</div>
           <p className="text-sm text-white/80">
-            Moderate. The genetic association is well replicated, but clinical outcomes are highly influenced by diet, B-vitamin status, and other genes.
+            Moderate. The association between these variants and reduced enzyme function in controlled settings is well replicated. However, the downstream effects on health outcomes show more variable results across studies.
           </p>
         </div>
 
         <div>
-          <div className="text-xs uppercase tracking-widest text-white/50 mb-1">Is this actionable?</div>
+          <div className="text-xs uppercase tracking-widest text-white/50 mb-1">3. Clinically established or exploratory?</div>
           <p className="text-sm text-white/80">
-            Potentially. Some people with reduced-efficiency genotypes benefit from methylated folate supplements or higher dietary folate intake. This is an area of active research.
+            Largely exploratory for general wellness purposes. While these variants are among the most studied in consumer genomics, major medical organizations currently do not recommend routine testing or specific interventions based on MTHFR genotype alone for most people.
           </p>
         </div>
 
-        <div className="pt-3 border-t border-white/10">
-          <div className="text-xs uppercase tracking-widest text-amber-400 mb-1">Guardrail</div>
-          <p className="text-sm text-white/70">
-            Discuss with a clinician if you have symptoms of low folate status, elevated homocysteine on bloodwork, or are considering supplementation — especially if pregnant or planning pregnancy.
+        <div>
+          <div className="text-xs uppercase tracking-widest text-white/50 mb-1">4. Meaningful effect on lifestyle or metabolism?</div>
+          <p className="text-sm text-white/80">
+            These variants may contribute modestly as one factor among many that influence folate status. Diet (especially intake of natural folates and fortified foods), overall B-vitamin status, and other genetic and lifestyle factors typically have larger effects.
+          </p>
+        </div>
+
+        <div>
+          <div className="text-xs uppercase tracking-widest text-white/50 mb-1">5. Actionable or worth discussing with a professional?</div>
+          <p className="text-sm text-white/80">
+            In most cases these findings do not change clinical recommendations. Discuss with a clinician if you have relevant symptoms, abnormal bloodwork (such as elevated homocysteine), or are considering high-dose supplementation, particularly during pregnancy planning.
           </p>
         </div>
       </div>
@@ -83,14 +86,14 @@ export function MethylationSupport({ insights }: MethylationSupportProps) {
       <div className="mt-6 rounded-xl bg-[#0a0f1a] border border-white/10 p-4">
         <div className="text-xs font-medium text-white/60 mb-2">Limitations &amp; Context</div>
         <ul className="text-xs text-white/60 space-y-1 list-disc pl-4">
-          <li>Results are based on common MTHFR variants only. Rare variants are not captured in standard consumer testing.</li>
-          <li>Most data comes from European-ancestry studies; applicability to other populations is less certain.</li>
-          <li>Diet, lifestyle, and other genes have a much larger impact on actual methylation status than these variants alone.</li>
-          <li>This is not a diagnosis of any condition.</li>
+          <li>Most published data on these variants comes from European-ancestry populations. Applicability to other ancestries is less well studied.</li>
+          <li>These two SNPs do not capture all genetic variation that can affect folate metabolism.</li>
+          <li>Real-world methylation status is strongly influenced by diet, lifestyle, medications, and many other genes.</li>
+          <li>This profile is for educational and informational purposes only. It is not medical advice or a diagnostic tool.</li>
         </ul>
       </div>
 
-      <div className="mt-4 text-[10px] text-white/40">This profile is synthesized from your raw data using the current knowledge base. It is for educational purposes only.</div>
+      <div className="mt-4 text-[10px] text-white/40">One data point among many. Always interpret alongside clinical information and professional guidance.</div>
     </div>
   );
 }
