@@ -43,6 +43,21 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
     toast.success(`Copied ${rsid}`);
   };
 
+  const getEvidenceBadge = (level?: string) => {
+    if (!level) return null;
+    const colors: Record<string, string> = {
+      high: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+      moderate: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+      preliminary: 'bg-slate-500/10 text-slate-400 border-slate-500/30',
+      research: 'bg-violet-500/10 text-violet-400 border-violet-500/30',
+    };
+    return (
+      <span className={`inline-block text-[10px] px-2 py-0.5 rounded-full border font-medium ${colors[level] || 'bg-slate-500/10 text-slate-400 border-slate-500/30'}`}>
+        {level.toUpperCase()}
+      </span>
+    );
+  };
+
   if (filtered.length === 0) {
     return <div className="text-center py-10 text-sm text-white/60">No variants match your search.</div>;
   }
@@ -115,7 +130,23 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
                   <div className="flex flex-wrap items-center gap-2 text-xs mb-4">
                     <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10">Confidence: <span className="text-emerald-400 font-medium">{interpretation.confidence}</span></div>
                     <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10">Source: {snp.source}</div>
+                    {snp.evidenceLevel && (
+                      <div className="px-3 py-1 rounded-full bg-white/5 border border-white/10 flex items-center gap-1.5">
+                        Evidence: {getEvidenceBadge(snp.evidenceLevel)}
+                      </div>
+                    )}
+                    {snp.clinicalActionability && snp.clinicalActionability !== 'low' && (
+                      <div className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-medium">
+                        Actionable
+                      </div>
+                    )}
                   </div>
+
+                  {snp.references && snp.references.length > 0 && (
+                    <div className="text-[11px] text-white/60 mb-3">
+                      References: {snp.references.join(' • ')}
+                    </div>
+                  )}
 
                   {onSimulate && (
                     <div>
@@ -139,7 +170,7 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
           );
         })}
       </div>
-      <div className="text-[11px] text-center text-white/40 mt-4">Click any row for full explanation and educational genotype simulator. Click the copy icon to copy rsID.</div>
+      <div className="text-[11px] text-center text-white/40 mt-4">Click any row for full explanation and educational genotype simulator. Click the copy icon to copy rsID. Evidence levels: HIGH = strong replicated data; MODERATE = good support; PRELIMINARY/RESEARCH = emerging.</div>
     </div>
   );
 }
