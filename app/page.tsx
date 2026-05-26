@@ -1,1 +1,1 @@
-      <SupportModal isOpen={showSupport} onClose={() => setShowSupport(false)} />
+import { SupportModal } from "@/components/SupportModal";
