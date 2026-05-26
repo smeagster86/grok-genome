@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, Shield, Download, Dna, RefreshCw, Heart } from "lucide-react";
+import { Upload, Shield, Download, Dna, RefreshCw, Heart, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 
 import { DNAHelix } from "@/components/DNAHelix";
@@ -116,6 +116,25 @@ export default function GrokGenome() {
     ? Math.max(48, Math.min(94, Math.round(72 + (result.matchedVariants - 8) * 1.4 - Object.keys(simulatedOverrides).length * 0.6)))
     : 0;
 
+  // Simple circular gauge calculation
+  const gaugeCircumference = 2 * Math.PI * 58;
+  const gaugeOffset = gaugeCircumference - (overallScore / 100) * gaugeCircumference;
+
+  const getTier = (score: number) => {
+    if (score >= 82) return { label: "Strong genetic foundation", color: "#10b981" };
+    if (score >= 68) return { label: "Solid with optimization opportunities", color: "#34d399" };
+    return { label: "Several areas worth exploring", color: "#fbbf24" };
+  };
+  const tier = getTier(overallScore);
+
+  const formatBadges = [
+    { name: "23andMe", icon: "🧬" },
+    { name: "AncestryDNA", icon: "🌳" },
+    { name: "MyHeritage", icon: "🧪" },
+    { name: "FamilyTreeDNA", icon: "🌲" },
+    { name: "VCF / WGS", icon: "📄" },
+  ];
+
   return (
     <div className="min-h-screen bg-[#0a0f1a] text-slate-100">
       {/* Top Nav */}
@@ -145,7 +164,7 @@ export default function GrokGenome() {
         </div>
       </nav>
 
-      {/* Hero (same as before, with updated accepted formats text) */}
+      {/* Hero */}
       <div className="relative overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 bg-[radial-gradient(#1f2937_0.7px,transparent_1px)] bg-[length:4px_4px] opacity-70" />
         
@@ -162,9 +181,19 @@ export default function GrokGenome() {
                 <span className="bg-gradient-to-br from-emerald-300 via-emerald-400 to-teal-400 bg-clip-text text-transparent">Understood.</span>
               </h1>
               
-              <p className="max-w-lg text-2xl text-slate-400 tracking-tight mb-9">
-                Upload 23andMe, MyHeritage, AncestryDNA, FamilyTreeDNA or VCF files.
+              <p className="max-w-lg text-2xl text-slate-400 tracking-tight mb-8">
+                Upload your raw DNA file from any major provider and get rich, private, interactive health insights in seconds.
               </p>
+
+              {/* Beautiful Format Badges */}
+              <div className="flex flex-wrap gap-2 mb-8">
+                {formatBadges.map((b, i) => (
+                  <div key={i} className="format-badge">
+                    <span>{b.icon}</span>
+                    <span>{b.name}</span>
+                  </div>
+                ))}
+              </div>
 
               <div className="flex flex-wrap gap-3">
                 <label className="upload-zone group inline-flex items-center gap-3 px-7 h-14 rounded-2xl bg-white text-[#0a0f1a] font-medium cursor-pointer active:scale-[0.985] transition" 
@@ -183,7 +212,7 @@ export default function GrokGenome() {
                   Try MyHeritage Demo
                 </button>
               </div>
-              <p className="text-xs text-white/40 mt-4">Supports .txt, .vcf, .zip • 23andMe • MyHeritage • AncestryDNA • FamilyTreeDNA • VCF</p>
+              <p className="text-xs text-white/40 mt-4">Supports .txt, .vcf, .zip • Auto-detects format • Max ~50MB</p>
             </div>
 
             <div className="hidden md:block md:col-span-5 relative h-[420px] -mr-6">
@@ -194,6 +223,7 @@ export default function GrokGenome() {
         </div>
       </div>
 
+      {/* Trust strip */}
       <div className="border-b border-white/10 py-2.5 text-xs">
         <div className="max-w-6xl mx-auto px-6 flex justify-between text-white/50">
           <div>Zero data transmitted</div>
@@ -215,9 +245,10 @@ export default function GrokGenome() {
         )}
       </AnimatePresence>
 
+      {/* Results Dashboard */}
       <AnimatePresence>
         {result && displayResult && (
-          <div id="results" className="max-w-6xl mx-auto px-6 pt-10 pb-20">
+          <div id="results" className="max-w-6xl mx-auto px-6 pt-10 pb-20 result-section">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-y-3 mb-8">
               <div>
                 <div className="uppercase tracking-[3.5px] text-xs text-emerald-400 mb-1.5">ANALYSIS COMPLETE — ALL PROCESSING DONE IN YOUR BROWSER</div>
@@ -232,12 +263,42 @@ export default function GrokGenome() {
               </div>
             </div>
 
+            {/* Premium Wellness Gauge */}
             <div className="grid md:grid-cols-12 gap-6 mb-8">
-              <div className="md:col-span-5 glass rounded-3xl p-8 border border-white/10 flex flex-col">
-                <div className="uppercase text-xs tracking-[2px] text-white/50 mb-2">ILLUSTRATIVE GENETIC WELLNESS INDEX</div>
-                <div className="text-[92px] font-semibold tabular-nums tracking-[-5.5px] leading-none text-white mb-1">{overallScore}</div>
-                <div className="text-lg text-white/60">out of 100</div>
-                <div className="mt-auto pt-4 text-xs text-white/50 leading-relaxed">Educational composite only. Real health is multifactorial.</div>
+              <div className="md:col-span-5 glass rounded-3xl p-8 border border-white/10 flex flex-col items-center">
+                <div className="uppercase text-xs tracking-[2px] text-white/50 mb-4 self-start">ILLUSTRATIVE GENETIC WELLNESS INDEX</div>
+                
+                <div className="wellness-gauge mb-2">
+                  <svg width="168" height="168" className="drop-shadow-lg">
+                    <circle
+                      cx="84" cy="84" r="58"
+                      fill="none"
+                      strokeWidth="14"
+                      className="gauge-bg"
+                    />
+                    <motion.circle
+                      cx="84" cy="84" r="58"
+                      fill="none"
+                      strokeWidth="14"
+                      strokeDasharray={gaugeCircumference}
+                      strokeDashoffset={gaugeOffset}
+                      className="gauge-progress"
+                      stroke={tier.color}
+                      initial={{ strokeDashoffset: gaugeCircumference }}
+                      animate={{ strokeDashoffset: gaugeOffset }}
+                      transition={{ duration: 1.1, ease: [0.23, 1.0, 0.32, 1] }}
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <div className="text-[72px] font-semibold tabular-nums tracking-[-4px] leading-none text-white">{overallScore}</div>
+                    <div className="text-sm text-white/60 -mt-1">out of 100</div>
+                  </div>
+                </div>
+
+                <div className="wellness-tier mt-1" style={{ color: tier.color }}>{tier.label}</div>
+                <div className="text-[11px] text-white/50 max-w-[220px] text-center mt-3 leading-relaxed">
+                  Educational composite only. Real outcomes depend on lifestyle, environment, and many other genes.
+                </div>
               </div>
 
               <div className="md:col-span-7 glass rounded-3xl p-7 border border-white/10">
@@ -257,6 +318,7 @@ export default function GrokGenome() {
               </div>
             </div>
 
+            {/* Category Cards */}
             <div className="mb-3 flex items-center justify-between px-1">
               <div className="uppercase text-xs tracking-[2px] text-white/50">EXPLORE BY CATEGORY</div>
               {activeCategory && <button onClick={() => setActiveCategory(null)} className="text-xs text-emerald-400 hover:underline">Show all</button>}
@@ -273,6 +335,7 @@ export default function GrokGenome() {
               ))}
             </div>
 
+            {/* SNP Explorer */}
             <div className="glass rounded-3xl border border-white/10 p-7">
               <div className="flex items-center justify-between mb-6 px-1">
                 <div>
@@ -317,9 +380,20 @@ export default function GrokGenome() {
         </div>
       )}
 
-      <div className="border-t border-white/10 bg-black/40 py-9 mt-8">
-        <div className="max-w-3xl mx-auto px-6 text-center text-xs text-white/50 leading-relaxed">
-          <strong className="text-white/70">Medical Disclaimer:</strong> Grok Genome is an educational and personal exploration tool only. It is not intended to diagnose, treat, cure, or prevent any disease. The information is based on publicly available research and should not replace professional medical advice, genetic counseling, or clinical genetic testing. Always consult qualified healthcare providers.
+      {/* Professional Footer */}
+      <div className="border-t border-white/10 bg-black/40 py-9 mt-8 site-footer">
+        <div className="max-w-5xl mx-auto px-6 text-xs text-white/50">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-y-4">
+            <div>
+              Built for personal genomic exploration. <span className="text-white/40">100% client-side.</span>
+            </div>
+            <div className="flex gap-x-5 text-white/60">
+              <a href="https://github.com/smeagster86/grok-genome" target="_blank" rel="noopener">GitHub</a>
+              <a href="#" onClick={() => setShowSupport(true)} className="cursor-pointer">Support the project</a>
+              <span className="text-white/30">•</span>
+              <span>Educational use only</span>
+            </div>
+          </div>
         </div>
       </div>
 
