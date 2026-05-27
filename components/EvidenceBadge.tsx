@@ -5,6 +5,7 @@ interface EvidenceBadgeProps {
   effect?: string;     // e.g. 'Modest Effect'
   ancestry?: string;   // e.g. 'European-biased'
   status?: string;     // e.g. 'Exploratory'
+  population?: string; // e.g. 'Evidence primarily from European-ancestry studies; applicability to other populations is limited or unknown.'
   className?: string;
   showTooltip?: boolean;
 }
@@ -33,10 +34,11 @@ export function EvidenceBadge({
   effect, 
   ancestry, 
   status, 
+  population,
   className = '', 
   showTooltip = true 
 }: EvidenceBadgeProps) {
-  const parts = [level, effect, ancestry, status].filter(Boolean);
+  const parts = [level, effect, ancestry, status, population].filter(Boolean);
   if (parts.length === 0) return null;
 
   const text = parts.join(' • ');
@@ -66,6 +68,7 @@ export function EvidenceLegend({ className = '' }: EvidenceLegendProps) {
         <div><strong>Strong GWAS / HIGH</strong> — Multiple independent studies with consistent direction.</div>
         <div><strong>Modest Effect</strong> — Typical for common variants; small contribution to overall trait.</div>
         <div><strong>European-biased</strong> — Most data from European-ancestry cohorts; lower confidence in other populations.</div>
+        <div><strong>Population applicability</strong> — Evidence primarily from European-ancestry studies; applicability to other populations is limited or unknown.</div>
         <div><strong>Exploratory / Preliminary</strong> — Not used in standard medical guidelines. For research/education only.</div>
       </div>
       <div className="pt-1 text-[10px] text-white/50">All interpretations are probabilistic and should be discussed with a qualified healthcare professional when relevant.</div>
