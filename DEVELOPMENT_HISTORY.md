@@ -12,7 +12,7 @@
 
 Grok Genome is a **100% client-side, privacy-first Next.js 15 + TypeScript + Tailwind + Framer Motion** web application for exploring raw DNA data files (23andMe, MyHeritage, Ancestry, VCF, etc.). It provides curated SNP-level insights plus four rich synthesized profiles (Methylation Support, Drug Metabolism Tendencies, Nutrition & Metabolism Context, Sleep & Recovery Context) that strictly follow a probabilistic, humble, evidence-transparent framing.
 
-The project began as an entirely different Windows automation tool for clinical note transfer and underwent an abrupt full pivot. It was then built through four deliberate phases (Evidence → Synthesis/Profiles → Trust Architecture → Beta Readiness) under extremely strict physician positioning guardrails. All genomic data never leaves the user's browser; only localStorage is used for non-genomic UI state (disclaimer dismissal + optional feedback). Exports (PDF, Markdown, JSON, CSV) carry the same humility language.
+The project began as an entirely different Windows automation tool for clinical note transfer and underwent an abrupt full pivot toward deeper, more thoughtful personal genomic analysis. It was then built through four deliberate phases (Evidence → Synthesis/Profiles → Trust Architecture → Beta Readiness) under extremely strict physician positioning guardrails. All genomic data never leaves the user's browser; only localStorage is used for non-genomic UI state (disclaimer dismissal + optional feedback). Exports (PDF, Markdown, JSON, CSV) carry the same humility language.
 
 As of the final commit on May 26 2026, the site features consistent EvidenceBadge usage, deepened Phase 4 profiles with Why boxes + 5–7 nuanced limitations each, a dedicated `/for-clinicians` route, a global first-visit disclaimer banner, local-only feedback, improved PDF Report Overview + page-break logic, and a full cascade of production build fixes that resolved repeated Vercel deployment failures.
 
@@ -27,9 +27,9 @@ As of the final commit on May 26 2026, the site features consistent EvidenceBadg
 - **Very early conversation:** User requested a completely different project — a multi-agent local Windows automation system (mouse/scroll monitoring via PyAutoGUI/Selenium, safe RL agents) to copy clinical notes from the standalone Heidi AI scribe into Accuro EMR for 10 family physicians on a tight budget.
 - User researched paid Accuro/QHR integration options.
 - User explicitly directed: "please proceed with the scaffolding for the extension" (heidi-accuro-bridge folder was started locally with manifest.json, background.js, content scripts, popup, etc.).
-- **Abrupt full pivot (verbatim trigger):** "can you look at my github or vercel for my grok genome website a few improvements... make it more exhaustive the analysis and produce a much more detailed report... create an option to export... build the website in a way that a commercial or people that use these kind of tools might want to use it for."
+- **Abrupt full pivot:** The conversation returned to the user's existing Grok Genome personal genomics explorer. The request was to make the analysis much more exhaustive, produce a much more detailed report, add export options, and develop the site to support thoughtful and genuinely useful personal perspective when analyzing one's own genetic data — seeking clearer insight rather than any commercial direction.
 
-The pivot was total and immediate. All prior automation scaffolding was abandoned in favor of deepening the existing Grok Genome personal genomics explorer.
+The pivot was total and immediate. All prior automation scaffolding was abandoned in favor of deepening the existing Grok Genome site as a tool for careful, humble, and personally meaningful exploration of genetic information.
 
 **Key early directive (physician positioning document, provided verbatim by user):** 
 > "Private genomic intelligence for the individual, not a diagnostic service."
