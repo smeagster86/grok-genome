@@ -37,6 +37,10 @@ npm run dev
 ## Privacy & Ethics
 This project exists to make personal genomics exploration beautiful, transparent, and private. No accounts. No tracking. No data exfiltration.
 
+## Development
+
+For the complete origin story, physician positioning guardrails, phased roadmap, technical patterns, build/deployment war stories, and verbatim decisions that shaped the project, see [DEVELOPMENT_HISTORY.md](DEVELOPMENT_HISTORY.md). This document serves as the long-term reference for future sessions and contributors.
+
 ## Important Medical Disclaimer
 This is an **educational tool only**. It is not medical advice, diagnosis, or a substitute for clinical genetic testing or consultation with a physician or certified genetic counselor. Most health outcomes are multifactorial.
 
