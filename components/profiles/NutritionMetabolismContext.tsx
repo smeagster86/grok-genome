@@ -44,6 +44,14 @@ export function NutritionMetabolismContext({ insights }: NutritionMetabolismCont
         </p>
       </div>
 
+      {/* Gene–Environment Dominance (Tier 1 per expert appraisals + grounded usefulness) */}
+      <div className="mb-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-white/80">
+        <div className="font-medium text-amber-400 mb-1 tracking-tight">Gene–Environment Context</div>
+        <p>
+          Environmental factors — total diet quality, caloric balance, physical activity, gut microbiome, medications, and overall lifestyle — typically explain the large majority of real-world variation in body weight, metabolic health, and nutrient tolerance. Variants such as FTO and TCF7L2 (prominent signals in the knowledge base) are classic examples where the genetic contribution is modest and heavily modified by environment. This profile does not predict your body weight, diabetes risk, or “optimal” diet.
+        </p>
+      </div>
+
       <div className="mb-4 flex items-center justify-between">
         <button
           onClick={() => setShowDetails(!showDetails)}
@@ -127,6 +135,7 @@ export function NutritionMetabolismContext({ insights }: NutritionMetabolismCont
       <div className="mt-6 rounded-xl bg-[#0a0f1a] border border-white/10 p-4">
         <div className="text-xs font-medium text-white/60 mb-2">Limitations &amp; Context</div>
         <ul className="text-xs text-white/60 space-y-1 list-disc pl-4">
+          <li>Body weight, metabolic health, and nutrient tolerance are overwhelmingly shaped by total diet quality, caloric balance, physical activity, gut microbiome, medications, and lifestyle — far more than the common variants in this profile (including FTO and TCF7L2).</li>
           <li>Most published data on these variants comes from European-ancestry populations, with some important exceptions (e.g., ALDH2 in East Asian populations).</li>
           <li>These SNPs explain only a portion of the heritability of the traits discussed; many other genes and environmental factors contribute.</li>
           <li>Nutrient status and food tolerance are heavily influenced by diet quality, gut microbiome, medications, and overall health.</li>
