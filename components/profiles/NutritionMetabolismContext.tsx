@@ -32,6 +32,7 @@ export function NutritionMetabolismContext({ insights }: NutritionMetabolismCont
           effect="Small-to-Modest Effects"
           ancestry="European-biased"
           status="Exploratory"
+          population="Evidence primarily from European-ancestry studies; applicability to other populations is limited or unknown."
         />
       </div>
 
