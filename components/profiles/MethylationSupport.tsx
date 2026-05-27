@@ -45,6 +45,14 @@ export function MethylationSupport({ insights }: MethylationSupportProps) {
         </p>
       </div>
 
+      {/* Gene–Environment Dominance (Tier 1 per expert appraisals + grounded usefulness) */}
+      <div className="mb-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-white/80">
+        <div className="font-medium text-amber-400 mb-1 tracking-tight">Gene–Environment Context</div>
+        <p>
+          Environmental factors — diet quality, folate and B-vitamin intake, medications (e.g., methotrexate, anticonvulsants), gut microbiome, lifestyle, and overall health — typically explain the large majority of real-world variation in methylation markers. The two MTHFR variants in this profile are one small, probabilistic signal among many. This profile does not predict your actual homocysteine, folate status, or clinical outcomes.
+        </p>
+      </div>
+
       <div className="mb-4 flex items-center justify-between">
         <button
           onClick={() => setShowDetails(!showDetails)}
@@ -124,9 +132,9 @@ export function MethylationSupport({ insights }: MethylationSupportProps) {
       <div className="mt-6 rounded-xl bg-[#0a0f1a] border border-white/10 p-4">
         <div className="text-xs font-medium text-white/60 mb-2">Limitations &amp; Context</div>
         <ul className="text-xs text-white/60 space-y-1 list-disc pl-4">
+          <li>Real-world methylation status is overwhelmingly shaped by diet quality, B-vitamin status, medications, gut microbiome, lifestyle, and overall health — far more than these two common variants.</li>
           <li>Most published data on these variants comes from European-ancestry populations. Applicability to other ancestries is less well studied.</li>
           <li>These two SNPs do not capture all genetic variation that can affect folate metabolism (e.g., DHFR, RFC1, and many rarer variants are not well tagged on consumer arrays).</li>
-          <li>Real-world methylation status is strongly influenced by diet quality, B12 status, medications (e.g., methotrexate, certain anticonvulsants), gut microbiome, and lifestyle.</li>
           <li>Enzyme activity measured in vitro does not always translate directly to clinical outcomes in free-living people.</li>
           <li>This profile does not measure actual homocysteine, folate, or B-vitamin levels — blood testing remains the gold standard.</li>
           <li>This profile is for educational and informational purposes only. It is not medical advice or a diagnostic tool.</li>
