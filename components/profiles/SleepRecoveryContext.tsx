@@ -41,6 +41,14 @@ export function SleepRecoveryContext({ insights }: SleepRecoveryContextProps) {
         </p>
       </div>
 
+      {/* Gene–Environment Dominance (Tier 1 per expert appraisals + grounded usefulness) */}
+      <div className="mb-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-white/80">
+        <div className="font-medium text-amber-400 mb-1 tracking-tight">Gene–Environment Context</div>
+        <p>
+          Sleep timing, quality, and recovery are overwhelmingly shaped by light hygiene, consistent schedules, stress, age, screen time, exercise, and overall health — far more than the common variants in this profile (CLOCK, PER2, MTNR1B). These three SNPs represent a very weak model; the genetic signals are small and probabilistic. This profile does not predict your actual sleep quality or recovery.
+        </p>
+      </div>
+
       <div className="mb-4 flex items-center justify-between">
         <button
           onClick={() => setShowDetails(!showDetails)}
@@ -125,6 +133,7 @@ export function SleepRecoveryContext({ insights }: SleepRecoveryContextProps) {
       <div className="mt-6 rounded-xl bg-[#0a0f1a] border border-white/10 p-4">
         <div className="text-xs font-medium text-white/60 mb-2">Limitations &amp; Context</div>
         <ul className="text-xs text-white/60 space-y-1 list-disc pl-4">
+          <li>Sleep timing, quality, and recovery are overwhelmingly shaped by light hygiene, consistent schedules, stress, age, screen time, exercise, and overall health — far more than the common variants in this profile (CLOCK, PER2, MTNR1B). These three SNPs represent a very weak model.</li>
           <li>Most data comes from European-ancestry populations; effect sizes and allele frequencies can differ substantially in other groups.</li>
           <li>Consumer arrays capture only a small fraction of relevant genetic variation; sleep is highly polygenic.</li>
           <li>Sleep and recovery are heavily influenced by environment, stress, exercise, screen time, age, and overall health — usually far more than common variants.</li>
