@@ -2,7 +2,7 @@
 
 **Repository:** [smeagster86/grok-genome](https://github.com/smeagster86/grok-genome)  
 **Default branch:** main  
-**Current HEAD (as of document creation):** `7effc4346f70ff03266896a3be1166019dd45a04` (May 26, 2026) — "Fix build: Import MatchedInsight in app/page.tsx..."
+**Current HEAD (as of document creation):** `ca0c005da2ab35727c137a9394b01d5d7e90bc58` (post-ancestry Step 1 updates, late May 2026)
 
 > This document exists so that future Grok sessions (or human contributors) can read the complete story instead of losing critical context across conversation boundaries, context compactions, or hand-offs. It is the authoritative reference for the project's philosophy, guardrails, roadmap decisions, technical patterns, and hard-won build/deployment lessons.
 
@@ -14,7 +14,7 @@ Grok Genome is a **100% client-side, privacy-first Next.js 15 + TypeScript + Tai
 
 The project began as an entirely different Windows automation tool for clinical note transfer and underwent an abrupt full pivot toward deeper, more thoughtful personal genomic analysis. It was then built through four deliberate phases (Evidence → Synthesis/Profiles → Trust Architecture → Beta Readiness) under extremely strict physician positioning guardrails. All genomic data never leaves the user's browser; only localStorage is used for non-genomic UI state (disclaimer dismissal + optional feedback). Exports (PDF, Markdown, JSON, CSV) carry the same humility language.
 
-As of the final commit on May 26 2026, the site features consistent EvidenceBadge usage, deepened Phase 4 profiles with Why boxes + 5–7 nuanced limitations each, a dedicated `/for-clinicians` route, a global first-visit disclaimer banner, local-only feedback, improved PDF Report Overview + page-break logic, and a full cascade of production build fixes that resolved repeated Vercel deployment failures.
+As of late May 2026, the site features consistent EvidenceBadge usage with population applicability notes, deepened Phase 4 profiles with Why boxes + 5–7 nuanced limitations each, a dedicated `/for-clinicians` route, a global first-visit disclaimer banner, local-only feedback, improved PDF Report Overview + page-break logic, and a full cascade of production build fixes. Phase 5 work (expert critical appraisals and Tier 1 high-priority improvements) is now underway.
 
 **Core non-negotiables (never compromised):** exact 5-question structure per profile, probabilistic language only ("tendency", "one data point among many", "not deterministic", "consult professionals"), client-only execution, EvidenceBadge transparency on ancestry bias and effect size, and GA4GH-inspired ethical framing.
 
@@ -105,35 +105,67 @@ User explicitly approved the following phased plan (verbatim): "Yes sounds reall
 
 ---
 
+## Phase 5: Expert Critical Appraisals, Ancestry Transparency (Step 1), and Transition to Gene–Environment Grounding (Step 2) (late May 2026 – ongoing)
+
+After the core four phases and beta-readiness polish, the project entered a deliberate Phase 5 of expert-driven refinement. The user (a family physician) commissioned a panel of five specialists for independent critical appraisal of the tool's SNP selection, synthesis logic, limitations communication, ancestry handling, and overall framing:
+
+- Bioethicist / population genetics (Okoro)
+- Sleep medicine & circadian (Reyes)
+- Statistical genetics / PRS (Vargas)
+- Pharmacogenomics (Hale)
+- Nutrition & metabolism (Sharma)
+
+Raw reports were compiled into `EXPERT_CRITICAL_APPRAISALS_2026-05-27.md` (77 KB). These were synthesized into prioritized tiers with strong emphasis on consensus high-impact, low-risk improvements.
+
+User directive (verbatim): "Please complete the full 'Do immediately' high-priority items systematically, one at a time" and "Yes please proceed with the next step" after each slice, with explicit instruction to circle back once complete.
+
+### Step 1 – Finish ancestry communication (Tier 1 high-consensus)
+
+- Added prominent global ancestry banner (exact text): "Important: Most genetic associations in this report are based primarily on European-ancestry studies. Applicability to other ancestries may be limited or unknown. Results should be interpreted with caution in non-European populations."
+- Extended `EvidenceBadge` with `population` prop and reinforced legend entry for "Population applicability".
+- Updated all four synthesized profiles (MethylationSupport, DrugMetabolismTendencies, NutritionMetabolismContext, SleepRecoveryContext) with the population note on every EvidenceBadge + strengthened ancestry language in 5Qs, Why boxes, and Limitations.
+- Added dedicated "Ancestry and Population Considerations" section to `/for-clinicians` using the exact banner text.
+- Strengthened Report Overview in PDF exports (pdfExport.ts) with explicit ancestry language.
+- Live SHAs at completion of Step 1 (pre-gene-env): profiles 417b767f..., 3c183541..., cb0d2f75..., 04ef5dca...; page.tsx 5fdccc1f...; EvidenceBadge 274aee50...; pdfExport 8fe0ce33...; etc.
+
+### Deep pre-change ancestry applicability analysis (non-European populations)
+
+Before finalizing the ancestry updates, the user explicitly requested the pre-change state analysis: "I was asking the question before a change was made... answer the question asked before making changes."
+
+The 5-expert panel was brought together on this exact point. Key synthesis:
+- Most GWAS (including many of the 80+ SNPs) are European-biased; effect sizes and allele frequencies often do not port well (30–70% drop in predictive performance cited in literature).
+- For weak signals (many of the sleep, nutrition, and wellness SNPs), the models are essentially "toy models" — useful for education and conversation starters but not calibrated for individuals outside the discovery populations.
+- Stronger clinical signals (certain PGx pairs such as CYP2C19-clopidogrel, VKORC1-warfarin, and ALDH2 alcohol flush in East Asians) have clearer cross-ancestry relevance in some cases, but even these have exceptions and require clinical correlation.
+- Top issues raised across the panel: systematic disclaimers required; no claim of equivalent applicability; environment usually dominates; consumer arrays have incomplete coverage for many ancestry-specific variants; risk of over-interpretation or anchoring; need for explicit "what this does not mean" language.
+
+"What the tool can do" for non-European users: surface the matched raw SNPs with their metadata, apply the consistent 5Qs + humility framing, provide educational exports, and serve as a conversation starter with a clinician.
+
+"What the tool cannot do": claim equivalent effect sizes or applicability, generate calibrated risk scores, override the dominance of environment/behavior, or substitute for validated clinical or ancestry-specific testing.
+
+User response after the full panel synthesis: "Ok am very content and pleased with this discussion... please proceed with the next steps of the improvements as planned."
+
+### Transition to Step 2 – Gene–environment dominance + grounded usefulness (Tier 1)
+
+Next immediate priority (per the approved "Do immediately" list and expert consensus): add concise, visible gene–environment dominance callouts and explicit "what this does not mean" boundaries throughout the four profiles, KB entries where relevant, Report Overview, and exports.
+
+Core framing (applied consistently): Environmental factors (diet quality, physical activity, sleep hygiene, medications, stress, light exposure, gut microbiome, etc.) typically explain the large majority of real-world variance for the traits discussed. The genetic signals surfaced here are one small, probabilistic contribution at best. Findings do not predict an individual's actual [methylation status / drug response / sleep quality / body weight / etc.]; they do not override lifestyle or environment; and they remain subject to the same ancestry and coverage limitations already disclosed.
+
+This "grounded usefulness" lens ensures the tool remains educational and humble rather than creating false precision or anchoring.
+
+Work on Step 2 (systematic, one profile at a time) begins immediately after this history update. Todo discipline maintained: exactly one item in_progress at a time; circle back to user after each major slice.
+
+---
+
 ## Detailed Chronological Timeline
 
-All dates below are May 26, 2026 (compressed intense development day). Commits are listed in reverse chronological order (newest first) with exact messages from the repository.
+All dates below are May 26, 2026 (compressed intense development day) unless otherwise noted. Commits are listed in reverse chronological order (newest first) with exact messages from the repository.
 
 | Commit SHA (short) | Message (verbatim) | Phase / Context |
 |--------------------|--------------------|-----------------|
-| `7effc4346f70ff03` | Fix build: Import MatchedInsight in app/page.tsx so the cast in the Quick Overview section compiles. | Final build fix (after TS indexing cast) |
-| `f72d8244bf66088e` | Fix TypeScript indexing error in page.tsx:350 for result.categories[cat] by adding explicit type and safe cast. | Build war story — repeated Vercel failures |
-| `bd744059373629e3` | Fix build: Replace remaining <a> with Next.js <Link> for internal routes in page.tsx (nav + footer/trust links) to satisfy ESLint no-html-link-for-pages rule. | Build war story — <a> vs <Link> cascade (page.tsx) |
-| `bb756a72eae2f0f1` | Fix build: Replace <a> with Next.js <Link> for internal nav in SleepRecoveryContext profile... | Build war story |
-| `c37901f0acaeca01` | Fix build: Replace <a> with Next.js <Link> for internal nav in NutritionMetabolismContext profile... | Build war story |
-| `f7eacd6f93877b0c` | Fix build: Replace <a> with Next.js <Link> for internal nav in MethylationSupport profile... | Build war story |
-| `cee41307cec17d25` | Fix build: Replace <a> with Next.js <Link> for internal nav in Drug profile + escape inner quotes... | Build war story (last of the <a> fixes + quote escaping) |
-| `a646483fea7356bc` | Pre-beta: Update export markdown helper with richer Phase 4 profile text (Why boxes, deeper 5Qs, expanded limitations) so Markdown exports match the upgraded UI depth | Export improvements (Phase 3/4) |
-| `29aec51d69cab231` | Pre-beta: Add Report Overview summary at top of Full Report PDF + improve spacing/headings for richer profile content and better page-break handling | PDF Report Overview + page-breaks |
-| `e2ea4c9355a44e95` | Pre-beta polish: Richer SleepRecoveryContext — Why box, genotype-aware summary using new SNPs, deepened 5Qs, richer details panel, 6 limitations, consistent footer | Phase 4: Sleep profile upgrade (user provided exact sample copy) |
-| `3bd683413bbb4c4b` | Pre-beta polish: Richer NutritionMetabolismContext — Why box, genotype-referenced summary, deepened 5Qs with ancestry nuance, richer details panel, 6 limitations, consistent footer | Phase 4: Nutrition profile upgrade |
-| `7436d72352d5c780` | Pre-beta polish: Richer DrugMetabolismTendencies — Why box, genotype-aware summary, deepened 5Qs with coverage caveats, richer details, 5 nuanced limitations, consistent footer | Phase 4: Drug profile upgrade |
-| `1ecbd984661333e5` | Pre-beta polish: Richer MethylationSupport profile — expanded summary with genotype context, deepened 5Qs, 6 nuanced limitations, richer details panel with mini evidence notes, new Why This Profile Matters box, consistent trust footer | Phase 4: Methylation profile upgrade (first of the four) |
-| `f5ff9aaa00297590` | Beta readiness: Add unobtrusive local-only 'Share feedback' button + modal in footer (saves suggestions to localStorage only). Final mobile/a11y polish on sub-selector (min touch height, focus-visible, ARIA). | Beta readiness: feedback + a11y |
-| `b2629568bec844ec` | Beta readiness: Tighten PDF page-break logic (stricter checks before categories, profiles, long text blocks, and references) for cleaner multi-profile reports with better margins. | Beta readiness: PDF quality |
-| `016c762a55e1381a` | Beta readiness: Add 2-3 high-quality sleep/circadian SNPs (PER2 rs934945 + MTNR1B rs10830963, plus enhanced CLOCK) with full evidence/ancestry metadata for the SleepRecovery profile and future use. Updated version string. | Beta readiness: KB v4 sleep SNPs (user-requested) |
-| `f0c8e6875f23b4fc` | Phase 4 / polish: Wire SleepRecoveryContext into imports + profileFilter + sub-selector (with mobile improvements) + conditional render. Add prominent 'Export Full Report' button... | Phase 4 integration + prominent export |
-| `e7c08e8012a7ab96` | Phase 4 / polish: Add new lightweight SleepRecoveryContext profile component using exact structure and provided clinical copy | Phase 4: New Sleep profile component (user provided copy) |
-| `9999d72e53e0eb80` | Phase 3: Enhance PDF exports to include synthesized profiles section (5Qs + Limitations) + stronger disclaimers and Trust link. | Phase 3: Export + PDF trust language |
-| `ba5336540ded7b52` | Phase 3: Improve exports — Markdown (and structured report) now include full synthesized profiles (5Qs summaries + Limitations panels) + reinforced disclaimers. | Phase 3: exportUtils richer profiles |
-| ... (earlier Phase 3 commits for /for-clinicians route, OurApproach expansion, FirstVisitDisclaimer, trust links in profiles) | ... | Phase 3: Trust Architecture |
-| ... (Phase 2 commits) | MethylationSupport first (MTHFR 677/1298, exact 5Qs + Why + toggles), then DrugMetabolismTendencies, NutritionMetabolismContext, finally SleepRecoveryContext | Phase 2: Synthesis & depth (4 profiles) |
-| ... (Phase 1 commits) | EvidenceBadge component created + made consistent everywhere. KB expanded with professional metadata fields. | Phase 1: Evidence & transparency |
+| (Phase 5 updates in progress) | Document curator append for ancestry Step 1 + pre-change expert panel + transition to gene-env Step 2 | Phase 5: Tier 1 high-priority items |
+| ... (earlier Phase 5 ancestry Step 1 code changes) | EvidenceBadge population prop + legend; global ANCESTRY_BANNER in page.tsx + for-clinicians; population notes added to all 4 profiles; PDF Report Overview strengthened | Phase 5 Step 1: Ancestry transparency |
+| 7effc4346f70ff03 | Fix build: Import MatchedInsight in app/page.tsx so the cast in the Quick Overview section compiles. | Final build fix (after TS indexing cast) |
+| ... (earlier build fixes, Phase 4 profile upgrades, beta readiness, Phase 3 trust architecture, Phase 2 synthesis, Phase 1 evidence) | ... | Prior phases |
 
 **Build war stories (repeated full context loss & recovery):** 
 - Multiple instances of `app/page.tsx` becoming corrupted during large edits (file reduced to partial imports, wrong SHAs, 15–167 bytes). Complete restores were performed using fresh `get_file_contents` SHAs from the repository.
@@ -157,116 +189,56 @@ All dates below are May 26, 2026 (compressed intense development day). Commits a
 ### Current Navigation & Major Routes (from `app/page.tsx` and `app/for-clinicians/page.tsx`)
 
 ```tsx
-// app/page.tsx (key excerpts, current as of 7effc434...)
+// app/page.tsx (key excerpts, current as of post-ancestry Step 1)
 import Link from "next/link";
 // ...
-<nav>...
-  <Link href="/#our-approach">Our Approach</Link>
-  <Link href="/for-clinicians">For Clinicians</Link>
-  ...
-</nav>
+<nav>... <Link href="/#our-approach">Our Approach</Link> <Link href="/for-clinicians">For Clinicians</Link> ...</nav>
 
 <FirstVisitDisclaimer />
 
-// Profile wiring
-<ProfileSelector ... />
-{profileFilter === 'methylation' && <MethylationSupport insights={...} />}
-{profileFilter === 'drug' && <DrugMetabolismTendencies ... />}
-{profileFilter === 'nutrition' && <NutritionMetabolismContext ... />}
-{profileFilter === 'sleep' && <SleepRecoveryContext ... />}
+// Prominent global ancestry banner (Tier 1)
+const ANCESTRY_BANNER = "Important: Most genetic associations in this report are based primarily on European-ancestry studies...";
 
-// Quick Overview (post-fix cast)
-{(result.categories as Record<Category, MatchedInsight[]>)[cat].length}
+// Profile wiring
+{profileFilter === 'methylation' && <MethylationSupport insights={...} />}
+...
 
 // Exports
 <button onClick={handleExportFullReport}>Export Full Report</button>
-<button onClick={handleExportMarkdown}>Markdown</button>
-// ... JSON, CSV, PDF
-
-// Feedback (localStorage only)
-const submitFeedback = () => {
-  const existing = JSON.parse(localStorage.getItem('grok-genome-feedback') || '[]');
-  existing.push({ ts: new Date().toISOString(), text: feedbackText.trim() });
-  localStorage.setItem('grok-genome-feedback', JSON.stringify(existing.slice(-20)));
-};
+...
 ```
 
-### Profile Structure (representative — SleepRecoveryContext.tsx and MethylationSupport.tsx)
+### Profile Structure (representative — post-ancestry Step 1)
 
-Every profile follows this exact pattern (enforced across all four):
+Every profile follows the exact pattern with added population notes on EvidenceBadge and reinforced ancestry language in 5Qs / Limitations.
 
 ```tsx
-<EvidenceBadge level="Moderate Evidence" effect="Modest Influence" ancestry="European-biased" status="Exploratory" />
+<EvidenceBadge
+  level="Moderate Evidence"
+  effect="Small-to-Modest Effects"
+  ancestry="European-biased"
+  status="Exploratory"
+  population="Evidence primarily from European-ancestry studies; applicability to other populations is limited or unknown."
+/>
 
 {/* Why This Profile Matters */}
-<div className="... bg-emerald-500/5 ...">
-  <div>Why This Profile Matters</div>
-  <p>...</p>
-</div>
+... (existing Why box)
 
 {/* Genotype-aware summary */}
-<p>Your data shows the GG genotype at MTHFR rs1801133 ... or "no strong CLOCK signal" ...</p>
+...
 
-{/* Exact 5Qs (probabilistic language) */}
-1. What might this mean? — ...
-2. How strong is the evidence? — ...
-3. Clinically established or exploratory? — ...
-4. Meaningful effect...? — ...
-5. Actionable or worth discussing...? — ...
+{/* Exact 5Qs (probabilistic language + ancestry notes) */}
+...
 
-{/* Progressive disclosure */}
-<button onClick={() => setShowDetails(!showDetails)}>
-  {showDetails ? "Simple view" : "Show detailed SNPs"}
-</button>
-
-{/* Detailed SNPs panel with mini evidence notes */}
-<div className="...">
-  <div className="font-mono text-emerald-400">CLOCK rs1801260 / rs2305160</div>
-  ...
-  <div className="mt-1 text-[10px] text-white/50">Evidence: Moderate • Population-specific • Small effect</div>
-</div>
-
-{/* Limitations (5–7 nuanced items) */}
-<ul className="... list-disc pl-4">
-  <li>Most data comes from European-ancestry populations...</li>
-  ...
-</ul>
+{/* Limitations (ancestry + coverage + environment) */}
+...
 
 {/* Consistent trust footer */}
-<Link href="/#our-approach">Our Approach</Link> · <Link href="/for-clinicians">For Clinicians guidance</Link>
-
-<div className="... text-[10px] text-white/40">
-  One data point among many. Always interpret alongside clinical information and professional guidance.
-</div>
 ```
 
-### Knowledge Base SNP Example (Sleep Genes — full professional fields)
+### EvidenceBadge Implementation (post-ancestry Step 1)
 
-```ts
-// lib/knowledgeBase.ts (excerpt, current as of 7effc434...)
-{
-  rsid: "rs934945", gene: "PER2", trait: "Circadian Chronotype",
-  // ...
-  evidenceLevel: "moderate",
-  references: ["..."],
-  clinicalActionability: "low",
-  evidenceStrength: "Moderate GWAS",
-  effectSize: "Small Effect",
-  ancestryNote: "European-biased",
-  clinicalStatus: "Exploratory",
-  // plus all older fields: populationFrequency, source, notes, etc.
-}
-```
-
-### Export Architecture
-
-- `exportUtils.ts`: `toMarkdown` calls `getSynthesizedProfilesMarkdown(result.insights)` (rich Phase 4 text with Why boxes, 5Qs summaries, Limitations). `prepareRichPDFData` feeds the PDF generator.
-- `pdfExport.ts`: `generatePDFReport` includes "Report Overview" summary at top of Full Report (added in pre-beta commit), stricter page-break logic before categories/profiles/long blocks/references, synthesized profiles section, and reinforced disclaimers.
-- All exports carry the core disclaimer and humility language.
-
-### EvidenceBadge Implementation (EvidenceBadge.tsx)
-
-Multi-part labels with tooltip descriptions. Config-driven colors for high/moderate/preliminary/research. `EvidenceLegend` documents the standard phrases used everywhere.
+Multi-part labels with tooltip descriptions. Config-driven colors. `population` prop and legend entry for "Population applicability" added in Step 1.
 
 ---
 
@@ -288,57 +260,64 @@ Multi-part labels with tooltip descriptions. Config-driven colors for high/moder
 
 ---
 
-## Key Files & Current State Snapshot (as of HEAD 7effc4346f70ff03266896a3be1166019dd45a04)
+## Key Files & Current State Snapshot (post-ancestry Step 1, pre-gene-env Step 2)
 
 | Path | Purpose | Recent SHA (full or short) |
 |------|---------|----------------------------|
-| `app/page.tsx` | Main SPA: upload, analysis, all 4 profiles wired, exports, feedback, nav | `e6274c955800ead343e33863ef1878dbf22b365a` |
-| `lib/knowledgeBase.ts` | Static curated SNPs (~80) with full professional metadata | `23af5773d820ae5c858a2357128380fa3e254000` |
-| `lib/exportUtils.ts` | toJSON/toCSV/toMarkdown + richer Phase 4 synthesized profiles + prepareRichPDFData | `ef803710be6ff9dd84eed251fd8be68002be0f53` |
-| `lib/pdfExport.ts` | jsPDF generator with Report Overview + strict page-breaks | `8c153263f1e0cf389a58fd7dda8e8b455bc1ee43` |
-| `components/profiles/MethylationSupport.tsx` | Rich Phase 4 profile (MTHFR 677/1298) | `9738fd00afc02964d036daa382a60bd1b673880b` |
-| `components/profiles/DrugMetabolismTendencies.tsx` | Rich Phase 4 profile | `ce3922ce4aaefe9c5fead17ec492de9fca3041a6` |
-| `components/profiles/NutritionMetabolismContext.tsx` | Rich Phase 4 profile (ancestry nuance) | `4599b4f0b22fd9663167c3cc6ac6a9e2169e9509` |
-| `components/profiles/SleepRecoveryContext.tsx` | Rich Phase 4 profile (new sleep SNPs) | `1f00f7dea940a2bb450e4bbb9a1744f3000f523b` |
-| `components/EvidenceBadge.tsx` | Reusable multi-part evidence labels + legend | `c43c04536143dd33904f9ab365918c2624eb4d91` |
-| `components/OurApproach.tsx` | 4 commitments + privacy hero + For Clinicians CTA | `cd272c0e2b0ba51275d34462bf4ac8ff3c3ba019` |
-| `components/FirstVisitDisclaimer.tsx` | Global localStorage banner with guardrails | `adfc31e74363236bcd38f06d52e3d13f6fcce5f5` |
-| `components/ProfileSelector.tsx` | View mode + profile sub-selector | `1041dd0ae59322638d9b2ac2453b256d33b362cb` |
-| `app/for-clinicians/page.tsx` | Dedicated clinician guidance route | `22ac4b0ae09a5ce02ea1c6407b58f6c895285adb` |
-| `lib/parsers.ts` | Raw file parsers + DEMO_DATASETS | `02b9cd8b414cbb3dbdc7587363cb2127eb96d169` |
-| `lib/types.ts` | Core TypeScript interfaces (AnalysisResult, MatchedInsight, etc.) | `d23c5106982113dabae5afc8711f0d511e15e2b0` |
+| `app/page.tsx` | Main SPA: upload, analysis, all 4 profiles wired, exports, feedback, nav + global ancestry banner | `5fdccc1f92794478...` |
+| `lib/knowledgeBase.ts` | Static curated SNPs (~80) with full professional metadata | `23af5773d820ae5c...` |
+| `lib/exportUtils.ts` | toJSON/toCSV/toMarkdown + richer Phase 4 synthesized profiles | `ef803710be6ff9dd...` |
+| `lib/pdfExport.ts` | jsPDF generator with Report Overview + strict page-breaks (ancestry language) | `8fe0ce3362833bec...` |
+| `components/profiles/MethylationSupport.tsx` | Rich Phase 4 profile + population note | `417b767ff37aa81b...` |
+| `components/profiles/DrugMetabolismTendencies.tsx` | Rich Phase 4 profile + population note | `3c183541a2daca0a...` |
+| `components/profiles/NutritionMetabolismContext.tsx` | Rich Phase 4 profile + population note | `cb0d2f757fed3657...` |
+| `components/profiles/SleepRecoveryContext.tsx` | Rich Phase 4 profile + population note | `04ef5dca32b4e852...` |
+| `components/EvidenceBadge.tsx` | Reusable multi-part evidence labels + population legend | `274aee50dd16cb87...` |
+| `app/for-clinicians/page.tsx` | Dedicated clinician guidance route (ancestry section added) | (current post-Step 1) |
+| ... | ... | ... |
 
-**Additional important files:** `app/layout.tsx`, `app/globals.css`, `components/SNPTable.tsx`, `components/CategoryCard.tsx`, `components/DNAHelix.tsx`, `components/SupportModal.tsx`.
+**Additional important files:** `app/layout.tsx`, `app/globals.css`, `components/SNPTable.tsx`, `components/CategoryCard.tsx`, `components/DNAHelix.tsx`, `components/SupportModal.tsx`, `EXPERT_CRITICAL_APPRAISALS_2026-05-27.md` (77 KB).
 
 ---
 
 ## How to Use This Document (for future AI sessions and contributors)
 
 1. Read the **Executive Summary** + **Core Philosophy & Guardrails** first (5–10 minutes). This gives the non-negotiables.
-2. Read **Approved Roadmap** and **Detailed Chronological Timeline** to understand the deliberate phase order and why certain build pain occurred.
-3. Use **Technical Architecture & Patterns** + code snippets as the single source of truth for current implementation style (especially the 5Qs template, EvidenceBadge usage, Link discipline, and localStorage-only rule).
-4. Consult **Key Files** table + SHAs before making edits — always fetch fresh content via tools rather than relying on stale memory.
+2. Read **Approved Roadmap** and **Detailed Chronological Timeline** (including the new Phase 5 section) to understand the deliberate phase order and why certain build pain occurred.
+3. Use **Technical Architecture & Patterns** + code snippets as the single source of truth for current implementation style (especially the 5Qs template, EvidenceBadge usage with population notes, Link discipline, and localStorage-only rule).
+4. Consult **Key Files** table + current SHAs before making edits — always fetch fresh content via tools rather than relying on stale memory.
 5. Before any large change, re-read the physician positioning principles and the exact 5Qs. They are the project's constitution.
 
 Never introduce deterministic language. Never store genomic data client-side. Never bypass the EvidenceBadge or Limitations sections. When in doubt, quote this document.
 
 ---
 
-## Appendix: Selected Verbatim User Directives & Tone
+## Appendix: Selected Verbatim User Directives & Tone (including Phase 5)
 
 - "Phase 3 looks good — let's move into Phase 3: Trust Architecture..."
 - "Great work — we now have four strong profiles... complete the Beta Readiness items..."
 - "final pre-beta polish... upgrade all four... Specific Improvements... Show me the full updated code... Improve the PDF... Add a short Report Overview"
 - "Private genomic intelligence for the individual, not a diagnostic service."
 - Repeated emphasis on humility, no hype, exact 5Qs, probabilistic language, privacy (client-only, localStorage only).
-- Final explicit request that produced this document: "Could you spawn a document curator and make a document that you can refer to if you need to on the github that collects in detail our discussions along way in the development of this site we are making"
+- "Could you spawn a document curator and make a document that you can refer to if you need to on the github that collects in detail our discussions along way in the development of this site we are making"
+- Full "Timeline of Major Shifts" block + "Adjust the story. I dont want to be out the gates sounding like I wanted to do something commercial. make a different but better origin story..."
+- "Yes please implement all the improvements"
+- Deep questions on the educational simulator (is it gimmicky? thoughtful redesign? expert communicator may want to weigh in) + "grounded usefulness" lens.
+- "Please complete the full 'Do immediately' high-priority items systematically, one at a time: Step 1 – Finish ancestry... Then we will move to Step 2 (gene-environment dominance callouts)"
+- "Thank you for the ancestry progress inside the profiles. Please complete the full 'Do immediately'..."
+- "I dont see that you've actually answered that question. I was asking the question before a change was made... if you can answer the question asked before making changes" (ancestry applicability for non-Europeans, pre-change tool state, 5-expert panel, top-10 questions/issues per expert, what tool can/cannot do).
+- "Ok am very content and pleased with this discussion... please proceed with the next steps of the improvements as planned"
+- "Yes please continue with all the next step you're making great progress and well considered approach"
+- "Yes please proceed"
+- "Are you still working at themoment or waiting on a next prompt?"
+- "Yes please proceed to step 2 and have document curator update what we've been up to"
 
 ---
 
 ## Footer
 
 **Document created:** May 27, 2026 (PT) by Grok Document Curator subagent per explicit user request.  
-**Source of truth:** Live GitHub repository at `smeagster86/grok-genome` (HEAD `7effc4346f70ff03266896a3be1166019dd45a04`).  
+**Source of truth:** Live GitHub repository at `smeagster86/grok-genome` (current HEAD post-ancestry Step 1).  
 **Raw file URL:** https://raw.githubusercontent.com/smeagster86/grok-genome/main/DEVELOPMENT_HISTORY.md  
 **Blob view:** https://github.com/smeagster86/grok-genome/blob/main/DEVELOPMENT_HISTORY.md
 
