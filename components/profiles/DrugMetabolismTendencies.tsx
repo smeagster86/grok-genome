@@ -30,6 +30,7 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
           effect="Variable Clinical Impact"
           ancestry="Mixed / European-biased"
           status="Context-Dependent"
+          population="Evidence primarily from European-ancestry studies; applicability to other populations is limited or unknown."
         />
       </div>
 
