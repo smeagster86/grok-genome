@@ -1,3 +1,5 @@
+"use client";
+
 import jsPDF from 'jspdf';
 import { AnalysisResult, MatchedInsight } from './types';
 import { prepareRichPDFData } from './exportUtils';
@@ -54,7 +56,7 @@ export async function generatePDFReport(result: AnalysisResult) {
   doc.text(`High actionability: ${richData.summary.highActionabilityCount}   •   Increased risk/affected: ${richData.summary.increasedRiskCount}   •   Carrier findings: ${richData.summary.carrierFindings}`, 24, y + 17);
   y += 36;
 
-  // NEW: Report Overview (top of full report)
+  // Report Overview with strengthened ancestry language (Tier 1)
   if (y > 240) { doc.addPage(); y = 25; }
   doc.setTextColor(15, 23, 42);
   doc.setFontSize(12);
@@ -62,7 +64,7 @@ export async function generatePDFReport(result: AnalysisResult) {
   y += 7;
   doc.setFontSize(9);
   doc.setTextColor(71, 85, 105);
-  const overview = "This report includes synthesized profiles for: Methylation Support, Drug Metabolism Tendencies, Nutrition & Metabolism Context, and Sleep & Recovery Context (where relevant variants were detected in your data). All interpretations are probabilistic with generally small-to-modest effect sizes. Consumer genotyping has coverage and ancestry limitations. These results are one data point among many and should be discussed with a qualified clinician when clinically relevant. Blood tests and clinical evaluation remain the primary tools for health decisions.";
+  const overview = "This report includes synthesized profiles for: Methylation Support, Drug Metabolism Tendencies, Nutrition & Metabolism Context, and Sleep & Recovery Context (where relevant variants were detected in your data). All interpretations are probabilistic with generally small-to-modest effect sizes. Consumer genotyping has coverage and ancestry limitations. Most underlying genetic association data is from European-ancestry studies; applicability to other populations may be limited or unknown for many signals. These results are one data point among many and should be discussed with a qualified clinician when clinically relevant. Blood tests and clinical evaluation remain the primary tools for health decisions.";
   const overviewLines = doc.splitTextToSize(overview, pageWidth - 36);
   doc.text(overviewLines, 18, y);
   y += overviewLines.length * 5 + 8;
