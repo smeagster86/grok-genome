@@ -42,6 +42,14 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         </p>
       </div>
 
+      {/* Gene–Environment Dominance (Tier 1 per expert appraisals + grounded usefulness) */}
+      <div className="mb-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-white/80">
+        <div className="font-medium text-amber-400 mb-1 tracking-tight">Gene–Environment Context</div>
+        <p>
+          Real-world drug response is overwhelmingly shaped by age, liver and kidney function, concomitant medications, adherence, diet, comorbidities, and other clinical factors — far more than the common pharmacogene variants captured here. These signals are one small, probabilistic contribution at best. This profile does not predict your actual response to any medication.
+        </p>
+      </div>
+
       <div className="mb-4 flex items-center justify-between">
         <button
           onClick={() => setShowDetails(!showDetails)}
@@ -83,7 +91,7 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         <div>
           <div className="text-xs uppercase tracking-widest text-white/50 mb-1">4. Meaningful effect on lifestyle or metabolism?</div>
           <p className="text-sm text-white/80">
-            These variants can influence how certain medications are processed. They do not generally affect &quot;metabolism&quot; in the broader wellness sense (energy, weight, etc.). Effects are highly drug-specific and are almost always modified by age, liver and kidney function, concomitant medications, and adherence.
+            These variants can influence how certain medications are processed. They do not generally affect "metabolism" in the broader wellness sense (energy, weight, etc.). Effects are highly drug-specific and are almost always modified by age, liver and kidney function, concomitant medications, and adherence.
           </p>
         </div>
 
@@ -126,6 +134,7 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
       <div className="mt-6 rounded-xl bg-[#0a0f1a] border border-white/10 p-4">
         <div className="text-xs font-medium text-white/60 mb-2">Limitations &amp; Context</div>
         <ul className="text-xs text-white/60 space-y-1 list-disc pl-4">
+          <li>Real-world drug response is overwhelmingly shaped by age, liver/kidney function, concomitant medications, adherence, comorbidities, and other clinical factors — far more than the common variants captured on consumer arrays.</li>
           <li>Most consumer arrays have limited or no reliable coverage for CYP2D6 and CYP3A4 star alleles, which are important for many common medications (antidepressants, opioids, statins, etc.).</li>
           <li>Even for well-studied genes, real-world response is also influenced by age, liver/kidney function, other medications, adherence, and non-genetic factors.</li>
           <li>Many important pharmacogenetic variants are rare, ancestry-specific, or poorly tagged on standard consumer chips.</li>
