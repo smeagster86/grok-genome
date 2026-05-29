@@ -1,5 +1,8 @@
 # 🧬 Grok Genome
 
+**Resuming from another computer or new Grok Builder session?**  
+→ Read **[DEVELOPMENT_HISTORY.md](DEVELOPMENT_HISTORY.md)** (especially the new "CURRENT STATUS & FORWARD PLAN FOR RESUMPTION" section at the top) for the complete record of all work done so far and the exact Tier 2 plan going forward. The code on `main` is the current state. This is the single source of truth for seamless handoff.
+
 **Private. Beautiful. Powerful.**
 
 A stunning, 100% client-side DNA insights explorer for 23andMe and MyHeritage raw data files.
