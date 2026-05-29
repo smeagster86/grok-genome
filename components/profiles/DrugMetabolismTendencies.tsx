@@ -23,7 +23,7 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         <div>
           <div className="uppercase tracking-[2px] text-xs text-emerald-400 mb-1">SYNTHESIZED PROFILE</div>
           <h3 className="text-2xl font-semibold tracking-tight">Drug Metabolism Tendencies</h3>
-          <p className="text-sm text-white/60 mt-1">Common pharmacogene indicators</p>
+          <p className="text-sm text-white/60 mt-1">Narrow educational view of common pharmacogene indicators</p>
         </div>
         <EvidenceBadge
           level="Moderate Evidence"
@@ -42,11 +42,11 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         </p>
       </div>
 
-      {/* Gene–Environment Dominance (Tier 1 per expert appraisals + grounded usefulness) */}
+      {/* Gene–Environment Dominance (Tier 1 per expert appraisals + grounded usefulness; Step 3 reframing: toy model + 90%+ clinical dominance) */}
       <div className="mb-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-white/80">
         <div className="font-medium text-amber-400 mb-1 tracking-tight">Gene–Environment Context</div>
         <p>
-          Real-world drug response is overwhelmingly shaped by age, liver and kidney function, concomitant medications, adherence, diet, comorbidities, and other clinical factors — far more than the common pharmacogene variants captured here. These signals are one small, probabilistic contribution at best. This profile does not predict your actual response to any medication.
+          This profile is a narrow educational illustration (toy model) using only the common pharmacogene variants that are reasonably well-tagged on consumer arrays. Real-world drug response is overwhelmingly shaped by age, liver and kidney function, concomitant medications, adherence, diet, comorbidities, microbiome, and other clinical factors — these typically explain the large majority of variability. The signals surfaced here represent one small, probabilistic contribution at best. This profile does not predict your actual response to any medication and is not a substitute for validated clinical pharmacogenetic testing or therapeutic drug monitoring.
         </p>
       </div>
 
@@ -62,7 +62,7 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
       <div className="mb-6 rounded-2xl bg-black/30 p-5">
         <div className="text-sm text-white/70 mb-2">Your profile summary</div>
         <p className="text-base leading-relaxed">
-          In your data, {cyp2c19?.genotype === "AA" ? "the AA genotype at CYP2C19 rs4244285 is present (poor metabolizer for certain substrates)" : "CYP2C19 rs4244285 shows a non-AA genotype"} and {vkorc1?.genotype === "AA" ? "the AA genotype at VKORC1 rs9923231 is present (increased warfarin sensitivity signal)" : "VKORC1 rs9923231 shows a non-AA genotype"}. These are among the better-tagged pharmacogenetic signals on consumer chips, but many other clinically relevant variants remain invisible or poorly imputed.
+          In your data, {cyp2c19?.genotype === "AA" ? "the AA genotype at CYP2C19 rs4244285 is present (poor metabolizer for certain substrates)" : "CYP2C19 rs4244285 shows a non-AA genotype"} and {vkorc1?.genotype === "AA" ? "the AA genotype at VKORC1 rs9923231 is present (increased warfarin sensitivity signal)" : "VKORC1 rs9923231 shows a non-AA genotype"}. This narrow panel of common variants provides limited educational context only. Many other clinically relevant variants (especially CYP2D6 and CYP3A4 star alleles) remain invisible or poorly imputed on consumer chips.
         </p>
       </div>
 
@@ -70,7 +70,7 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         <div>
           <div className="text-xs uppercase tracking-widest text-white/50 mb-1">1. What might this mean?</div>
           <p className="text-sm text-white/80">
-            The AA genotype at rs4244285 in CYP2C19 is associated with reduced activation of certain medications (such as clopidogrel) in multiple studies. The AA genotype at rs9923231 in VKORC1 is associated with increased sensitivity to warfarin. These are among the better-characterized pharmacogenetic signals in consumer data, but they represent only a narrow slice of the genes that matter for drug response.
+            The AA genotype at rs4244285 in CYP2C19 is associated with reduced activation of certain medications (such as clopidogrel) in multiple studies. The AA genotype at rs9923231 in VKORC1 is associated with increased sensitivity to warfarin. These are among the better-characterized pharmacogenetic signals in consumer data, but they represent only a narrow slice of the genes that matter for drug response. This profile functions as a toy model for education; it does not capture the full complexity of how you will respond to medications.
           </p>
         </div>
 
@@ -91,14 +91,14 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         <div>
           <div className="text-xs uppercase tracking-widest text-white/50 mb-1">4. Meaningful effect on lifestyle or metabolism?</div>
           <p className="text-sm text-white/80">
-            These variants can influence how certain medications are processed. They do not generally affect "metabolism" in the broader wellness sense (energy, weight, etc.). Effects are highly drug-specific and are almost always modified by age, liver and kidney function, concomitant medications, and adherence.
+            These variants can influence how certain medications are processed. They do not generally affect "metabolism" in the broader wellness sense (energy, weight, etc.). Effects are highly drug-specific and are almost always modified by age, liver and kidney function, concomitant medications, adherence, and other clinical factors that typically dominate real-world response.
           </p>
         </div>
 
         <div>
           <div className="text-xs uppercase tracking-widest text-white/50 mb-1">5. Actionable or worth discussing with a professional?</div>
           <p className="text-sm text-white/80">
-            For clopidogrel and warfarin, these results may be relevant to prescribing decisions in some cases. Discuss with your prescriber or pharmacist if you are currently taking or may be prescribed these medications. Do not change any medication based on this profile alone. Clinical pharmacogenetic testing with a validated panel remains the appropriate route when medication response is a concern.
+            For clopidogrel and warfarin, these results may be relevant to prescribing decisions in some cases. Discuss with your prescriber or pharmacist if you are currently taking or may be prescribed these medications. Do not change any medication based on this profile alone. Clinical pharmacogenetic testing with a validated panel remains the appropriate route when medication response is a concern. Adherence, timing, and other modifiable clinical factors usually matter more than the common variants captured here.
           </p>
         </div>
       </div>
@@ -134,12 +134,13 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
       <div className="mt-6 rounded-xl bg-[#0a0f1a] border border-white/10 p-4">
         <div className="text-xs font-medium text-white/60 mb-2">Limitations &amp; Context</div>
         <ul className="text-xs text-white/60 space-y-1 list-disc pl-4">
-          <li>Real-world drug response is overwhelmingly shaped by age, liver/kidney function, concomitant medications, adherence, comorbidities, and other clinical factors — far more than the common variants captured on consumer arrays.</li>
+          <li>This profile is a narrow educational illustration (toy model) using only the common variants reasonably well-tagged on consumer arrays. It does not capture the full spectrum of pharmacogenetic variation relevant to drug response for most medications.</li>
+          <li>Real-world drug response is overwhelmingly shaped by age, liver/kidney function, concomitant medications, adherence, comorbidities, diet, microbiome, and other clinical factors — typically explaining the large majority of variability. The variants shown here are one small probabilistic contribution at best.</li>
           <li>Most consumer arrays have limited or no reliable coverage for CYP2D6 and CYP3A4 star alleles, which are important for many common medications (antidepressants, opioids, statins, etc.).</li>
           <li>Even for well-studied genes, real-world response is also influenced by age, liver/kidney function, other medications, adherence, and non-genetic factors.</li>
           <li>Many important pharmacogenetic variants are rare, ancestry-specific, or poorly tagged on standard consumer chips.</li>
           <li>This profile covers only a small subset of pharmacogenes and medications. It is not a substitute for clinical pharmacogenetic testing or professional medical advice.</li>
-          <li>Genotype alone does not determine the best drug or dose — therapeutic drug monitoring and clinical judgment remain essential.</li>
+          <li>Genotype alone does not determine the best drug or dose — therapeutic drug monitoring and clinical judgment remain essential. Modifiable factors such as adherence and timing of doses with your prescriber usually have greater practical impact.</li>
         </ul>
         <div className="mt-3 pt-3 border-t border-white/10 text-[11px]">
           <Link href="/#our-approach" className="text-emerald-400 hover:underline">Our Approach</Link>
