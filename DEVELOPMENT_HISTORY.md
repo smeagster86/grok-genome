@@ -2,7 +2,7 @@
 
 **Repository:** [smeagster86/grok-genome](https://github.com/smeagster86/grok-genome)  
 **Default branch:** main  
-**Current HEAD (as of document creation):** `bc7dadacca3b78b8c8ae8df56a1b89a03d968cde` (post-Step 3 profile reframes, late May 2026)
+**Current HEAD (as of document creation):** `bec99b95c7d27bfa23aaf69d8bbbd497a45a03dc` (post-simulator redesign, late May 2026)
 
 > This document exists so that future Grok sessions (or human contributors) can read the complete story instead of losing critical context across conversation boundaries, context compactions, or hand-offs. It is the authoritative reference for the project's philosophy, guardrails, roadmap decisions, technical patterns, and hard-won build/deployment lessons.
 
@@ -14,7 +14,7 @@ Grok Genome is a **100% client-side, privacy-first Next.js 15 + TypeScript + Tai
 
 The project began as an entirely different Windows automation tool for clinical note transfer and underwent an abrupt full pivot toward deeper, more thoughtful personal genomic analysis. It was then built through four deliberate phases (Evidence → Synthesis/Profiles → Trust Architecture → Beta Readiness) under extremely strict physician positioning guardrails. All genomic data never leaves the user's browser; only localStorage is used for non-genomic UI state (disclaimer dismissal + optional feedback). Exports (PDF, Markdown, JSON, CSV) carry the same humility language.
 
-As of late May 2026, the site features consistent EvidenceBadge usage with population applicability notes, deepened Phase 4 profiles with Why boxes + 5–7 nuanced limitations each, a dedicated `/for-clinicians` route, a global first-visit disclaimer banner, local-only feedback, improved PDF Report Overview + page-break logic, and a full cascade of production build fixes. Phase 5 work (expert critical appraisals and Tier 1 high-priority improvements) is now complete for the immediate "Do immediately" items (ancestry transparency, gene–environment grounding, and targeted reframing of the two weakest-signal profiles).
+As of late May 2026, the site features consistent EvidenceBadge usage with population applicability notes, deepened Phase 4 profiles with Why boxes + 5–7 nuanced limitations each, a dedicated `/for-clinicians` route, a global first-visit disclaimer banner, local-only feedback, improved PDF Report Overview + page-break logic, a full cascade of production build fixes, Step 3 profile reframes (toy model/90%+ dominance for weak-signal profiles), and the educational simulator redesign (narrowed to high-evidence PGx toy model only).
 
 **Core non-negotiables (never compromised):** exact 5-question structure per profile, probabilistic language only ("tendency", "one data point among many", "not deterministic", "consult professionals"), client-only execution, EvidenceBadge transparency on ancestry bias and effect size, and GA4GH-inspired ethical framing.
 
@@ -105,7 +105,7 @@ User explicitly approved the following phased plan (verbatim): "Yes sounds reall
 
 ---
 
-## Phase 5: Expert Critical Appraisals, Ancestry Transparency (Step 1), Gene–Environment Grounding (Step 2), and Targeted Reframing of Weak-Signal Profiles (Step 3) (late May 2026)
+## Phase 5: Expert Critical Appraisals, Ancestry Transparency (Step 1), Gene–Environment Grounding (Step 2), Targeted Reframing of Weak-Signal Profiles (Step 3), and Educational Simulator Redesign (late May 2026)
 
 After the core four phases and beta-readiness polish, the project entered a deliberate Phase 5 of expert-driven refinement. The user (a family physician) commissioned a panel of five specialists for independent critical appraisal of the tool's SNP selection, synthesis logic, limitations communication, ancestry handling, and overall framing:
 
@@ -117,7 +117,7 @@ After the core four phases and beta-readiness polish, the project entered a deli
 
 Raw reports were compiled into `EXPERT_CRITICAL_APPRAISALS_2026-05-27.md` (77 KB). These were synthesized into prioritized tiers with strong emphasis on consensus high-impact, low-risk improvements.
 
-User directive (verbatim): "Please complete the full 'Do immediately' high-priority items systematically, one at a time" and repeated "Yes please proceed" / "full approvals" / "I think execute step 3" after each slice, with explicit instruction to circle back once complete.
+User directive (verbatim): "Please complete the full 'Do immediately' high-priority items systematically, one at a time" and repeated "Yes please proceed" / "full approvals" / "I think execute step 3" / "Yes please move to this next priority item" after each slice, with explicit instruction to circle back once complete.
 
 ### Step 1 – Finish ancestry communication (Tier 1 high-consensus)
 
@@ -188,15 +188,41 @@ Live SHAs after Step 3 profile pushes (as of commits 8024984d... and bc7dadac...
 - DrugMetabolismTendencies.tsx: ea205b968372276e4fa1d36be39ad3c53f000ecb
 - SleepRecoveryContext.tsx: 9c5b78277b1d7b41a0d5fe6c3681ebd53c684367
 
+### Educational Simulator Redesign (Phase 5 follow-up per expert appraisals) (late May 2026)
+
+After Step 3, the next priority (per repeated expert consensus in the 2026-05-27 appraisals, especially Reyes, Vargas, Hale, and statistical/bioethics reviewers) was redesign of the broad "ILLUSTRATIVE GENETIC WELLNESS INDEX" gauge and simulation system in app/page.tsx.
+
+The broad 0-100 gauge (heuristic based on matchedVariants and overrides) mixed high-evidence PGx signals with weak exploratory SNPs in nutrition, sleep, and behavioral categories. Experts flagged high risk of anchoring, illusion of precision, and over-weighting of low-variance signals (e.g., sleep 3-SNP model <<2% variance; most nutrition <4%). The current implementation (SVG gauge, tier labels that sound actionable, genotype simulation applied across all categories) was seen as creating anchoring risk on exploratory/weak signals.
+
+**Changes implemented (live on GitHub):**
+
+- Removed the broad "ILLUSTRATIVE GENETIC WELLNESS INDEX" gauge (0-100 SVG circle, heuristic score 72 + (matchedVariants-8)*1.4 - overrides*0.6, tier labels).
+- Replaced with a narrow "EDUCATIONAL PGx TOY MODEL" card scoped exclusively to the high-evidence, CPIC-supported pharmacogene pairs (CYP2C19*2, VKORC1, etc. — the "exception" with real actionability per experts).
+- Explicit "Toy model for education / illustration only — not a prediction of your response".
+- Dominant visual: large bar for "Clinical, Environmental & Behavioral Factors (typically 90%+)" with tiny sliver for "Genetic (toy)".
+- Concrete modifiable levers emphasized (discuss with prescriber, adherence, timing — often larger effects than the variants).
+- "What this cannot tell you" framing.
+- Simulation capability (existing simulatedOverrides/handleSimulate) reframed and scoped in the new card (still available in raw SNP view but now with strong bounding).
+- Feature bar text updated to "High-evidence PGx toy model".
+- All guardrails preserved (client-side, probabilistic language, no storage of genomic data, disclaimers, link to the full Drug profile with its Step 3 reframing).
+
+New app/page.tsx SHA: `8b02239bc11dd6e13174c63544be8025af5b3ed2` (commit `bec99b95c7d27bfa23aaf69d8bbbd497a45a03dc`).
+
+Updated the key files snapshot table and added timeline entry. User had given full approvals for the overall Phase 5 direction and "Yes please move to this next priority item."
+
+Todo discipline maintained.
+
 ### Detailed Chronological Timeline (continued)
 
 All dates below are May 2026 unless otherwise noted. Commits are listed in reverse chronological order (newest first).
 
 | Commit SHA (short) | Message (verbatim) | Phase / Context |
 |--------------------|--------------------|-----------------|
+| `bec99b95c7d27bfa` | Phase 5: Educational simulator redesign per expert appraisals (narrow to high-evidence PGx toy model only; explicit 'toy model for education'; dominant 90%+ environment/clinical/behavior bar with tiny genetic sliver; concrete modifiable levers; removed broad wellness gauge to avoid anchoring on weak signals; scoped simulation; guardrails upheld) | Phase 5 simulator redesign |
+| `8aace527f1029270` | Phase 5 Step 3 curator append: Reframe DrugMetabolismTendencies and SleepRecoveryContext per expert appraisals (toy model emphasis, 90%+ env dominance, modifiable levers); new SHAs + commits; guardrails upheld | Phase 5 Step 3 HISTORY update |
 | `bc7dadacca3b78b8` | Phase 5 Step 3: Reframe SleepRecoveryContext per expert critical appraisals (explicit toy model/educational illustration only for the weak 3-SNP model; 90%+ environment dominance with concrete modifiable levers (light hygiene, schedules, stress); narrow weak signals; preserve 5Qs + probabilistic guardrails) | Phase 5 Step 3: Sleep profile reframing |
 | `8024984d49d7956e` | Phase 5 Step 3: Reframe DrugMetabolismTendencies per expert critical appraisals (narrow panel as toy model/educational illustration only; strengthen 90%+ clinical/environment dominance language; tie to modifiable levers; preserve 5Qs + probabilistic guardrails) | Phase 5 Step 3: Drug profile reframing |
-| (Phase 5 ancestry Step 1 + gene-env Step 2 updates) | EvidenceBadge population prop + legend; global ancestry banner; population notes in all 4 profiles; dedicated Ancestry section in /for-clinicians; PDF Report Overview strengthened; amber Gene–Environment Context callouts added to all 4 profiles; HISTORY appends | Phase 5 Tier 1 high-priority items |
+| (earlier Phase 5 ancestry Step 1 + gene-env Step 2 + Step 3 profile pushes) | ... | Prior Phase 5 Tier 1 items |
 | `7effc4346f70ff03` | Fix build: Import MatchedInsight in app/page.tsx so the cast in the Quick Overview section compiles. | Final build fix |
 | ... (earlier Phase 5 ancestry Step 1 code changes, Phase 4 profile upgrades, beta readiness, Phase 3 trust architecture, Phase 2 synthesis, Phase 1 evidence) | ... | Prior phases |
 
@@ -222,7 +248,7 @@ All dates below are May 2026 unless otherwise noted. Commits are listed in rever
 ### Current Navigation & Major Routes (from `app/page.tsx` and `app/for-clinicians/page.tsx`)
 
 ```tsx
-// app/page.tsx (key excerpts, post-Step 3)
+// app/page.tsx (key excerpts, post-simulator redesign)
 import Link from "next/link";
 // ...
 <nav>... <Link href="/#our-approach">Our Approach</Link> <Link href="/for-clinicians">For Clinicians</Link> ...</nav>
@@ -306,11 +332,11 @@ Multi-part labels with tooltip descriptions. Config-driven colors. `population` 
 
 ---
 
-## Key Files & Current State Snapshot (post-Step 3 profile reframes, late May 2026)
+## Key Files & Current State Snapshot (post-simulator redesign, late May 2026)
 
 | Path | Purpose | Recent SHA (full or short) |
 |------|---------|----------------------------|
-| `app/page.tsx` | Main SPA: upload, analysis, all 4 profiles wired, exports, feedback, nav + global ancestry banner | (post-Step 3) |
+| `app/page.tsx` | Main SPA: upload, analysis, all 4 profiles wired, exports, feedback, nav + global ancestry banner; broad wellness gauge removed, narrow high-evidence PGx toy model added | `8b02239bc11dd6e13174c63544be8025af5b3ed2` |
 | `lib/knowledgeBase.ts` | Static curated SNPs (~80) with full professional metadata | `23af5773d820ae5c...` |
 | `lib/exportUtils.ts` | toJSON/toCSV/toMarkdown + richer Phase 4 synthesized profiles | `ef803710be6ff9dd...` |
 | `lib/pdfExport.ts` | jsPDF generator with Report Overview + strict page-breaks (ancestry language) | `8fe0ce3362833bec...` |
@@ -329,8 +355,8 @@ Multi-part labels with tooltip descriptions. Config-driven colors. `population` 
 ## How to Use This Document (for future AI sessions and contributors)
 
 1. Read the **Executive Summary** + **Core Philosophy & Guardrails** first (5–10 minutes). This gives the non-negotiables.
-2. Read **Approved Roadmap** and **Detailed Chronological Timeline** (including the new Phase 5 Step 3 subsection) to understand the deliberate phase order and why certain build pain occurred.
-3. Use **Technical Architecture & Patterns** + code snippets as the single source of truth for current implementation style (especially the 5Qs template, EvidenceBadge usage with population notes, Link discipline, localStorage-only rule, and Step 3 toy-model / 90%+ dominance language for weak-signal profiles).
+2. Read **Approved Roadmap** and **Detailed Chronological Timeline** (including the new Phase 5 simulator redesign subsection) to understand the deliberate phase order and why certain build pain occurred.
+3. Use **Technical Architecture & Patterns** + code snippets as the single source of truth for current implementation style (especially the 5Qs template, EvidenceBadge usage with population notes, Link discipline, localStorage-only rule, Step 3 toy-model / 90%+ dominance language for weak-signal profiles, and the narrow PGx toy model in the results section post-simulator redesign).
 4. Consult **Key Files** table + current SHAs before making edits — always fetch fresh content via tools rather than relying on stale memory.
 5. Before any large change, re-read the physician positioning principles and the exact 5Qs. They are the project's constitution.
 
@@ -382,14 +408,15 @@ Never introduce deterministic language. Never store genomic data client-side. Ne
 - "Yes please carry on"
 - "Yes you have full approvals. Please carry on with the next prompt and phase. you have full approvals with all you need"
 - "I think execute step 3"
+- "Yes please move to this next priority item"
 
 ---
 
 ## Footer
 
 **Document created:** May 27, 2026 (PT) by Grok Document Curator subagent per explicit user request.  
-**Updated:** late May 2026 (PT) with Phase 5 Step 3 profile reframes and curator append.  
-**Source of truth:** Live GitHub repository at `smeagster86/grok-genome` (HEAD post-Step 3 profile pushes: bc7dadac... and 8024984d...).  
+**Updated:** late May 2026 (PT) with Phase 5 Step 3 profile reframes, curator append, and educational simulator redesign.  
+**Source of truth:** Live GitHub repository at `smeagster86/grok-genome` (HEAD post-simulator redesign: bec99b95...).  
 **Raw file URL:** https://raw.githubusercontent.com/smeagster86/grok-genome/main/DEVELOPMENT_HISTORY.md  
 **Blob view:** https://github.com/smeagster86/grok-genome/blob/main/DEVELOPMENT_HISTORY.md
 
