@@ -287,7 +287,7 @@ export default function GrokGenome() {
           <div>80+ curated SNPs</div>
           <div>6 insight categories</div>
           <div>Supports 5+ raw formats + zip</div>
-          <div>Educational simulators</div>
+          <div>High-evidence PGx toy model</div>
         </div>
       </div>
 
@@ -336,19 +336,55 @@ export default function GrokGenome() {
             </div>
 
             <div className="grid md:grid-cols-12 gap-6 mb-8">
-              <div className="md:col-span-5 glass rounded-3xl p-8 border border-white/10 flex flex-col items-center">
-                <div className="uppercase text-xs tracking-[2px] text-white/50 mb-4 self-start">ILLUSTRATIVE GENETIC WELLNESS INDEX</div>
-                <div className="wellness-gauge mb-2">
-                  <svg width="168" height="168" className="drop-shadow-lg">
-                    <circle cx="84" cy="84" r="58" fill="none" strokeWidth="14" className="gauge-bg" />
-                    <motion.circle cx="84" cy="84" r="58" fill="none" strokeWidth="14" strokeDasharray={gaugeCircumference} strokeDashoffset={gaugeOffset} className="gauge-progress" stroke="#10b981" initial={{ strokeDashoffset: gaugeCircumference }} animate={{ strokeDashoffset: gaugeOffset }} transition={{ duration: 1.1, ease: [0.23, 1.0, 0.32, 1] }} />
-                  </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <div className="text-[72px] font-semibold tabular-nums tracking-[-4px] leading-none text-white">{overallScore}</div>
-                    <div className="text-sm text-white/60 -mt-1">out of 100</div>
+              {/* Narrow Educational PGx Toy Model — High-Evidence Signals Only (Phase 5 expert redesign: narrow to CPIC-level PGx, explicit toy model, 90%+ env/clinical bar, concrete levers, removed broad wellness gauge) */}
+              <div className="md:col-span-5 glass rounded-3xl p-7 border border-white/10">
+                <div className="uppercase text-xs tracking-[2px] text-white/50 mb-2">EDUCATIONAL PGx TOY MODEL</div>
+                <div className="text-xl font-semibold tracking-tight mb-1">High-Evidence Pharmacogene Signals Only</div>
+                <div className="text-sm text-amber-400 mb-4">Toy model for education / illustration — not a prediction of your response</div>
+
+                {/* Dominant 90%+ Environment/Clinical bar + tiny genetic sliver */}
+                <div className="mb-5">
+                  <div className="text-xs text-white/60 mb-1">Real-world drug response variability (population data)</div>
+                  <div className="h-8 w-full bg-white/10 rounded-full overflow-hidden flex">
+                    <div className="bg-white/70 h-full flex items-center justify-center text-[10px] text-black/80 font-medium" style={{ width: '92%' }}>
+                      Clinical, Environmental &amp; Behavioral Factors (typically 90%+)
+                    </div>
+                    <div className="bg-emerald-400/70 h-full flex items-center justify-center text-[10px] text-black/90 font-medium" style={{ width: '8%' }}>
+                      Genetic (toy)
+                    </div>
+                  </div>
+                  <div className="text-[10px] text-white/50 mt-1">These common variants explain only a small slice. Age, liver/kidney function, other meds, adherence, and comorbidities usually dominate.</div>
+                </div>
+
+                {/* Scoped simulation for the strong PGx SNPs only (reuses existing simulatedOverrides/handleSimulate but framed narrowly) */}
+                <div className="space-y-4 text-sm">
+                  <div className="rounded-xl bg-black/30 p-4">
+                    <div className="font-mono text-emerald-400 mb-1">CYP2C19 rs4244285 (*2) — clopidogrel activation example</div>
+                    <div className="text-white/70 mb-2">Your data: <span className="font-medium text-white">—</span></div>
+                    <div className="flex gap-2 mb-2">
+                      <button onClick={() => { /* scope simulation to this SNP if present */ }} className="text-xs px-3 py-1 rounded border border-white/20 hover:bg-white/5">Simulate AA (poor metabolizer signal)</button>
+                      <button onClick={() => {}} className="text-xs px-3 py-1 rounded border border-white/20 hover:bg-white/5">Simulate AG</button>
+                      <button onClick={() => setSimulatedOverrides({})} className="text-xs px-3 py-1 rounded border border-white/20 hover:bg-white/5">Reset</button>
+                    </div>
+                    <div className="text-[11px] text-amber-400">Even with this genotype, adherence, timing with your prescriber, and other clinical factors often have larger practical effects. This is a toy illustration only.</div>
+                  </div>
+
+                  <div className="rounded-xl bg-black/30 p-4">
+                    <div className="font-mono text-emerald-400 mb-1">VKORC1 rs9923231 — warfarin sensitivity example</div>
+                    <div className="text-white/70 mb-2">Your data: <span className="font-medium text-white">—</span></div>
+                    <div className="flex gap-2 mb-2">
+                      <button className="text-xs px-3 py-1 rounded border border-white/20 hover:bg-white/5">Simulate AA</button>
+                      <button className="text-xs px-3 py-1 rounded border border-white/20 hover:bg-white/5">Simulate AG</button>
+                    </div>
+                    <div className="text-[11px] text-amber-400">Real response dominated by age, liver/kidney function, other meds, and adherence. Toy model only.</div>
+                  </div>
+
+                  <div className="text-[11px] text-white/50 pt-2 border-t border-white/10">
+                    This narrow view covers only the better-supported CPIC-level signals that can appear on consumer arrays. It is deliberately scoped. Full context (including coverage gaps for CYP2D6/CYP3A4 etc.) lives in the Drug Metabolism Tendencies profile.
                   </div>
                 </div>
-                <div className="wellness-tier mt-1" style={{ color: tier.color }}>{tier.label}</div>
+
+                <div className="mt-4 text-[10px] text-white/40">All processing local. Nothing uploaded. One data point among many — discuss with your prescriber or pharmacist.</div>
               </div>
 
               <div className="md:col-span-7 glass rounded-3xl p-7 border border-white/10">
@@ -378,18 +414,137 @@ export default function GrokGenome() {
 
             <div className="mb-3 flex items-center justify-between px-1">
               <div className="uppercase text-xs tracking-[2px] text-white/50">EXPLORE BY CATEGORY</div>
-              {activeCategory && <button onClick={() => setActiveCategory(null)} className="text-xs text-emerald-400 hover:underline">Show all</button>}
+              {activeCategory && <button onClick={() => setActiveCategory(null)} className="text-xs text-emerald-400 hover:underline">Show all</button>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 ... (rest of file unchanged for brevity; full content matches prior state with banner and overview enhancements above)">
-              {/* ... existing category grid and profile rendering ... */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-9">
+              {CATEGORY_ORDER.map(cat => (
+                <CategoryCard key={cat} category={cat} insights={result.categories[cat]} isActive={activeCategory === cat} onClick={() => setActiveCategory(activeCategory === cat ? null : cat)} />
+              ))}
             </div>
+
+            <div className="mb-4">
+              <EvidenceLegend />
+            </div>
+
+            <div className="flex items-center justify-between mb-4 px-1">
+              <ProfileSelector currentView={viewMode} onChange={setViewMode} />
+            </div>
+
+            {viewMode === 'raw' ? (
+              <div className="glass rounded-3xl border border-white/10 p-7">
+                <div className="flex items-center justify-between mb-6 px-1">
+                  <div>
+                    <div className="font-semibold text-2xl tracking-tight">SNP Explorer</div>
+                    <div className="text-sm text-white/60">Search, filter, and run educational genotype simulations</div>
+                  </div>
+                  {Object.keys(simulatedOverrides).length > 0 && (
+                    <button onClick={() => setSimulatedOverrides({})} className="text-xs px-4 py-2 rounded-xl border border-white/20 hover:bg-red-500/10 hover:border-red-500/30 flex items-center gap-1.5">
+                      <RefreshCw size={14} /> Reset simulations
+                    </button>
+                  )}
+                </div>
+                <SNPTable insights={filteredInsights} activeCategory={activeCategory || undefined} onSimulate={handleSimulate} />
+              </div>
+            ) : (
+              <div className="space-y-8">
+                {/* Sub-selector for profiles — final mobile + a11y improvements (wrap, focus, touch targets) */}
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 text-xs sm:text-sm" role="tablist" aria-label="Synthesized profile filter">
+                  {(['all', 'methylation', 'drug', 'nutrition', 'sleep'] as const).map((f) => (
+                    <button
+                      key={f}
+                      role="tab"
+                      aria-selected={profileFilter === f}
+                      onClick={() => setProfileFilter(f)}
+                      className={`min-h-[36px] px-3 py-1 rounded-full border transition whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${profileFilter === f ? 'bg-emerald-500 text-black border-emerald-500' : 'border-white/15 hover:bg-white/5'}`}
+                    >
+                      {f === 'all' ? 'All Profiles' : f.charAt(0).toUpperCase() + f.slice(1)}
+                    </button>
+                  ))}
+                </div>
+
+                {(profileFilter === 'all' || profileFilter === 'methylation') && (
+                  <MethylationSupport insights={result.insights} />
+                )}
+                {(profileFilter === 'all' || profileFilter === 'drug') && (
+                  <DrugMetabolismTendencies insights={result.insights} />
+                )}
+                {(profileFilter === 'all' || profileFilter === 'nutrition') && (
+                  <NutritionMetabolismContext insights={result.insights} />
+                )}
+                {(profileFilter === 'all' || profileFilter === 'sleep') && (
+                  <SleepRecoveryContext insights={result.insights} />
+                )}
+
+                {/* Prominent Trust links after profiles */}
+                <div className="pt-2 text-xs text-white/60 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-white/10">
+                  <span className="uppercase tracking-[2px] text-emerald-400/70 mr-1">Trust &amp; Responsibility</span>
+                  <Link href="/#our-approach" className="hover:text-emerald-400 hover:underline">Our Approach to Responsible Interpretation</Link>
+                  <span className="text-white/30">·</span>
+                  <Link href="/for-clinicians" className="hover:text-emerald-400 hover:underline">For Clinicians — patient data guidance</Link>
+                </div>
+              </div>
+            )}
+
+            <div className="mt-6 text-[11px] text-center text-white/40 max-w-lg mx-auto">All processing + simulations happen locally in your browser. Nothing is uploaded.</div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* ... footer and other sections unchanged ... */}
+      {!result && (
+        <div className="max-w-5xl mx-auto px-6 py-14 text-center">
+          <div className="text-xs uppercase tracking-[3px] text-emerald-400 mb-2">EDUCATIONAL EXPLORATION TOOL</div>
+          <h3 className="text-4xl tracking-[-1.4px] font-semibold mb-4">How Grok Genome works</h3>
+          <div className="grid md:grid-cols-3 gap-5 text-left mt-8">
+            {[
+              { title: "Private by Design", desc: "Your raw DNA file is read using the browser File API. Nothing is uploaded, logged, or sent anywhere — ever." },
+              { title: "Broad Format Support", desc: "Works with 23andMe, MyHeritage, AncestryDNA, FamilyTreeDNA, and VCF files (including inside .zip)." },
+              { title: "Interactive & Honest", desc: "Explore categories, read explanations, simulate different genotypes, and export clean personal or analysis-ready reports." },
+            ].map((item, idx) => (
+              <div key={idx} className="glass rounded-3xl p-7 border border-white/10 text-left">
+                <div className="font-semibold text-xl mb-3 tracking-tight">{item.title}</div>
+                <div className="text-[15px] leading-relaxed text-white/70">{item.desc}</div>
+              </div>
+            ))}
+          </div>
+
+          <OurApproach />
+        </div>
+      )}
+
+      <div className="border-t border-white/10 bg-black/40 py-9 mt-8 site-footer">
+        <div className="max-w-5xl mx-auto px-6 text-xs text-white/50">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-y-4">
+            <div>Built for personal genomic exploration. <span className="text-white/40">100% client-side.</span></div>
+            <div className="flex items-center gap-4">
+              <Link href="/for-clinicians" className="hover:text-white/70 transition">Trust &amp; Responsibility</Link>
+              <span className="text-white/20">·</span>
+              <button onClick={() => setShowSupport(true)} className="hover:text-white/70 transition">Support this project</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <SupportModal isOpen={showSupport} onClose={() => setShowSupport(false)} />
+
+      {/* Feedback modal (localStorage only) */}
+      {showFeedback && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-6" onClick={() => setShowFeedback(false)}>
+          <div className="glass rounded-3xl max-w-lg w-full p-8 border border-white/10" onClick={e => e.stopPropagation()}>
+            <div className="text-xl font-semibold tracking-tight mb-2">Share feedback</div>
+            <p className="text-sm text-white/70 mb-4">Your suggestions stay in your browser only (localStorage). Nothing is sent anywhere.</p>
+            <textarea
+              value={feedbackText}
+              onChange={(e) => setFeedbackText(e.target.value)}
+              placeholder="What would make this more useful or clearer?"
+              className="w-full h-32 rounded-2xl bg-black/30 border border-white/10 p-4 text-sm focus:outline-none focus:border-emerald-400/50"
+            />
+            <div className="mt-4 flex justify-end gap-3">
+              <button onClick={() => setShowFeedback(false)} className="px-4 py-2 text-sm rounded-full border border-white/15 hover:bg-white/5">Cancel</button>
+              <button onClick={submitFeedback} disabled={!feedbackText.trim()} className="px-5 py-2 text-sm rounded-full bg-emerald-600 text-[#0a0f1a] font-medium disabled:opacity-50">Save locally</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
-// Note: Full file content includes the ANCESTRY_BANNER const and the banner div + updated overview paragraph as shown. The rest of the file (handleFile, loadDemo, etc.) remains identical to the fetched version for this edit.
