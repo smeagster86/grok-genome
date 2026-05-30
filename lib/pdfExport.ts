@@ -13,6 +13,18 @@ import { prepareRichPDFData } from './exportUtils';
 
 const DISCLAIMER = "This report is for educational and research purposes only. It does not constitute medical advice. Genetic associations are probabilistic and context-dependent. Always consult a qualified healthcare professional or genetic counselor. All analysis performed locally in your browser.";
 
+/**
+ * Ensure there is enough vertical space on the current page.
+ * If not, add a new page and reset Y.
+ */
+function ensureSpace(doc: jsPDF, y: number, needed: number, pageHeight: number, bottomMargin: number): number {
+  if (y + needed > pageHeight - bottomMargin) {
+    doc.addPage();
+    return 25;
+  }
+  return y;
+}
+
 export async function generatePDFReport(result: AnalysisResult) {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -46,6 +58,7 @@ export async function generatePDFReport(result: AnalysisResult) {
   y += 10;
 
   // Summary box
+  y = ensureSpace(doc, y, 40, pageHeight, bottomMargin);
   doc.setDrawColor(226, 232, 240);
   doc.setFillColor(248, 250, 252);
   doc.roundedRect(18, y, pageWidth - 36, 28, 3, 3, 'FD');
@@ -57,7 +70,7 @@ export async function generatePDFReport(result: AnalysisResult) {
   y += 36;
 
   // Report Overview with strengthened ancestry + PRS language (expert synthesis)
-  if (y > 240) { doc.addPage(); y = 25; }
+  y = ensureSpace(doc, y, 50, pageHeight, bottomMargin);
   doc.setTextColor(15, 23, 42);
   doc.setFontSize(12);
   doc.text("Report Overview", 18, y);
@@ -70,6 +83,7 @@ export async function generatePDFReport(result: AnalysisResult) {
   y += overviewLines.length * 5 + 8;
 
   // Categories
+  y = ensureSpace(doc, y, 20, pageHeight, bottomMargin);
   doc.setTextColor(15, 23, 42);
   doc.setFontSize(13);
   doc.text("Key Findings by Category", 18, y);
@@ -78,7 +92,7 @@ export async function generatePDFReport(result: AnalysisResult) {
   Object.entries(result.categories).forEach(([cat, insights]) => {
     if (!insights || insights.length === 0) return;
 
-    if (y > 240) { doc.addPage(); y = 25; }
+    y = ensureSpace(doc, y, 20, pageHeight, bottomMargin);
 
     doc.setFillColor(16, 185, 129);
     doc.rect(18, y, pageWidth - 36, 6, 'F');
@@ -91,7 +105,7 @@ export async function generatePDFReport(result: AnalysisResult) {
     doc.setFontSize(9);
 
     insights.slice(0, 5).forEach((insight: MatchedInsight) => {
-      if (y > 250) { doc.addPage(); y = 25; }
+      y = ensureSpace(doc, y, 15, pageHeight, bottomMargin);
       const { snp, genotype, interpretation } = insight;
       const line = `${snp.gene} (${snp.rsid})  ${genotype} — ${interpretation.effect.replace('_', ' ')}  [${snp.evidenceLevel || '—'}]`;
       doc.text(line, 22, y);
@@ -110,7 +124,7 @@ export async function generatePDFReport(result: AnalysisResult) {
   });
 
   // Synthesized Profiles section (richer content from Phase 4)
-  if (y > 230) { doc.addPage(); y = 25; }
+  y = ensureSpace(doc, y, 20, pageHeight, bottomMargin);
   y += 4;
   doc.setFontSize(13);
   doc.setTextColor(15, 23, 42);
@@ -122,13 +136,13 @@ export async function generatePDFReport(result: AnalysisResult) {
   doc.setTextColor(71, 85, 105);
   const profileLines = doc.splitTextToSize(profileText.replace(/\*\*/g, '').replace(/###/g, '•'), pageWidth - 36);
   profileLines.forEach((line: string) => {
-    if (y > 255) { doc.addPage(); y = 25; }
+    y = ensureSpace(doc, y, 8, pageHeight, bottomMargin);
     doc.text(line, 18, y);
     y += 5;
   });
 
   y += 8;
-  if (y > 240) { doc.addPage(); y = 25; }
+  y = ensureSpace(doc, y, 20, pageHeight, bottomMargin);
 
   // References & Notes section
   doc.setFontSize(10);
