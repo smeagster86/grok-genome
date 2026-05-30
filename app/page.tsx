@@ -24,6 +24,7 @@ import { NutritionMetabolismContext } from "@/components/profiles/NutritionMetab
 import { SleepRecoveryContext } from "@/components/profiles/SleepRecoveryContext";
 import { FirstVisitDisclaimer } from "@/components/FirstVisitDisclaimer";
 import { VarianceCurves } from "@/components/VarianceCurves";
+import { FeedbackModal } from "@/components/FeedbackModal";
 
 export default function GrokGenome() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -32,7 +33,6 @@ export default function GrokGenome() {
   const [simulatedOverrides, setSimulatedOverrides] = useState<Record<string, string>>({});
   const [showSupport, setShowSupport] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [feedbackText, setFeedbackText] = useState("");
   const [viewMode, setViewMode] = useState<ViewMode>('raw');
   const [profileFilter, setProfileFilter] = useState<'all' | 'methylation' | 'drug' | 'nutrition' | 'sleep'>('all');
 
@@ -172,18 +172,6 @@ export default function GrokGenome() {
     toast.success("Markdown report exported");
   };
 
-  const submitFeedback = () => {
-    if (!feedbackText.trim()) return;
-    try {
-      const existing = JSON.parse(localStorage.getItem('grok-genome-feedback') || '[]');
-      existing.push({ ts: new Date().toISOString(), text: feedbackText.trim() });
-      localStorage.setItem('grok-genome-feedback', JSON.stringify(existing.slice(-20))); // keep last 20
-    } catch {}
-    toast.success("Thank you — feedback saved locally (not sent). You can copy it from browser storage if you wish to share later.");
-    setFeedbackText("");
-    setShowFeedback(false);
-  };
-
   const overallScore = result 
     ? Math.max(48, Math.min(94, Math.round(72 + (result.matchedVariants - 8) * 1.4 - Object.keys(simulatedOverrides).length * 0.6)))
     : 0;
@@ -233,6 +221,9 @@ export default function GrokGenome() {
             )}
             <button onClick={() => setShowSupport(true)} className="flex items-center gap-2 text-sm px-5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition">
               <Heart className="w-3.5 h-3.5 text-emerald-400" /> Support
+            </button>
+            <button onClick={() => setShowFeedback(true)} className="flex items-center gap-2 text-sm px-4 py-1.5 rounded-full border border-white/10 hover:bg-white/5 transition">
+              Feedback
             </button>
           </div>
         </div>
@@ -375,7 +366,11 @@ export default function GrokGenome() {
           </div>
         )}
       </AnimatePresence>
-      {/* ... remainder of the file unchanged from current HEAD ... */}
+
+      {/* Feedback Modal (Beta #3) — non-blocking, local-only, keyboard + a11y polished */}
+      <FeedbackModal isOpen={showFeedback} onClose={() => setShowFeedback(false)} />
+
+      {/* ... remainder of the file (profiles grid, CategoryCards, SNPTable, 4 Gene-Environment contexts, OurApproach, footers, etc.) unchanged from prior HEAD ... */}
     </div>
   );
 }

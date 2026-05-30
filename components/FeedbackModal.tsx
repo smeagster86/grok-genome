@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X, Copy, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -17,12 +17,16 @@ interface Props {
 const MAX_CHARS = 1000;
 
 const STORAGE_KEY = 'grok-genome-feedback';
+const DISMISSED_KEY = 'grok-genome-feedback-dismissed';
+const SUBMITTED_KEY = 'grok-genome-feedback-submitted-at';
 
 export function FeedbackModal({ isOpen, onClose }: Props) {
   const [text, setText] = useState("");
   const [entries, setEntries] = useState<FeedbackEntry[]>([]);
+  const [justSubmitted, setJustSubmitted] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Load entries from localStorage when modal opens
+  // Load entries from localStorage when modal opens + reset transient state
   useEffect(() => {
     if (isOpen) {
       try {
@@ -37,8 +41,31 @@ export function FeedbackModal({ isOpen, onClose }: Props) {
         setEntries([]);
       }
       setText("");
+      setJustSubmitted(false);
     }
   }, [isOpen]);
+
+  // Escape key closes modal; auto-focus textarea for keyboard users
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    const focusTimer = setTimeout(() => {
+      textareaRef.current?.focus();
+    }, 40);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      clearTimeout(focusTimer);
+    };
+  }, [isOpen, onClose]);
 
   const charCount = text.length;
   const isOverLimit = charCount > MAX_CHARS;
@@ -58,6 +85,10 @@ export function FeedbackModal({ isOpen, onClose }: Props) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       setEntries(updated);
       setText("");
+      setJustSubmitted(true);
+      try {
+        localStorage.setItem(SUBMITTED_KEY, new Date().toISOString());
+      } catch {}
       toast.success("Feedback saved locally (not sent). Thank you!");
     } catch {
       toast.error("Could not save feedback in this browser.");
@@ -87,35 +118,47 @@ export function FeedbackModal({ isOpen, onClose }: Props) {
     } catch {}
   };
 
+  const handleMaybeLater = () => {
+    try {
+      localStorage.setItem(DISMISSED_KEY, new Date().toISOString());
+    } catch {}
+    onClose();
+  };
+
   if (!isOpen) return null;
 
   return (
     <div 
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4" 
       onClick={onClose}
+      role="presentation"
     >
       <div 
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="feedback-title"
         className="bg-[#111827] border border-white/10 rounded-3xl max-w-lg w-full p-6 sm:p-8 relative max-h-[90vh] overflow-auto" 
         onClick={e => e.stopPropagation()}
       >
         <button 
           onClick={onClose} 
           className="absolute top-4 right-4 text-white/50 hover:text-white p-2 -m-2 rounded-full hover:bg-white/5 transition"
-          aria-label="Close feedback"
+          aria-label="Close feedback dialog"
         >
           <X size={20} />
         </button>
 
         <div className="mb-6">
-          <div className="font-semibold text-2xl tracking-tight mb-1">Send Feedback</div>
+          <div id="feedback-title" className="font-semibold text-2xl tracking-tight mb-1">Send Feedback</div>
           <div className="text-sm text-white/60">
-            Feedback is saved only in your browser (localStorage). You can copy it later to email or share.
+            Feedback is saved only in your browser (localStorage). You can copy it later to email or share. Nothing leaves this device.
           </div>
         </div>
 
         {/* Compose area */}
         <div className="mb-4">
           <textarea
+            ref={textareaRef}
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="What could be better? What did you like? Any bugs or suggestions?"
@@ -127,13 +170,30 @@ export function FeedbackModal({ isOpen, onClose }: Props) {
           </div>
         </div>
 
-        <button
-          onClick={handleSubmit}
-          disabled={!canSubmit}
-          className="w-full py-3 rounded-2xl bg-emerald-500 text-[#0a0f1a] font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-600 transition"
-        >
-          Save Feedback Locally
-        </button>
+        {!justSubmitted ? (
+          <>
+            <button
+              onClick={handleSubmit}
+              disabled={!canSubmit}
+              className="w-full py-3 rounded-2xl bg-emerald-500 text-[#0a0f1a] font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-600 transition min-h-[44px]"
+            >
+              Save Feedback Locally
+            </button>
+
+            <div className="text-center mt-3">
+              <button 
+                onClick={handleMaybeLater}
+                className="text-xs text-white/50 hover:text-white/70 transition underline underline-offset-2"
+              >
+                Maybe later
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="text-center py-3 text-emerald-400 text-sm font-medium">
+            Saved locally. Thank you — your input helps keep this tool accurate and private.
+          </div>
+        )}
 
         {/* Previous entries */}
         {entries.length > 0 && (
@@ -176,7 +236,7 @@ export function FeedbackModal({ isOpen, onClose }: Props) {
         )}
 
         <div className="text-center text-[10px] text-white/40 mt-6">
-          Nothing is sent to any server. You control your data.
+          Nothing is sent to any server. You control your data. (Beta local-only feedback)
         </div>
       </div>
     </div>
