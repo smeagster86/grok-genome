@@ -2,7 +2,7 @@
 
 **Repository:** [smeagster86/grok-genome](https://github.com/smeagster86/grok-genome)  
 **Default branch:** main  
-**Current HEAD (as of this update):** `28db02adf9067f4e307cb3eb5cdd41caca81ba86` (Slice 2 curve tweaks + PGx card note + start of Slice 3 prep — late May 2026)
+**Current HEAD (as of this update):** `f83f1aebebcdce3c96e90a09688ea999ad8ccff3` (PGx note added + Slice 3 footers started — late May 2026)
 
 > This document exists so that future Grok sessions (or human contributors) can read the complete story instead of losing critical context across conversation boundaries, context compactions, or hand-offs. It is the authoritative reference for the project's philosophy, guardrails, roadmap decisions, technical patterns, and hard-won build/deployment lessons.
 
@@ -10,47 +10,37 @@
 
 ## CURRENT STATUS & FORWARD PLAN FOR RESUMPTION (Handoff for cross-machine / cross-session sign-off — late May 2026)
 
-**Project Genesis + Handoff Snapshot:** This state captures the full initial build plus Tier 2 Slices 1-2 (with curve polish and PGx note) from the 5-expert critical appraisals. Intended for immediate resumption in a *new* Grok Builder session (different machine or later time) with zero context loss.
+**Project Genesis + Handoff Snapshot:** Full build + Tier 2 Slices 1–2 (with curve tweaks + PGx note) + start of Slice 3. Zero-loss resumption ready.
 
-**All work completed so far:**
+**Completed:**
+- Core phases + Phase 5 + Tier 1 + simulator.
+- Slice 1: Variance anchors (5c1282bc...).
+- Slice 2: Visualizations (c04c4504... + tweaks 28db02ad... + PGx note f83f1aeb...).
 
-- Core four phases + Phase 5 expert synthesis + Tier 1 + simulator redesign.
-- **Tier 2 Slice 1** (5c1282bc...): Quantitative variance anchors.
-- **Tier 2 Slice 2** (c04c4504... + 28db02ad...): Population distribution visualizations (VarianceCurves with improved smoother Recharts overlaid bell curves + Legend). Inserted in all 4 Gene–Environment boxes. Light PGx card note added. Handoff doc maintained for continuity.
+**Slice 3 in progress:** "What this cannot tell you" footers + gene × environment emphasis cards with concrete, actionable levers (morning light, schedules, etc.) + tracking prompts + cross-profile links. Example added to Sleep profile; pattern ready for the other three.
 
 All guardrails upheld.
 
-**Live state on GitHub main:**
+**Live state:**
+- VarianceCurves improved
+- 4 profiles: visuals + Slice 3 footers (Sleep example)
+- app/page.tsx: PGx note
+- DEVELOPMENT_HISTORY.md: updated
 
-- `components/VarianceCurves.tsx`: improved (smoother data, Legend, better contrast)
-- 4 profiles: visualizations present
-- `app/page.tsx`: PGx note + import added
-- `DEVELOPMENT_HISTORY.md`: this file
+**Next:** Complete Slice 3 across all profiles + handoff update, then item 4 or review checkpoint.
 
-**Forward plan:**
-
-3. **"What this cannot tell you" footers + gene × environment emphasis cards** (in progress — concrete levers, tracking prompts, cross-profile links)
-
-4. FTO/TCF7L2 + signal separation
-
-**How to resume:**
-
-1. Connect to the repo.
-2. Read this doc from the top.
-3. On main at/after HEAD 28db02ad...
-4. Continue Slice 3 or review the curves/PGx note.
-5. Guardrails non-negotiable.
+**Resume instructions:** Read this top section. On main after f83f1aeb.... Continue the footers pattern or review.
 
 ---
 
-[Historical sections preserved from prior handoff for full context.]
+[Prior historical sections preserved in git for full context.]
 
 ## Executive Summary
 
-(unchanged from previous — probabilistic, client-side, 5Qs, etc.)
+(Probabilistic, client-side, 5Qs, humility — unchanged.)
 
-**Core non-negotiables:** (same as before)
+**Core non-negotiables:** (same)
 
 ---
 
-[Full prior sections on origin, roadmap, Phase 5 details preserved in git history.]
+[Full prior sections preserved in history.]
