@@ -2,7 +2,7 @@
 
 **Repository:** [smeagster86/grok-genome](https://github.com/smeagster86/grok-genome)  
 **Default branch:** main  
-**Current HEAD (as of this update):** `495e7e46e199638d1875137229f29c42e5920f8a` (Beta Readiness #2 — Mobile + Accessibility — late May 2026)
+**Current HEAD (as of this update):** `185670cf7bdd5676efa454aa249f372dbdf0ad10` (Beta Readiness #2 — Mobile + Accessibility complete — late May 2026)
 
 > This document exists so that future Grok sessions (or human contributors) can read the complete story instead of losing critical context across conversation boundaries, context compactions, or hand-offs. It is the authoritative reference for the project's philosophy, guardrails, roadmap decisions, technical patterns, and hard-won build/deployment lessons.
 
@@ -16,27 +16,27 @@ Full Tier 2 refinements completed and reviewed.
 
 **Beta Readiness Phase — In Progress**
 
-**Completed so far:**
+**Completed:**
 
-1. **PDF Export Final Polish** — ✅ (stricter `ensureSpace` helper + robust multi-page handling)
+1. **PDF Export Final Polish** — ✅ (robust `ensureSpace` helper + reliable multi-page behavior)
 
-2. **Mobile + Accessibility Audit & Fixes** — In progress
-   - EvidenceBadge: Increased text size (`text-xs`), added proper `aria-label` (removed reliance on `title` tooltip).
-   - SNPTable: Converted interactive rows to semantic `<button>` elements with `aria-expanded` / `aria-controls`. Improved keyboard and screen reader experience.
-   - ProfileSelector: Now stacks vertically on very small screens with larger touch targets.
+2. **Mobile + Accessibility Audit & Polish** — ✅ Complete
+   - EvidenceBadge: Larger text size + proper `aria-label` (better readability and screen reader support).
+   - SNPTable: Converted interactive rows to semantic buttons with `aria-expanded` / `aria-controls`. Significantly improved keyboard navigation and screen reader experience. Added labels to search and sort controls.
+   - ProfileSelector: Now stacks vertically on small screens with larger tap targets.
+   - SupportModal: Improved mobile layout (support buttons stack on small screens), larger close button with `aria-label`, better overall touch targets.
    - FirstVisitDisclaimer: Increased touch target size on the dismiss button.
-   - General: Better focus rings and ARIA patterns applied in key interactive areas.
 
 **Remaining Beta items:**
-3. Feedback Modal polish
-4. Production / Performance / Error handling
-5. Final content & consistency pass
-6. Documentation & positioning updates
+3. Feedback Modal & Local Persistence Polish
+4. Production Build, Performance & Error Handling Verification
+5. Final Content & Consistency Pass
+6. Documentation & Positioning Updates
 
 **How to resume:**
-1. Read this section (Beta Readiness #2 mobile + a11y improvements in progress).
-2. Current HEAD: `495e7e46e199638d1875137229f29c42e5920f8a`.
-3. Next: Continue with remaining items in the list above or as directed.
+1. Read this section (Beta Readiness #2 — Mobile + Accessibility now complete).
+2. Current HEAD: `185670cf7bdd5676efa454aa249f372dbdf0ad10`.
+3. Next: Item 3 or as directed.
 
 ---
 
