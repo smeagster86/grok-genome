@@ -37,7 +37,7 @@ export function FirstVisitDisclaimer() {
         </div>
         <button
           onClick={handleDismiss}
-          className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-[10px] font-medium hover:bg-white/5 transition"
+          className="shrink-0 rounded-full border border-white/20 px-4 py-1.5 text-xs font-medium hover:bg-white/5 transition min-h-[36px] min-w-[90px]"
         >
           I understand
         </button>
