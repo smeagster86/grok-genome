@@ -1,13 +1,12 @@
 "use client";
 
 interface EvidenceBadgeProps {
-  level?: string;      // e.g. 'Strong GWAS' or 'HIGH'
-  effect?: string;     // e.g. 'Modest Effect'
-  ancestry?: string;   // e.g. 'European-biased'
-  status?: string;     // e.g. 'Exploratory'
-  population?: string; // e.g. 'Evidence primarily from European-ancestry studies; applicability to other populations is limited or unknown.'
+  level?: string;
+  effect?: string;
+  ancestry?: string;
+  status?: string;
+  population?: string;
   className?: string;
-  showTooltip?: boolean;
 }
 
 const evidenceConfig: Record<string, { color: string; description: string }> = {
@@ -35,8 +34,7 @@ export function EvidenceBadge({
   ancestry, 
   status, 
   population,
-  className = '', 
-  showTooltip = true 
+  className = '' 
 }: EvidenceBadgeProps) {
   const parts = [level, effect, ancestry, status, population].filter(Boolean);
   if (parts.length === 0) return null;
@@ -48,8 +46,9 @@ export function EvidenceBadge({
 
   return (
     <span 
-      className={`inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full border ${config.color} ${className}`}
-      title={showTooltip ? `${text}. ${config.description}` : undefined}
+      className={`inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border ${config.color} ${className}`}
+      title={text}
+      aria-label={`${text}. ${config.description}`}
     >
       {text}
     </span>
