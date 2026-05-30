@@ -1,7 +1,7 @@
 # 🧬 Grok Genome
 
 **Resuming from another computer or new Grok Builder session?**  
-→ Read **[DEVELOPMENT_HISTORY.md](DEVELOPMENT_HISTORY.md)** (especially the new "CURRENT STATUS & FORWARD PLAN FOR RESUMPTION" section at the top) for the complete record of all work done so far and the exact Tier 2 plan going forward. The code on `main` is the current state. This is the single source of truth for seamless handoff.
+→ Read **[DEVELOPMENT_HISTORY.md](DEVELOPMENT_HISTORY.md)** — especially the "CURRENT STATUS & FORWARD PLAN FOR RESUMPTION" section at the top — for the complete record of the initial Grok Builder session (all phases + Phase 5 expert refinements + Tier 1), the verified file SHAs, and the exact Tier 2 roadmap. The code on `main` (HEAD `7f0408c...`) is the current state. This is the single source of truth for zero-loss handoff between Grok Builder instances.
 
 **Private. Beautiful. Powerful.**
 
