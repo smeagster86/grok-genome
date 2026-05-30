@@ -45,7 +45,7 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
   };
 
   if (filtered.length === 0) {
-    return <div className="text-center py-10 text-sm text-white/60">No variants match your search.</div>;
+    return <div className="text-center py-10 text-sm text-white/60">No variants match your search.</div>
   }
 
   return (
@@ -54,21 +54,24 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
         <div className="relative flex-1">
           <Search className="absolute left-4 top-3.5 w-4 h-4 text-white/40" />
           <input
+            id="snp-search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search gene, trait, or rsid..."
+            aria-label="Search variants by gene, trait, or rsID"
             className="w-full bg-[#0a0f1a] border border-white/10 focus:border-emerald-500/60 rounded-2xl pl-11 py-3 text-sm placeholder:text-white/40 outline-none"
           />
         </div>
         <button 
           onClick={() => setSortKey(sortKey === 'effect' ? 'trait' : 'effect')}
           className="text-xs px-4 py-3 border border-white/10 hover:bg-white/5 rounded-2xl transition"
+          aria-label={`Currently sorting by ${sortKey === 'effect' ? 'impact' : 'trait'}. Click to switch.`}
         >
           Sort: {sortKey === 'effect' ? 'Impact' : 'Trait'}
         </button>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2" role="list">
         {filtered.map((insight) => {
           const { snp, genotype, interpretation } = insight;
           const isOpen = expanded === snp.rsid;
@@ -77,36 +80,38 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
             interpretation.effect.includes('risk') || interpretation.effect === 'non_responder' || interpretation.effect === 'affected' ? 'impact-risk' :
             interpretation.effect === 'protective' || interpretation.effect === 'decreased_risk' ? 'impact-protect' : 'impact-neutral';
 
-          // Construct badge data from KB metadata (with sensible fallbacks for demo)
           const badgeLevel = snp.evidenceStrength || (snp.evidenceLevel ? `${snp.evidenceLevel.charAt(0).toUpperCase() + snp.evidenceLevel.slice(1)} evidence` : 'Moderate evidence');
           const badgeEffect = snp.effectSize || 'Typical effect';
           const badgeAncestry = snp.ancestryNote || 'Population-specific';
           const badgeStatus = snp.clinicalStatus || (snp.evidenceLevel === 'high' ? 'Actionable context' : 'Exploratory');
 
           return (
-            <div key={snp.rsid} className="snp-row bg-[#111827] border border-white/10 rounded-2xl overflow-hidden">
-              <div 
+            <div key={snp.rsid} className="snp-row bg-[#111827] border border-white/10 rounded-2xl overflow-hidden" role="listitem">
+              <button
                 onClick={() => toggleExpand(snp.rsid)}
-                className="flex items-center justify-between px-5 py-4 cursor-pointer"
+                className="w-full flex items-center justify-between px-5 py-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/60 rounded-2xl"
+                aria-expanded={isOpen}
+                aria-controls={`snp-detail-${snp.rsid}`}
               >
-                <div className="flex items-center gap-4">
-                  <div>
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="min-w-0">
                     <div className="font-mono text-xs tracking-widest text-emerald-400/90 flex items-center gap-1.5">
                       {snp.rsid}
                       <button 
-                        onClick={(e) => { e.stopPropagation(); copyRsid(snp.rsid); }} 
-                        className="text-white/40 hover:text-emerald-400 transition p-0.5"
+                        onClick={(e) => { e.stopPropagation(); copyRsid(snp.rsid); }}
+                        className="text-white/40 hover:text-emerald-400 transition p-1 -m-1 rounded focus:outline-none focus-visible:ring-1 focus-visible:ring-emerald-500"
+                        aria-label={`Copy rsID ${snp.rsid}`}
                         title="Copy rsID"
                       >
-                        <Copy size={13} />
+                        <Copy size={14} />
                       </button>
                     </div>
-                    <div className="font-semibold tracking-tight text-lg -mt-0.5">{snp.gene}</div>
+                    <div className="font-semibold tracking-tight text-lg -mt-0.5 truncate">{snp.gene}</div>
                   </div>
-                  <div className="text-sm text-white/70 max-w-[260px] leading-snug">{snp.trait}</div>
+                  <div className="text-sm text-white/70 max-w-[220px] leading-snug truncate">{snp.trait}</div>
                 </div>
 
-                <div className="flex items-center gap-4 text-right">
+                <div className="flex items-center gap-4 text-right flex-shrink-0">
                   <div className="flex flex-col items-end gap-1">
                     <div className="font-mono text-xl font-semibold tabular-nums tracking-[-1.5px]">{genotype}</div>
                     <div className={`impact-pill inline-block ${effectColor}`}>{interpretation.effect.replace('_', ' ')}</div>
@@ -117,12 +122,17 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
                       status={badgeStatus} 
                     />
                   </div>
-                  <div className="text-white/40">{isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}</div>
+                  <div className="text-white/40" aria-hidden="true">
+                    {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                  </div>
                 </div>
-              </div>
+              </button>
 
               {isOpen && (
-                <div className="px-5 pb-6 pt-1 border-t border-white/10 bg-black/20 text-sm">
+                <div 
+                  id={`snp-detail-${snp.rsid}`}
+                  className="px-5 pb-6 pt-1 border-t border-white/10 bg-black/20 text-sm"
+                >
                   <div className="leading-relaxed text-white/90 mb-4">{interpretation.description}</div>
                   
                   <div className="flex flex-wrap items-center gap-2 text-xs mb-4">
@@ -155,6 +165,7 @@ export function SNPTable({ insights, activeCategory, onSimulate }: Props) {
                             key={alt}
                             onClick={() => onSimulate(insight, alt)}
                             className="text-xs px-4 py-2 rounded-xl border border-white/15 hover:bg-emerald-500/10 hover:border-emerald-500/50 active:scale-[0.985] transition"
+                            aria-label={`Simulate genotype ${alt} for ${snp.gene}`}
                           >
                             Simulate {alt} →
                           </button>
