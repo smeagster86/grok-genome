@@ -151,10 +151,23 @@ export function NutritionMetabolismContext({ insights }: NutritionMetabolismCont
           <li>Self-reported tolerance can be influenced by expectation, placebo/nocebo effects, and cultural dietary patterns.</li>
           <li>Genotype provides context at best — never a prescription for what to eat or avoid.</li>
         </ul>
-        <div className="mt-3 pt-3 border-t border-white/10 text-[11px]">
-          <Link href="/#our-approach" className="text-emerald-400 hover:underline">Our Approach</Link>
-          <span className="mx-1.5 text-white/30">·</span>
-          <Link href="/for-clinicians" className="text-emerald-400 hover:underline">For Clinicians guidance</Link>
+
+        {/* Slice 3: What this cannot tell you + gene × environment emphasis cards */}
+        <div className="mt-4 pt-3 border-t border-white/10">
+          <div className="font-medium text-emerald-400 mb-1 tracking-tight text-sm">What this cannot tell you</div>
+          <p className="text-xs text-white/75 leading-snug">
+            No single SNP or small panel determines your "optimal diet," body weight, metabolic health, or food tolerance. These are one small probabilistic data point among many. Real-world experience is shaped far more by overall patterns than by any genotype in this profile.
+          </p>
+          <div className="text-[10px] text-white/60 mt-1.5">
+            Concrete levers that usually move the needle far more:
+            <ul className="list-disc pl-4 mt-0.5 space-y-0.5">
+              <li>Overall diet quality and dietary pattern (not single foods or SNPs)</li>
+              <li>Gut microbiome health and diversity</li>
+              <li>Consistent physical activity and sleep (see Sleep profile)</li>
+              <li>Stress management and total caloric balance</li>
+            </ul>
+          </div>
+          <div className="text-[10px] mt-1 text-emerald-400/80">Validated blood tests for nutrient levels remain the primary clinical tools. See Sleep and Methylation profiles for interacting factors.</div>
         </div>
       </div>
 

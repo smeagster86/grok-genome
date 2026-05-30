@@ -149,10 +149,23 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
           <li>This profile covers only a small subset of pharmacogenes and medications. It is not a substitute for clinical pharmacogenetic testing or professional medical advice.</li>
           <li>Genotype alone does not determine the best drug or dose — therapeutic drug monitoring and clinical judgment remain essential. Modifiable factors such as adherence and timing of doses with your prescriber usually have greater practical impact.</li>
         </ul>
-        <div className="mt-3 pt-3 border-t border-white/10 text-[11px]">
-          <Link href="/#our-approach" className="text-emerald-400 hover:underline">Our Approach</Link>
-          <span className="mx-1.5 text-white/30">·</span>
-          <Link href="/for-clinicians" className="text-emerald-400 hover:underline">For Clinicians guidance</Link>
+
+        {/* Slice 3: What this cannot tell you + gene × environment emphasis cards */}
+        <div className="mt-4 pt-3 border-t border-white/10">
+          <div className="font-medium text-emerald-400 mb-1 tracking-tight text-sm">What this cannot tell you</div>
+          <p className="text-xs text-white/75 leading-snug">
+            These variants (even the stronger ones like CYP2C19*2 and VKORC1) are one small probabilistic data point. This narrow consumer-array panel does not predict your actual response to any medication, nor does it replace validated clinical pharmacogenetic testing or therapeutic drug monitoring. Real-world outcomes are dominated by many non-genetic factors.
+          </p>
+          <div className="text-[10px] text-white/60 mt-1.5">
+            Concrete levers that usually matter far more in practice:
+            <ul className="list-disc pl-4 mt-0.5 space-y-0.5">
+              <li>Strict adherence and consistent timing with food/other meds</li>
+              <li>Full current medication list review for interactions (with prescriber/pharmacist)</li>
+              <li>Liver and kidney function status (major determinants of clearance)</li>
+              <li>Diet, comorbidities, and microbiome effects on drug handling</li>
+            </ul>
+          </div>
+          <div className="text-[10px] mt-1 text-emerald-400/80">For strong signals (CYP2C19, VKORC1), discuss CPIC/FDA guideline-based testing with your prescriber. See Nutrition profile for diet–drug interactions.</div>
         </div>
       </div>
 

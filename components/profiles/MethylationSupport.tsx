@@ -146,10 +146,23 @@ export function MethylationSupport({ insights }: MethylationSupportProps) {
           <li>This profile does not measure actual homocysteine, folate, or B-vitamin levels — blood testing remains the gold standard.</li>
           <li>This profile is for educational and informational purposes only. It is not medical advice or a diagnostic tool.</li>
         </ul>
-        <div className="mt-3 pt-3 border-t border-white/10 text-[11px]">
-          <Link href="/#our-approach" className="text-emerald-400 hover:underline">Our Approach</Link>
-          <span className="mx-1.5 text-white/30">·</span>
-          <Link href="/for-clinicians" className="text-emerald-400 hover:underline">For Clinicians guidance</Link>
+
+        {/* Slice 3: What this cannot tell you + gene × environment emphasis cards */}
+        <div className="mt-4 pt-3 border-t border-white/10">
+          <div className="font-medium text-emerald-400 mb-1 tracking-tight text-sm">What this cannot tell you</div>
+          <p className="text-xs text-white/75 leading-snug">
+            These two common MTHFR variants are one small probabilistic data point. They do not determine your actual folate status, homocysteine levels, or clinical outcomes. Real-world methylation markers are shaped far more by what you eat, absorb, and how your body handles it day-to-day.
+          </p>
+          <div className="text-[10px] text-white/60 mt-1.5">
+            Concrete levers that usually move the needle far more:
+            <ul className="list-disc pl-4 mt-0.5 space-y-0.5">
+              <li>Dietary folate and B12 from food (leafy greens, legumes, fortified grains, eggs, meat, dairy)</li>
+              <li>Overall B-vitamin status and gut absorption (see Nutrition profile)</li>
+              <li>Review of medications that interfere with folate metabolism (e.g., methotrexate, certain anticonvulsants)</li>
+              <li>Consistent healthy lifestyle (sleep, stress, alcohol moderation — see Sleep profile)</li>
+            </ul>
+          </div>
+          <div className="text-[10px] mt-1 text-emerald-400/80">Blood testing for folate, B12, and homocysteine remains the gold standard. Genotype provides context at best.</div>
         </div>
       </div>
 
