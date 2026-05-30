@@ -4,6 +4,7 @@ import { useState } from "react";
 import { EvidenceBadge } from "../EvidenceBadge";
 import Link from "next/link";
 import { MatchedInsight } from "@/lib/types";
+import { VarianceCurves } from "../VarianceCurves";
 
 interface MethylationSupportProps {
   insights: MatchedInsight[];
@@ -51,6 +52,12 @@ export function MethylationSupport({ insights }: MethylationSupportProps) {
         <p>
           Environmental factors — diet quality, folate and B-vitamin intake, medications (e.g., methotrexate, anticonvulsants), gut microbiome, lifestyle, and overall health — typically explain the large majority (often 90%+) of real-world variation in methylation markers and homocysteine levels. The two common MTHFR variants in this profile represent one small, probabilistic data point among many. Even in well-studied populations, these signals explain only a modest fraction of variance; behavior, diet, and clinical factors usually dominate. This profile does not predict your actual homocysteine, folate status, or clinical outcomes.
         </p>
+        <VarianceCurves
+          geneticLabel="Common MTHFR variants (narrow)"
+          environmentLabel="Diet, B-vitamin status, medications, lifestyle (broad)"
+          comparisonText="The two common MTHFR variants explain only a modest fraction of variance. Dietary folate/B-vitamin intake, overall diet quality, medications, and lifestyle typically dominate methylation status and homocysteine levels."
+          height={118}
+        />
       </div>
 
       <div className="mb-4 flex items-center justify-between">

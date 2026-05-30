@@ -4,6 +4,7 @@ import { useState } from "react";
 import { EvidenceBadge } from "../EvidenceBadge";
 import Link from "next/link";
 import { MatchedInsight } from "@/lib/types";
+import { VarianceCurves } from "../VarianceCurves";
 
 interface NutritionMetabolismContextProps {
   insights: MatchedInsight[];
@@ -50,6 +51,12 @@ export function NutritionMetabolismContext({ insights }: NutritionMetabolismCont
         <p>
           Environmental factors — total diet quality, caloric balance, physical activity, gut microbiome, medications, stress, and overall lifestyle — typically explain the large majority (often 90%+) of real-world variation in body weight, metabolic health, and nutrient tolerance. Common variants such as FTO (rs9939609) and TCF7L2 represent one small, probabilistic data point among many. Even well-known signals like these usually explain only a modest fraction of trait variance in large studies; the genetic slice is typically small compared with behavior and environment. This profile does not predict your body weight, diabetes risk, or “optimal” diet.
         </p>
+        <VarianceCurves
+          geneticLabel="Common variants (FTO, TCF7L2 etc. — narrow)"
+          environmentLabel="Diet quality, activity, stress, microbiome (broad)"
+          comparisonText="Signals such as FTO/TCF7L2 represent one small probabilistic contribution. Total diet quality, activity, sleep, stress, and gut health typically explain the large majority of real-world differences."
+          height={118}
+        />
       </div>
 
       <div className="mb-4 flex items-center justify-between">
@@ -120,6 +127,7 @@ export function NutritionMetabolismContext({ insights }: NutritionMetabolismCont
             <div className="font-mono text-emerald-400">CYP1A2 rs762551</div>
             <div className="text-white/60 mt-0.5">Genotype: {caffeine?.genotype || "—"}</div>
             <div className="text-white/70 mt-1">CC (“slow” metabolizer) linked in studies to slower caffeine clearance; evening consumption may affect sleep more noticeably for some people.</div>
+            <div className="mt-1 text-[10px] text-white/50">Evidence: Moderate • Context-dependent</div>
           </div>
 
           {aldh2 && (

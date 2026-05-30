@@ -4,6 +4,7 @@ import { useState } from "react";
 import { EvidenceBadge } from "../EvidenceBadge";
 import Link from "next/link";
 import { MatchedInsight } from "@/lib/types";
+import { VarianceCurves } from "../VarianceCurves";
 
 interface DrugMetabolismTendenciesProps {
   insights: MatchedInsight[];
@@ -48,6 +49,12 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         <p>
           This profile is a narrow educational illustration (toy model) using only the common pharmacogene variants that are reasonably well-tagged on consumer arrays. Real-world drug response is overwhelmingly shaped by age, liver and kidney function, concomitant medications, adherence, diet, comorbidities, microbiome, and other clinical factors — these typically explain the large majority (often 90%+) of variability. The signals surfaced here represent one small, probabilistic data point among many. This profile does not predict your actual response to any medication and is not a substitute for validated clinical pharmacogenetic testing or therapeutic drug monitoring.
         </p>
+        <VarianceCurves
+          geneticLabel="Common pharmacogene variants on arrays (narrow)"
+          environmentLabel="Age, organ function, other drugs, adherence (broad)"
+          comparisonText="Even for well-characterized pharmacogenes, real-world response is dominated by age, liver/kidney function, other medications, adherence, and comorbidities — the genetic slice is small by comparison."
+          height={118}
+        />
       </div>
 
       <div className="mb-4 flex items-center justify-between">
@@ -91,7 +98,7 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
         <div>
           <div className="text-xs uppercase tracking-widest text-white/50 mb-1">4. Meaningful effect on lifestyle or metabolism?</div>
           <p className="text-sm text-white/80">
-            These variants can influence how certain medications are processed. They do not generally affect "metabolism" in the broader wellness sense (energy, weight, etc.). Effects are highly drug-specific and are almost always modified by age, liver and kidney function, concomitant medications, adherence, and other clinical factors that typically dominate real-world response.
+            These variants can influence how certain medications are processed. They do not generally affect “metabolism” in the broader wellness sense (energy, weight, etc.). Effects are highly drug-specific and are almost always modified by age, liver and kidney function, concomitant medications, adherence, and other clinical factors that typically dominate real-world response.
           </p>
         </div>
 

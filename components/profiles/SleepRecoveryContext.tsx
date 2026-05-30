@@ -4,6 +4,7 @@ import { useState } from "react";
 import { EvidenceBadge } from "../EvidenceBadge";
 import Link from "next/link";
 import { MatchedInsight } from "@/lib/types";
+import { VarianceCurves } from "../VarianceCurves";
 
 interface SleepRecoveryContextProps {
   insights: MatchedInsight[];
@@ -47,6 +48,12 @@ export function SleepRecoveryContext({ insights }: SleepRecoveryContextProps) {
         <p>
           This three-SNP model (CLOCK, PER2, MTNR1B) is a toy model for educational illustration only. Combined, these common variants capture &lt;&lt;2% of variance in sleep timing preferences in large datasets. Large polygenic scores for chronotype reach only ~5–8% R² even in European-ancestry cohorts; the large majority of differences (typically 90%+) are environmental and behavioral — light exposure timing, consistent schedules, social jetlag, age, screen time, stress, exercise, caffeine/alcohol timing, and overall health. Your "genetic slice" (if any) is usually a tiny offset of minutes or less. One week of late-night screens or a 1–2 hour change in social jetlag often shifts timing by more than any genetic signal in this model. Consistent morning bright light within 30–60 minutes of waking and dim evening lighting can shift timing by 1–3+ hours — frequently dwarfing genetics. Behavior usually moves the needle far more. This profile does not predict your actual sleep quality, timing, or recovery.
         </p>
+        <VarianceCurves
+          geneticLabel="Genetic contribution from these 3 SNPs (narrow)"
+          environmentLabel="Environment, behavior & clinical factors (broad)"
+          comparisonText="Your genetic nudge from these variants is typically minutes or less. One week of late screens or social jetlag often shifts timing by 1–3+ hours — behavior and light hygiene usually move the needle far more."
+          height={118}
+        />
       </div>
 
       <div className="mb-4 flex items-center justify-between">
