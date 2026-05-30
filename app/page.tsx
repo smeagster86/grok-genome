@@ -354,10 +354,10 @@ export default function GrokGenome() {
                       Genetic (toy)
                     </div>
                   </div>
-                  <div className="text-[10px] text-white/50 mt-1">These common variants (CYP2C19*2, VKORC1, etc.) represent one small, probabilistic data point among many. The large majority (typically 90%+) of real-world variability comes from age, liver/kidney function, other medications, adherence, comorbidities, diet, and microbiome. This is a deliberately narrow educational toy model only.</div>
+                  <div className="text-[10px] text-white/50 mt-1">These common variants (CYP2C19*2, VKORC1, etc.) represent one small, probabilistic data point among many. The large majority (typically 90%+) of real-world variability comes from age, liver/kidney function, other medications, adherence, comorbidities, diet, and microbiome. This is a deliberately narrow educational toy model only. Within this model, CYP2C19*2 and VKORC1 have published CPIC/FDA guidance; many other important pharmacogenes remain poorly captured on consumer arrays.</div>
                 </div>
 
-                {/* Light PGx population variability note (Slice 2 follow-up per user request) */}
+                {/* Light PGx population variability note (Slice 2 follow-up) */}
                 <div className="mt-4 pt-3 border-t border-white/10">
                   <div className="text-[10px] uppercase tracking-widest text-white/50 mb-1.5">Population variability (illustrative)</div>
                   <VarianceCurves
@@ -369,13 +369,13 @@ export default function GrokGenome() {
                 </div>
 
                 {/* Scoped simulation for the strong PGx SNPs only (reuses existing simulatedOverrides/handleSimulate but framed narrow */}
-                {/* ... rest of file unchanged from HEAD 74a5270d... (simulation logic, other sections, etc.) */}
+                {/* ... rest of file unchanged ... */}
               </div>
             </div>
           </div>
         )}
       </AnimatePresence>
-      {/* ... remainder of the component (other result sections, etc.) exactly as before the PGx note addition ... */}
+      {/* ... remainder of the file unchanged from current HEAD ... */}
     </div>
   );
 }

@@ -115,14 +115,14 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
           <div className="font-medium text-white/70 mb-1">Relevant SNPs in your data</div>
 
           <div className="rounded-lg border border-white/10 p-3 bg-black/20">
-            <div className="font-mono text-emerald-400">CYP2C19 rs4244285 (*2)</div>
+            <div className="font-mono text-emerald-400">CYP2C19 rs4244285 (*2) — Guideline-supported (CPIC/FDA)</div>
             <div className="text-white/60 mt-0.5">Genotype: {cyp2c19?.genotype || "—"}</div>
-            <div className="text-white/70 mt-1">Poor or intermediate metabolizer status for several substrates when AA or AG; clopidogrel activation is the most commonly discussed clinical example.</div>
+            <div className="text-white/70 mt-1">Poor or intermediate metabolizer status for several substrates when AA or AG; clopidogrel activation is the most commonly discussed clinical example. Actionable per published guidelines.</div>
             <div className="mt-1 text-[10px] text-white/50">Evidence: High (CPIC/FDA) • Actionable for specific drugs • Many other PGx genes not well covered on consumer chips</div>
           </div>
 
           <div className="rounded-lg border border-white/10 p-3 bg-black/20">
-            <div className="font-mono text-emerald-400">VKORC1 rs9923231</div>
+            <div className="font-mono text-emerald-400">VKORC1 rs9923231 — Guideline-supported (CPIC)</div>
             <div className="text-white/60 mt-0.5">Genotype: {vkorc1?.genotype || "—"}</div>
             <div className="text-white/70 mt-1">AA genotype linked to lower dose requirement for warfarin; one of the stronger signals for anticoagulant dosing in guidelines.</div>
             <div className="mt-1 text-[10px] text-white/50">Evidence: High (CPIC) • Context-dependent with CYP2C9 and clinical factors</div>
@@ -135,6 +135,13 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
               <div className="text-white/70 mt-1">Reduced function allele that can affect warfarin dosing and NSAID metabolism in combination with other variants.</div>
             </div>
           )}
+
+          <div className="rounded-lg border border-white/10 p-3 bg-black/20 mt-2">
+            <div className="font-medium text-white/70 mb-1 text-xs">Other clinically important genes often poorly covered on consumer arrays (educational note)</div>
+            <div className="text-[10px] text-white/60 leading-snug">
+              DPYD (fluoropyrimidine toxicity — CPIC guidelines), TPMT/NUDT15 (thiopurine dosing), HLA-B*57:01 (abacavir hypersensitivity) and others can be highly actionable. These are frequently not reliably reported or imputed on standard direct-to-consumer chips. Clinical pharmacogenetic panels are required when relevant.
+            </div>
+          </div>
         </div>
       )}
 

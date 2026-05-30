@@ -137,6 +137,20 @@ export function NutritionMetabolismContext({ insights }: NutritionMetabolismCont
               <div className="text-white/70 mt-1">Strong protective effect against heavy drinking in East Asian populations due to unpleasant flushing reaction; much weaker or absent signal in other ancestries.</div>
             </div>
           )}
+
+          <div className="rounded-lg border border-white/10 p-3 bg-black/20">
+            <div className="font-mono text-emerald-400">FTO rs9939609</div>
+            <div className="text-white/60 mt-0.5">One of the most replicated signals for body weight and appetite regulation.</div>
+            <div className="text-white/70 mt-1">Even this relatively well-studied variant typically explains only a modest fraction of real-world weight variation. Total diet quality, physical activity, sleep, and stress usually dominate by a wide margin.</div>
+            <div className="mt-1 text-[10px] text-white/50">Evidence: Moderate–Strong • European-biased • Small effect • Environment dominates</div>
+          </div>
+
+          <div className="rounded-lg border border-white/10 p-3 bg-black/20">
+            <div className="font-mono text-emerald-400">TCF7L2 (common variants)</div>
+            <div className="text-white/60 mt-0.5">Well-known signal associated with type 2 diabetes risk in multiple populations.</div>
+            <div className="text-white/70 mt-1">These variants represent one small probabilistic contribution. Lifestyle factors (diet quality, activity, body weight) typically have far larger effects on actual metabolic outcomes.</div>
+            <div className="mt-1 text-[10px] text-white/50">Evidence: Strong • European-biased • Modest effect • Environment dominates</div>
+          </div>
         </div>
       )}
 
