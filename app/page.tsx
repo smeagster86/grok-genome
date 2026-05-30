@@ -342,7 +342,7 @@ export default function GrokGenome() {
                 <div className="text-xl font-semibold tracking-tight mb-1">High-Evidence Pharmacogene Signals Only</div>
                 <div className="text-sm text-amber-400 mb-4">Toy model for education / illustration — not a prediction of your response</div>
 
-                {/* Dominant 90%+ Environment/Clinical bar + tiny genetic sliver */}
+                {/* Dominant 90%+ Environment/Clinical bar + tiny genetic sliver (Tier 2: quantitative variance anchors) */}
                 <div className="mb-5">
                   <div className="text-xs text-white/60 mb-1">Real-world drug response variability (population data)</div>
                   <div className="h-8 w-full bg-white/10 rounded-full overflow-hidden flex">
@@ -353,7 +353,7 @@ export default function GrokGenome() {
                       Genetic (toy)
                     </div>
                   </div>
-                  <div className="text-[10px] text-white/50 mt-1">These common variants explain only a small slice. Age, liver/kidney function, other meds, adherence, and comorbidities usually dominate.</div>
+                  <div className="text-[10px] text-white/50 mt-1">These common variants (CYP2C19*2, VKORC1, etc.) represent one small, probabilistic data point among many. The large majority (typically 90%+) of real-world variability comes from age, liver/kidney function, other medications, adherence, comorbidities, diet, and microbiome. This is a deliberately narrow educational toy model only.</div>
                 </div>
 
                 {/* Scoped simulation for the strong PGx SNPs only (reuses existing simulatedOverrides/handleSimulate but framed narrowly) */}
@@ -366,7 +366,7 @@ export default function GrokGenome() {
                       <button onClick={() => {}} className="text-xs px-3 py-1 rounded border border-white/20 hover:bg-white/5">Simulate AG</button>
                       <button onClick={() => setSimulatedOverrides({})} className="text-xs px-3 py-1 rounded border border-white/20 hover:bg-white/5">Reset</button>
                     </div>
-                    <div className="text-[11px] text-amber-400">Even with this genotype, adherence, timing with your prescriber, and other clinical factors often have larger practical effects. This is a toy illustration only.</div>
+                    <div className="text-[11px] text-amber-400">Even with this genotype, adherence, timing with your prescriber, and other clinical factors typically explain far more of the actual outcome than this single variant. One small, probabilistic signal among many — toy model only.</div>
                   </div>
 
                   <div className="rounded-xl bg-black/30 p-4">
@@ -376,7 +376,7 @@ export default function GrokGenome() {
                       <button className="text-xs px-3 py-1 rounded border border-white/20 hover:bg-white/5">Simulate AA</button>
                       <button className="text-xs px-3 py-1 rounded border border-white/20 hover:bg-white/5">Simulate AG</button>
                     </div>
-                    <div className="text-[11px] text-amber-400">Real response dominated by age, liver/kidney function, other meds, and adherence. Toy model only.</div>
+                    <div className="text-[11px] text-amber-400">Real response is dominated by age, liver/kidney function, other medications, adherence, and clinical context — these typically explain the large majority of variability. This narrow view is a toy model for education only.</div>
                   </div>
 
                   <div className="text-[11px] text-white/50 pt-2 border-t border-white/10">

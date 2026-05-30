@@ -44,11 +44,11 @@ export function NutritionMetabolismContext({ insights }: NutritionMetabolismCont
         </p>
       </div>
 
-      {/* Gene–Environment Dominance (Tier 1 per expert appraisals + grounded usefulness) */}
+      {/* Gene–Environment Dominance (Tier 2: quantitative variance anchors per expert appraisals) */}
       <div className="mb-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-white/80">
         <div className="font-medium text-amber-400 mb-1 tracking-tight">Gene–Environment Context</div>
         <p>
-          Environmental factors — total diet quality, caloric balance, physical activity, gut microbiome, medications, and overall lifestyle — typically explain the large majority of real-world variation in body weight, metabolic health, and nutrient tolerance. Variants such as FTO and TCF7L2 (prominent signals in the knowledge base) are classic examples where the genetic contribution is modest and heavily modified by environment. This profile does not predict your body weight, diabetes risk, or “optimal” diet.
+          Environmental factors — total diet quality, caloric balance, physical activity, gut microbiome, medications, stress, and overall lifestyle — typically explain the large majority (often 90%+) of real-world variation in body weight, metabolic health, and nutrient tolerance. Common variants such as FTO (rs9939609) and TCF7L2 represent one small, probabilistic data point among many. Even well-known signals like these usually explain only a modest fraction of trait variance in large studies; the genetic slice is typically small compared with behavior and environment. This profile does not predict your body weight, diabetes risk, or “optimal” diet.
         </p>
       </div>
 
@@ -135,7 +135,7 @@ export function NutritionMetabolismContext({ insights }: NutritionMetabolismCont
       <div className="mt-6 rounded-xl bg-[#0a0f1a] border border-white/10 p-4">
         <div className="text-xs font-medium text-white/60 mb-2">Limitations &amp; Context</div>
         <ul className="text-xs text-white/60 space-y-1 list-disc pl-4">
-          <li>Body weight, metabolic health, and nutrient tolerance are overwhelmingly shaped by total diet quality, caloric balance, physical activity, gut microbiome, medications, and lifestyle — far more than the common variants in this profile (including FTO and TCF7L2).</li>
+          <li>Body weight, metabolic health, and nutrient tolerance are overwhelmingly shaped by total diet quality, caloric balance, physical activity, gut microbiome, medications, and lifestyle — these typically explain the large majority (often 90%+) of real-world differences. Common variants in this profile (including FTO and TCF7L2) represent one small, probabilistic data point among many.</li>
           <li>Most published data on these variants comes from European-ancestry populations, with some important exceptions (e.g., ALDH2 in East Asian populations).</li>
           <li>These SNPs explain only a portion of the heritability of the traits discussed; many other genes and environmental factors contribute.</li>
           <li>Nutrient status and food tolerance are heavily influenced by diet quality, gut microbiome, medications, and overall health.</li>

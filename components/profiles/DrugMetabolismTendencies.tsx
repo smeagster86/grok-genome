@@ -46,7 +46,7 @@ export function DrugMetabolismTendencies({ insights }: DrugMetabolismTendenciesP
       <div className="mb-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-white/80">
         <div className="font-medium text-amber-400 mb-1 tracking-tight">Gene–Environment Context</div>
         <p>
-          This profile is a narrow educational illustration (toy model) using only the common pharmacogene variants that are reasonably well-tagged on consumer arrays. Real-world drug response is overwhelmingly shaped by age, liver and kidney function, concomitant medications, adherence, diet, comorbidities, microbiome, and other clinical factors — these typically explain the large majority of variability. The signals surfaced here represent one small, probabilistic contribution at best. This profile does not predict your actual response to any medication and is not a substitute for validated clinical pharmacogenetic testing or therapeutic drug monitoring.
+          This profile is a narrow educational illustration (toy model) using only the common pharmacogene variants that are reasonably well-tagged on consumer arrays. Real-world drug response is overwhelmingly shaped by age, liver and kidney function, concomitant medications, adherence, diet, comorbidities, microbiome, and other clinical factors — these typically explain the large majority (often 90%+) of variability. The signals surfaced here represent one small, probabilistic data point among many. This profile does not predict your actual response to any medication and is not a substitute for validated clinical pharmacogenetic testing or therapeutic drug monitoring.
         </p>
       </div>
 

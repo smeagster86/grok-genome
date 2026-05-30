@@ -45,11 +45,11 @@ export function MethylationSupport({ insights }: MethylationSupportProps) {
         </p>
       </div>
 
-      {/* Gene–Environment Dominance (Tier 1 per expert appraisals + grounded usefulness) */}
+      {/* Gene–Environment Dominance (Tier 2: quantitative variance anchors per expert appraisals) */}
       <div className="mb-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-white/80">
         <div className="font-medium text-amber-400 mb-1 tracking-tight">Gene–Environment Context</div>
         <p>
-          Environmental factors — diet quality, folate and B-vitamin intake, medications (e.g., methotrexate, anticonvulsants), gut microbiome, lifestyle, and overall health — typically explain the large majority of real-world variation in methylation markers. The two MTHFR variants in this profile are one small, probabilistic signal among many. This profile does not predict your actual homocysteine, folate status, or clinical outcomes.
+          Environmental factors — diet quality, folate and B-vitamin intake, medications (e.g., methotrexate, anticonvulsants), gut microbiome, lifestyle, and overall health — typically explain the large majority (often 90%+) of real-world variation in methylation markers and homocysteine levels. The two common MTHFR variants in this profile represent one small, probabilistic data point among many. Even in well-studied populations, these signals explain only a modest fraction of variance; behavior, diet, and clinical factors usually dominate. This profile does not predict your actual homocysteine, folate status, or clinical outcomes.
         </p>
       </div>
 

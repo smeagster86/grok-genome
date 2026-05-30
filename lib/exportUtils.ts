@@ -34,7 +34,7 @@ function getSynthesizedProfilesMarkdown(insights: MatchedInsight[]): string {
   // Drug (richer)
   md += "### Drug Metabolism Tendencies\n";
   md += "Certain variants in pharmacogenes (CYP2C19, VKORC1, etc.) are associated with differences in how specific medications are processed. Effects are highly drug-specific. Most consumer arrays have poor or no coverage for CYP2D6/CYP3A4 star alleles.\n\n";
-  md += "**Why this matters:** A small number of well-characterized variants can influence prescribing choices for clopidogrel, warfarin, or certain chemotherapies, but many important PGx genes remain invisible on consumer chips.\n\n";
+  md += "**Why this matters:** A small number of well-characterized variants can influence prescribing choices for clopidogrel, warfarin, or certain chemotherapies, but many important PGx genes remain invisible on consumer chips. Even for the better-supported signals, real response is dominated by clinical factors (age, liver/kidney function, other meds, adherence) — these typically explain the large majority of variability. The variants shown here are one small, probabilistic contribution at best.\n\n";
   md += "**5 Questions (summary):**\n";
   md += "1. What might this mean? — Examples: CYP2C19 rs4244285 AA linked to reduced clopidogrel activation; VKORC1 rs9923231 AA linked to warfarin sensitivity.\n";
   md += "2. Evidence strength — Moderate to high for specific CPIC/FDA-supported drug-gene pairs; many others exploratory.\n";
@@ -46,7 +46,7 @@ function getSynthesizedProfilesMarkdown(insights: MatchedInsight[]): string {
   // Nutrition (richer)
   md += "### Nutrition & Metabolism Context\n";
   md += "Variants influence handling of lactose (LCT), caffeine (CYP1A2), alcohol (ADH1B/ALDH2), vitamin D (VDR), iron (HFE). Real-world impact modified by diet and health. ALDH2 *2 signal is strong in East Asian populations; most others European-biased.\n\n";
-  md += "**Why this matters:** These variants can help explain why some people experience bloating with dairy, strong alcohol reactions, or slower caffeine clearance — signals often more noticeable than subtler genetic effects.\n\n";
+  md += "**Why this matters:** These variants can help explain why some people experience bloating with dairy, strong alcohol reactions, or slower caffeine clearance — signals often more noticeable than subtler genetic effects. Even well-known signals (FTO, TCF7L2, etc.) usually represent one small, probabilistic contribution; environment, total diet quality, and lifestyle typically explain the large majority (often 90%+) of real-world differences.\n\n";
   md += "**5 Questions (summary):**\n";
   md += "1. What might this mean? — LCT GG associated with lower lactase persistence; other variants linked to caffeine rate, alcohol sensitivity (esp. East Asian ALDH2), vitamin D receptor, iron storage.\n";
   md += "2. Evidence strength — Moderate to strong for primary signals (lactose, ALDH2 alcohol flush in East Asians, HFE iron, caffeine).\n";
@@ -58,7 +58,7 @@ function getSynthesizedProfilesMarkdown(insights: MatchedInsight[]): string {
   // Sleep (richer Phase 4)
   md += "### Sleep & Recovery Context\n";
   md += "Several common variants are associated with modest differences in sleep timing preferences, melatonin response, or recovery signals in studied populations. These are generally small effects that interact strongly with lifestyle, light exposure, and age. Highly polygenic trait; most data European-biased.\n\n";
-  md += "**Why this matters:** Sleep timing and recovery are heavily shaped by light, age, social schedules, and behavior. Common variants produce only small shifts in population studies and almost never override lifestyle factors.\n\n";
+  md += "**Why this matters:** Sleep timing and recovery are heavily shaped by light, age, social schedules, and behavior. Common variants in this profile capture <<2% of variance in large datasets (large polygenic scores for chronotype reach only ~5–8% R² even in Europeans). The large majority of differences (typically 90%+) are environmental and behavioral. Your genetic slice is usually minutes or less versus hours from light hygiene or schedule changes.\n\n";
   md += "**5 Questions (summary):**\n";
   md += "1. What might this mean? — Variants in PER2, CLOCK, MTNR1B etc. linked to modest chronotype tendencies in population studies; most signals from European-ancestry cohorts.\n";
   md += "2. Evidence strength — Moderate for chronotype associations; direct impact on sleep quality/recovery more limited and variable.\n";

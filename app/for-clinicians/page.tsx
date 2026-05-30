@@ -77,7 +77,7 @@ export default function ForClinicians() {
               Polygenic risk scores (PRS) — even the best multi-ancestry versions available in 2026 — still perform substantially better in European-descent populations and can lose 30–70% or more of their accuracy outside those groups due to differences in allele frequencies, linkage disequilibrium, and environmental interactions.
             </p>
             <p className="text-sm text-white/60 mt-2">
-              <strong>Important practical note:</strong> These results are one small, probabilistic data point among many. They should never replace clinical evaluation, family history, symptoms, or appropriate laboratory testing. If your self-identified or genetic ancestry differs from the primary study populations, some findings may be less reliable or not applicable. Always interpret this report together with a qualified clinician.
+              <strong>Important practical note:</strong> These results are one small, probabilistic data point among many. The genetic signals shown here generally explain only a modest fraction of real-world variance; the large majority (typically 90%+) of differences in the traits discussed come from environment, behavior, clinical factors, and lifestyle. They should never replace clinical evaluation, family history, symptoms, or appropriate laboratory testing. If your self-identified or genetic ancestry differs from the primary study populations, some findings may be less reliable or not applicable. Always interpret this report together with a qualified clinician.
             </p>
           </section>
         </div>
